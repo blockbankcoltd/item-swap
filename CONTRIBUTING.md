@@ -1,69 +1,32 @@
-# Contributing to the Pancake ecosystem 🥞
+# Contributing to `ethereum-boilerplate`
 
-Thanks for taking the time to contribute !
-You can start by reading our [Contribution guidelines](https://docs.pancakeswap.finance/code/contributing) first.
+## Setting up the project for debugging and contributing
 
-## Setup
+### Setting up you local machine:
 
-Install the dependencies
+- [Fork](https://github.com/ethereum-boilerplate/ethereum-boilerplate) this project and clone the fork on your local machine:
 
-```shell
-yarn
-yarn start
+```sh
+git clone https://github.com/ethereum-boilerplate/ethereum-boilerplate.git
+cd ethereum-boilerplate # go into the clone directory
+npm install # install all the node dependencies
 ```
 
-Don't forget to setup your IDE with `eslint` and `prettier`.
+Make sure to have a ESlint and Prettier plugin installed to check for code-smells and auto-formatting.
 
-## Change BSC network
+### Pull Requests
 
-To change the BSC network from test net, modify the `REACT_APP_CHAIN_ID` value in `.env`.
+1. Fork the repo and create your branch from `main`.
+2. Make sure your code lints and is correctly formatted.
 
-- MAIN NET `56`
-- TEST NET `97`
+### Known Issues
 
-## Tests
+We use GitHub issues to track public bugs. We will keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new issue, try to make sure your problem doesn't already exist.
 
-Firstly, if you need to install cypress
+### Coding Style
 
-```js
-yarn cypress install
-```
+Please follow the [Coding Style](https://github.com/ethereum-boilerplate/ethereum-boilerplate/blob/main/CODING_STYLE.md).
 
-Then to run the Cypress suite in CLI
+## License
 
-```js
-yarn cypress run
-```
-
-Or, to run Cypress with its GUI
-
-```js
-yarn cypress open
-```
-
-## Localisation
-
-_In order for the Crowdin API queries to work - you will need `REACT_APP_CROWDIN_APIKEY` & `REACT_APP_CROWDIN_PROJECTID` env variables set in your root `.env.development.local` file_
-
-### Adding translations
-
-A hook expose the function you need to translate content.
-
-```
-import useI18n from 'hooks/useI18n'
-...
-const TranslateString = useI18n()
-...
-TranslateString(id, 'fallback')
-```
-
-- **id** is the crowdin id of the string you want to translate.
-- **fallback** is a string fallback used if the id cannot be found.
-
-### Variables
-
-The translation component can handle variables being passed in from Crowdin, with no code changes.
-
-It will only work if there is only **one** variable passed in, and if that variable within Crowdin is wrapped in **%** signs, i.e.:
-
-Translation in crowdin: `%asset% Earned` [link](https://crowdin.com/translate/pancakeswap/8/en-de#330)
+By contributing to the ethereum-boilerplate, you agree that your contributions will be licensed under its license.

@@ -1,9 +1,53 @@
-# 🥞 Exnomy Swap Exchange
+# `ethereum-boilerplate-NFT-Marketplace`
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c6ef7e73-4a84-410d-83b0-b89326787dff/deploy-status)](https://app.netlify.com/sites/swap-master/deploys)
+This Project is a fork of Ethereum Boilerplate and demostrates how you can build your own NFT Marketplace. This project of course work on any EVM-compatible blockchain such as Polygon, Avalanche, Binance Smart Chain and other such chains.
 
-[PancakeSwap](https://pancakeswap.finance/) is an automated market maker (“**AMM**”) that allows two tokens to be exchanged on the [Binance Smart Chain](https://www.binance.org/en/smartChain) (BSC). It is fast, cheap, and allows anyone to participate.
+![Preview](preview.gif)
 
-This repo is responsible for the **exchange** interface of the AMM: [exchange.pancakeswap.finance](https://exchange.pancakeswap.finance/)
+# ⭐️ `Star us`
+If this boilerplate helps you build Ethereum dapps faster - please star this project, every star makes us very happy!
 
-If you want to contribute, please refer to the [contributing guidelines](./CONTRIBUTING.md) of this project.
+# 🚀 Quick Start
+
+📄 Clone or fork `ethereum-nft-marketplace-boilerplate`:
+```sh
+git clone https://github.com/ethereum-boilerplate/ethereum-nft-marketplace-boilerplate.git
+```
+💿 Install all dependencies:
+```sh
+cd ethereum-nft-marketplace-boilerplate
+yarn install 
+```
+✏ Rename `.env.example` to `.env` in the main folder and provide your `appId` and `serverUrl` from Moralis ([How to start Moralis Server](https://docs.moralis.io/moralis-server/getting-started/create-a-moralis-server)) 
+Example:
+```jsx
+REACT_APP_MORALIS_APPLICATION_ID = xxxxxxxxxxxx
+REACT_APP_MORALIS_SERVER_URL = https://xxxxxx.grandmoralis.com:2053/server
+```
+
+🔎 Locate the MoralisDappProvider in `src/providers/MoralisDappProvider/MoralisDappProvider.js` and paste the deployed marketplace smart contract address and ABI
+```jsx
+const [contractABI, setContractABI] = useState();
+const [marketAddress, setMarketAddress] = useState();
+```
+
+🔃 Sync the `MarketItemCreated` event `/src/contracts/marketplaceBoilerplate.sol` contract with your Moralis Server, making the tableName `MarketItems`
+```jsx
+event MarketItemCreated (
+  uint indexed itemId,
+  address indexed nftContract,
+  uint256 indexed tokenId,
+  address seller,
+  address owner,
+  uint256 price,
+  bool sold
+);
+```
+
+
+🚴‍♂️ Run your App:
+```sh
+yarn start
+```
+
+

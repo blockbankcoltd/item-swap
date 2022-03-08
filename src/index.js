@@ -9,10 +9,10 @@ import { MoralisDappProvider } from "./providers/MoralisDappProvider/MoralisDapp
 
 const APP_ID =
   process.env.REACT_APP_MORALIS_APPLICATION_ID ||
-  "HW1ifa2g7dcFyQP4M3v1OZF7S4vw2ZOhfwRnEP5m";
+  "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
 const SERVER_URL =
   process.env.REACT_APP_MORALIS_SERVER_URL ||
-  "https://mg5sffmuhkpr.usemoralis.com:2053/server";
+  "https://y6tqolkxe9bh.usemoralis.com:2053/server";
 
 const Application = () => {
   return (

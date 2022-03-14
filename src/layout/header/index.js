@@ -1,112 +1,196 @@
-import React, { Component } from "react";
-import {
-  Navbar,
-  Nav,
-  NavbarBrand,
-  NavbarToggler,
-  NavItem,
-  NavLink,
-  Container,
-  Collapse,
-} from "reactstrap";
-import { Link } from "react-router-dom";
-import logolight from "../../assets/images/logo.svg";
-import Account from "../../components/Account";
-import Chains from "../../components/Chains";
+import React, { useRef, useState, useEffect } from 'react';
+import { Link, useLocation } from "react-router-dom";
+// import menus from "../../pages/menu";
+import DarkMode from './DarkMode';
+import logoheader from '../../assets/images/logo/logo.png'
+import logoheader2x from '../../assets/images/logo/logo@2x.png'
+import logodark from '../../assets/images/logo/logo_dark.png'
+import logodark2x from '../../assets/images/logo/logo_dark@2x.png'
+import imgsun from '../../assets/images/icon/sun.png'
+import avt from '../../assets/images/avatar/avt-2.jpg'
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.toggle = this.toggle.bind(this);
-  }
+const menus = [
+    {
+        id: 1,
+        name: 'Home',
+        links: '#',
+    },
+    {
+        id: 2,
+        name: 'Explore',
+        links: '#',
 
-  toggle = () => {
-    this.setState({ isOpenMenu: !this.state.isOpenMenu });
-  };
+    }, {
+        id: 3,
+        name: 'Activity',
+        links: '#',
+    },
+    {
+        id: 4,
+        name: 'Community',
+        links: '#',
+    },
+    {
+        id: 5,
+        name: 'Page',
+        links: '#',
+    },
+    {
+        id: 7,
+        name: 'Create Item',
+        links: '/admin/createItem',
+    },
 
-  render() {
+]
+
+const Header = () => {
+    const { pathname } = useLocation();
+
+    const headerRef = useRef(null)
+    useEffect(() => {
+        window.addEventListener('scroll', isSticky);
+        return () => {
+            window.removeEventListener('scroll', isSticky);
+        };
+    });
+    const isSticky = (e) => {
+        const header = document.querySelector('.js-header');
+        const scrollTop = window.scrollY;
+        scrollTop >= 300 ? header.classList.add('is-fixed') : header.classList.remove('is-fixed');
+        scrollTop >= 400 ? header.classList.add('is-small') : header.classList.remove('is-small');
+    };
+
+    const menuLeft = useRef(null)
+    const btnToggle = useRef(null)
+    const btnSearch = useRef(null)
+
+    const menuToggle = () => {
+        menuLeft.current.classList.toggle('active');
+        btnToggle.current.classList.toggle('active');
+    }
+
+    const searchBtn = () => {
+        btnSearch.current.classList.toggle('active');
+    }
+
+    const [activeIndex, setActiveIndex] = useState(null);
+    const handleOnClick = index => {
+        setActiveIndex(index);
+    };
+
     return (
-      <React.Fragment>
-        <div className="align-items-center topHeader d-flex justify-content-center bg-info">
-          <div
-            className="border p-2 border-white bg-white my-5"
-            style={{ borderRadius: "80px" }}
-          >
-            <p className="h6 mb-0 text-wrap">
-              <span className="font-weight-bold">PHISHING WARNING:</span> Please
-              make sure you are visiting https://itemswap - check the URL
-              carefully
-            </p>
-          </div>
-        </div>
-        <Navbar
-          expand="lg"
-          fixed={this.props.top === true ? "top" : ""}
-          className={this.props.navClass + " navbar-custom sticky sticky-dark"}
-          id="navbar"
-        >
-          <Container>
-            <NavbarBrand
-              className="navbar-brand logo d-flex col-3"
-              style={{ color: "#000000", fontWeight: "600", fontSize: "19px" }}
-              href="/"
-            >
-              <img src={logolight} alt="" height="30" /> Item
-              <span style={{ color: "#0BBCD5" }}>Swap</span>
-            </NavbarBrand>
-            <NavbarToggler onClick={this.toggle}>
-              <i className="mdi mdi-menu"></i>
-            </NavbarToggler>
-            <Collapse
-              id="navbarCollapse"
-              isOpen={this.state.isOpenMenu}
-              className=" navbar-collapse col-9"
-            >
-              <Nav
-                className="navbar-nav ml-auto navbar-center nav col-4"
-                id="navbar-navlist"
-              >
-                {this.props.navItems.map((item, key) => (
-                  <NavItem
-                    key={key}
-                    className={
-                      item.navheading === "Market"
-                        ? "active font-weight-bold"
-                        : ""
-                    }
-                  >
-                    <NavLink
-                      className={
-                        item.navheading === "Market"
-                          ? "active font-weight-bold"
-                          : ""
-                      }
-                      href={item.idnm}
-                    >
-                      {item.navheading}
-                    </NavLink>
-                  </NavItem>
-                ))}
-              </Nav>
+        <header id="header_main" className="header_1 js-header" ref={headerRef}>
+            <div className="themesflat-container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div id="site-header-inner">
+                            <div className="wrap-box flex">
+                                <div id="site-logo" className="clearfix">
+                                    <div id="site-logo-inner">
+                                        <Link to="/" rel="home" className="main-logo">
+                                            <img className='logo-dark' id="logo_header" src={logodark} srcSet={`${logodark2x}`} alt="nft-gaming" />
+                                            <img className='logo-light' id="logo_header" src={logoheader} srcSet={`${logoheader2x}`} alt="nft-gaming" />
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className="mobile-button" ref={btnToggle} onClick={menuToggle}><span></span></div>
+                                <nav id="main-nav" className="main-nav" ref={menuLeft} >
+                                    <ul id="menu-primary-menu" className="menu">
+                                        {
+                                            menus.map((data, index) => (
+                                                <li key={index} onClick={() => handleOnClick(index)} className={`menu-item ${data.namesub ? 'menu-item-has-children' : ''} ${activeIndex === index ? 'active' : ''} `}   >
+                                                    <Link to={data.links}>{data.name}</Link>
+                                                    {
+                                                        data.namesub &&
+                                                        <ul className="sub-menu" >
+                                                            {
+                                                                data.namesub.map((submenu) => (
+                                                                    <li key={submenu.id} className={
+                                                                        pathname === submenu.links
+                                                                            ? "menu-item current-item"
+                                                                            : "menu-item"
+                                                                    }><Link to={submenu.links}>{submenu.sub}</Link></li>
+                                                                ))
+                                                            }
+                                                        </ul>
+                                                    }
 
-              <ul className="navbar-nav navbar-center">
-                <li className="nav-item d-inline-block d-lg-none">
-                  <Link to="/SignUp" className="nav-link">
-                    Connect Wallet
-                  </Link>
-                </li>
-              </ul>
-              <div className="navbar-button d-none d-lg-flex justify-content-end col-8">
-                <Account />
-                <Chains />
-              </div>
-            </Collapse>
-          </Container>
-        </Navbar>
-      </React.Fragment>
+                                                </li>
+                                            ))
+                                        }
+                                    </ul>
+                                </nav>
+                                <div className="flat-search-btn flex">
+                                    <div className="header-search flat-show-search" id="s1">
+                                        <Link to="#" className="show-search header-search-trigger" onClick={searchBtn}>
+                                            <i className="far fa-search"></i>
+                                        </Link>
+                                        <div className="top-search" ref={btnSearch}>
+                                            <form action="#" method="get" role="search" className="search-form">
+                                                <input type="search" id="s" className="search-field" placeholder="Search..." name="s" title="Search for" required="" />
+                                                <button className="search search-submit" type="submit" title="Search">
+                                                    <i className="icon-fl-search-filled"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div className="sc-btn-top mg-r-12" id="site-header">
+                                        <Link to="/wallet-connect" className="sc-button header-slider style style-1 wallet fl-button pri-1"><span>Wallet connect
+                                        </span></Link>
+                                    </div>
+
+                                    <div className="admin_active" id="header_admin">
+                                        <div className="header_avatar">
+                                            <div className="price">
+                                                <span>2.45 <strong>ETH</strong> </span>
+                                            </div>
+                                            <img
+                                                className="avatar"
+                                                src={avt}
+                                                alt="avatar"
+                                            />
+                                            <div className="avatar_popup mt-20">
+                                                <div className="d-flex align-items-center copy-text justify-content-between">
+                                                    <span> 13b9ebda035r178... </span>
+                                                    <Link to="/" className="ml-2">
+                                                        <i className="fal fa-copy"></i>
+                                                    </Link>
+                                                </div>
+                                                <div className="d-flex align-items-center mt-10">
+                                                    <img
+                                                        className="coin"
+                                                        src={imgsun}
+                                                        alt="/"
+                                                    />
+                                                    <div className="info ml-10">
+                                                        <p className="text-sm font-book text-gray-400">Balance</p>
+                                                        <p className="w-full text-sm font-bold text-green-500">16.58 ETH</p>
+                                                    </div>
+                                                </div>
+                                                <div className="hr"></div>
+                                                <div className="links mt-20">
+                                                    <Link to="#">
+                                                        <i className="fab fa-accusoft"></i> <span> My items</span>
+                                                    </Link>
+                                                    <a className="mt-10" href="/edit-profile">
+                                                        <i className="fas fa-pencil-alt"></i> <span> Edit Profile</span>
+                                                    </a>
+                                                    <a className="mt-10" href="/login" id="logout">
+                                                        <i className="fal fa-sign-out"></i> <span> Logout</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <DarkMode />
+        </header>
     );
-  }
 }
-// }
+
 export default Header;

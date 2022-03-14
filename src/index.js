@@ -1,34 +1,35 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { MoralisProvider } from "react-moralis";
-import "./index.css";
-import { Provider } from "react-redux";
-import { configureStore } from "./redux/storeInitial";
-import { MoralisDappProvider } from "./providers/MoralisDappProvider/MoralisDappProvider";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import ScrollToTop from "./views/component/ScrollToTop";
+import { BrowserRouter } from 'react-router-dom'
 
-const APP_ID =
-  process.env.REACT_APP_MORALIS_APPLICATION_ID ||
-  "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
-const SERVER_URL =
-  process.env.REACT_APP_MORALIS_SERVER_URL ||
-  "https://y6tqolkxe9bh.usemoralis.com:2053/server";
+/** Get your free Moralis Account https://moralis.io/ */
+
+const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
+const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
 
 const Application = () => {
   return (
-    <Provider store={configureStore()}>
+    <BrowserRouter >
       <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
-        <MoralisDappProvider>
-          <App isServerInfo />
-        </MoralisDappProvider>
+        <ScrollToTop />
+        <App isServerInfo />
       </MoralisProvider>
-    </Provider>
+    </BrowserRouter>
   );
 };
 
 ReactDOM.render(
-  // <React.StrictMode>
-  <Application />,
-  // </React.StrictMode>,
-  document.getElementById("root")
+  <StrictMode>
+    <Application />
+  </StrictMode>,
+  document.getElementById("root"),
 );
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
+serviceWorkerRegistration.register();

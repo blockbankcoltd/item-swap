@@ -1,112 +1,233 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col, Form, Button, Input} from "reactstrap";
-// import FooterLink from "../Footer/Footer_link";
-
-import logolight from "../../assets/images/logo.svg";
-
-class Footer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      links: [
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
+import logodark from '../../assets/images/logo/logo_dark.png'
+import logofooter from '../../assets/images/logo/logo2.png'
+const Footer = () => {
+    const accountList = [
         {
-          id: 1,
-          title: "Services",
-          child: [
-            { title: "Web Design", link: "#" },
-            { title: "Lorem Test", link: "#" },
-            { title: "Credit", link: "#" },
-            { title: "Ui Design", link: "#" },
-          ],
+            title: "Authors",
+            link: "/authors-01"
         },
         {
-          id: 2,
-          title: "Company",
-          child: [
-            { title: "Features", link: "#" },
-            { title: "Faq", link: "#" },
-            { title: "Contact us", link: "#" }
-          ],
+            title: "Collection",
+            link: "/wallet-connect"
         },
-      ],
+        {
+            title: "Author Profile",
+            link: "/edit-profile"
+        },
+        {
+            title: "Create Item",
+            link: "/create-item"
+        },
+    ]
+    const resourcesList = [
+        {
+            title: "Help & Support",
+            link: "/help-center"
+        },
+        {
+            title: "Live Auctions",
+            link: "/live-auctions"
+        },
+        {
+            title: "Item Details",
+            link: "/item-details-01"
+        },
+        {
+            title: "Activity",
+            link: "/activity-01"
+        },
+    ]
+    const companyList = [
+        {
+            title: "Explore",
+            link: "/explore-01"
+        },
+        {
+            title: "Contact Us",
+            link: "/contact-01"
+        },
+        {
+            title: "Our Blog",
+            link: "/blog"
+        },
+        {
+            title: "FAQ",
+            link: "/faq"
+        },
+    ]
+    const socialList = [
+        {
+            icon: "fab fa-twitter",
+            link: "#"
+        },
+        {
+            icon: "fab fa-facebook",
+            link: "#"
+        },
+        {
+            icon: "fab fa-telegram-plane",
+            link: "#"
+        },
+        {
+            icon: "fab fa-youtube",
+            link: "#"
+        },
+        {
+            icon: "icon-fl-tik-tok-2",
+            link: "#"
+        },
+        {
+            icon: "icon-fl-vt",
+            link: "#"
+        },
+
+
+    ]
+
+    const [isVisible, setIsVisible] = useState(false);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     };
-  }
 
-  render() {
+    useEffect(() => {
+        const toggleVisibility = () => {
+            if (window.pageYOffset > 500) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener("scroll", toggleVisibility);
+
+        return () => window.removeEventListener("scroll", toggleVisibility);
+    }, []);
+
+
     return (
-      <React.Fragment>
-        {/* Footer Start */}
-        <footer
-          className="section bg-light bg-footer pb-5"
-        >
-          <Container>
-            <Row>
-              <Col lg={4}>
-                <div className="footer-info mt-4">
-                <img src={logolight} alt="" height="30" /> Item<span style={{ color: '#0BBCD5' }}>Swap</span>
-                  <p className="text-muted mt-4 mb-2">Aenean lacus enim Praesent congue praesent viverra interdum
-                            maximus lobortis.</p>
-                  <div className="team-social mt-4 pt-2">
-                    <ul className="list-inline mb-0">
-                      <li className="list-inline-item">
-                        <Link to="#" className="text-reset"><i className="mdi mdi-facebook"></i></Link>
-                      </li>{" "}
-                      <li className="list-inline-item">
-                      <Link to="#" className="text-reset"><i className="mdi mdi-twitter"></i></Link>
-                      </li>{" "}
-                      <li className="list-inline-item">
-                      <Link to="#" className="text-reset"><i className="mdi mdi-google"></i></Link>
-                      </li>{" "}
-                      <li className="list-inline-item">
-                      <Link to="#" className="text-reset"><i className="mdi mdi-pinterest"></i></Link>
-                      </li>{" "}
-                    </ul>
-                  </div>
+        <div>
+            <footer id="footer" className="footer-light-style clearfix bg-style">
+                <div className="themesflat-container">
+                    <div className="row">
+                        <div className="col-lg-3 col-md-12 col-12">
+                            <div className="widget widget-logo">
+                                <div className="logo-footer" id="logo-footer">
+                                    <Link to="/">
+                                        <img className='logo-dark' id="logo_footer" src={logodark} alt="nft-gaming" />
+                                        <img className='logo-light' id="logo_footer" src={logofooter} alt="nft-gaming" />
+
+                                    </Link>
+                                </div>
+                                <p className="sub-widget-logo">Lorem ipsum dolor sit amet,consectetur adipisicing elit. Quis non, fugit totam vel laboriosam vitae.</p>
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-4 col-sm-5 col-5">
+                            <div className="widget widget-menu style-1">
+                                <h5 className="title-widget">My Account</h5>
+                                <ul>
+                                    {
+                                        accountList.map((item, index) => (
+                                            <li key={index}><Link to={item.link}>{item.title}</Link></li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-4 col-sm-7 col-7">
+                            <div className="widget widget-menu style-2">
+                                <h5 className="title-widget">Resources</h5>
+                                <ul>
+                                    {
+                                        resourcesList.map((item, index) => (
+                                            <li key={index}><Link to={item.link}>{item.title}</Link></li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-lg-2 col-md-4 col-sm-5 col-5">
+                            <div className="widget widget-menu fl-st-3">
+                                <h5 className="title-widget">Company</h5>
+                                <ul>
+                                    {
+                                        companyList.map((item, index) => (
+                                            <li key={index}><Link to={item.link}>{item.title}</Link></li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-lg-3 col-md-6 col-sm-7 col-12">
+                            <div className="widget widget-subcribe">
+                                <h5 className="title-widget">Subscribe Us</h5>
+                                <div className="form-subcribe">
+                                    <form id="subscribe-form" action="#" method="GET" acceptCharset="utf-8" className="form-submit">
+                                        <input name="email" className="email" type="email" placeholder="info@yourgmail.com" required />
+                                        <button id="submit" name="submit" type="submit"><i className="icon-fl-send"></i></button>
+                                    </form>
+                                </div>
+                                <div className="widget-social style-1 mg-t32">
+                                    <ul>
+                                        {
+                                            socialList.map((item, index) => (
+                                                <li key={index}><Link to={item.link}><i className={item.icon}></i></Link></li>
+                                            ))
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </Col>
-              <Col lg={4}>
-                <Row className="pl-0 md-lg-5">
-                  {/* Render Footer Link */}
-                  {this.state.links.map((item, key) => (
-                    <Col lg={6} key={key}>
-                      <div className="mt-4">
-                        <h5 className="f-20">{item.title}</h5>
-                        <ul className="list-unstyled footer-link mt-3">
-                          {item.child.map((linkItem, key) => (
-                            <li key={key}>
-                              <Link to={linkItem.link}>
-                                {linkItem.title}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-              </Col>
-              <Col lg={4}>
-                <div className="mt-4">
-                  <h5 className="f-20">Subscribe</h5>
-                  <div className="subscribe mt-4 pt-1">
-                    <Form action="#">
-                      <Input placeholder="Enter Email" type="text" style={{height: 'auto'}}/>
-                      <Button color="primary" className="btn btn-primary"><i className="mdi mdi-send"></i></Button>
-                    </Form>
-                  </div>
+            </footer>
+            {
+                isVisible &&
+                <Link onClick={scrollToTop} to='#' id="scroll-top"></Link>
+            }
+
+            <div className="modal fade popup" id="popup_bid" tabIndex="-1" role="dialog" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" role="document">
+                    <div className="modal-content">
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div className="modal-body space-y-20 pd-40">
+                            <h3>Place a Bid</h3>
+                            <p className="text-center">You must bid at least <span className="price color-popup">4.89 ETH</span>
+                            </p>
+                            <input type="text" className="form-control"
+                                placeholder="00.00 ETH" />
+                            <p>Enter quantity. <span className="color-popup">5 available</span>
+                            </p>
+                            <input type="number" className="form-control" placeholder="1" />
+                            <div className="hr"></div>
+                            <div className="d-flex justify-content-between">
+                                <p> You must bid at least:</p>
+                                <p className="text-right price color-popup"> 4.89 ETH </p>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <p> Service free:</p>
+                                <p className="text-right price color-popup"> 0,89 ETH </p>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <p> Total bid amount:</p>
+                                <p className="text-right price color-popup"> 4 ETH </p>
+                            </div>
+                            <Link to="#" className="btn btn-primary" data-toggle="modal" data-target="#popup_bid_success" data-dismiss="modal" aria-label="Close"> Place a bid</Link>
+                        </div>
+                    </div>
                 </div>
-              </Col>
-            </Row>
-            <hr className="my-5" />
-            {/* Render Footer Link End */}
-            {/* <FooterLink /> */}
-          </Container>
-        </footer>
-        {/* Footer End */}
-      </React.Fragment>
+            </div>
+
+        </div>
+
     );
-  }
 }
 
 export default Footer;

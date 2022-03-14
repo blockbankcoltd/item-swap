@@ -19,7 +19,7 @@ const useTokenPrice = (options) => {
       price.nativePrice = tokenValueTxt(value, decimals, symbol);
       setTokenPrice(price);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [isInitialized, options]);
 
   const fetchTokenPrice = async (options) => {

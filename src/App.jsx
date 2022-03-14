@@ -1,54 +1,88 @@
-import React, { Component, Suspense, Fragment } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { useEffect } from "react";
+import { useMoralis } from "react-moralis";
 import {
   BrowserRouter as Router,
-  Route,
   Switch,
+  Route,
   Redirect,
 } from "react-router-dom";
-import "antd/dist/antd.css";
-import "./assets/css/materialdesignicons.min.css";
-import "./assets/scss/themes.scss";
-import "./assets/css/style.css";
-import "./assets/css/custom.scss";
-const Market = React.lazy(() => import("./views/market"));
-const Items = React.lazy(() => import("./views/items"));
-const Trade = React.lazy(() => import("./views/trade"));
+import Account from "components/Account/Account";
+import Chains from "components/Chains";
+import TokenPrice from "components/TokenPrice";
+import ERC20Balance from "components/ERC20Balance";
+import ERC20Transfers from "components/ERC20Transfers";
+import DEX from "components/DEX";
+import NFTBalance from "components/NFTBalance";
+import Wallet from "components/Wallet";
+import { Tabs } from "antd";
+import NativeBalance from "components/NativeBalance";
+import QuickStart from "components/QuickStart";
+import Contract from "components/Contract/Contract";
+import Text from "antd/lib/typography/Text";
+import Ramper from "components/Ramper";
+import MenuItems from "./components/MenuItems";
+import Home from "./views/home"
+const App = ({ isServerInfo }) => {
+  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
+    useMoralis();
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+  useEffect(() => {
+    const connectorId = window.localStorage.getItem("connectorId");
+    if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)
+      enableWeb3({ provider: connectorId });
 
-  render() {
-    return (
-      <React.Fragment>
-        <Suspense fallback={<div className="loading" />}>
-          <Router>
-            <Switch>
-              <Route path="/" exact render={(props) => <Market {...props} />} />
-              <Route
-                path="/items/:nftAddress"
-                exact
-                render={(props) => <Items {...props} />}
-              />
-              <Route
-                path="/trade"
-                exact
-                render={(props) => <Trade chain="eth" />}
-              />
-              <Redirect to="/error" />
-            </Switch>
-          </Router>
-        </Suspense>
-      </React.Fragment>
-    );
-  }
-}
+  }, [isAuthenticated, isWeb3Enabled]);
 
-const mapStateToProps = (state) => {
-  return { ...state };
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home isServerInfo={isServerInfo} />
+        </Route>
+        <Route path="/wallet">
+          <Wallet />
+        </Route>
+        <Route path="/1inch">
+          <Tabs defaultActiveKey="1" style={{ alignItems: "center" }}>
+            <Tabs.TabPane tab={<span>Ethereum</span>} key="1">
+              <DEX chain="eth" />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<span>Binance Smart Chain</span>} key="2">
+              <DEX chain="bsc" />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<span>Polygon</span>} key="3">
+              <DEX chain="polygon" />
+            </Tabs.TabPane>
+          </Tabs>
+        </Route>
+        <Route path="/erc20balance">
+          <ERC20Balance />
+        </Route>
+        <Route path="/onramp">
+          <Ramper />
+        </Route>
+        <Route path="/erc20transfers">
+          <ERC20Transfers />
+        </Route>
+        <Route path="/nftBalance">
+          <NFTBalance />
+        </Route>
+        <Route path="/contract">
+          <Contract />
+        </Route>
+        <Route path="/">
+          <Redirect to="/quickstart" />
+        </Route>
+        <Route path="/ethereum-boilerplate">
+          <Redirect to="/quickstart" />
+        </Route>
+        <Route path="/nonauthenticated">
+          <>Please login using the "Authenticate" button</>
+        </Route>
+      </Switch>
+    </Router>
+  );
 };
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
+export default App;

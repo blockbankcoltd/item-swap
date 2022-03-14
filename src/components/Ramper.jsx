@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMoralis } from "react-moralis";
-import { useEffect } from "react/cjs/react.development";
 
 function Ramper() {
   const [ramper, setRamper] = useState();
@@ -13,14 +12,13 @@ function Ramper() {
         .then((data) => setRamper(data.data));
     }
     initPlugin();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Moralis.Plugins]);
 
   return (
     <iframe
       src={ramper}
       title="ramper"
-      frameborder="no"
+      frameBorder="no"
       allow="accelerometer; autoplay; camera; gyroscope; payment;"
       style={{
         width: "420px",

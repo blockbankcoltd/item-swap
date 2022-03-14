@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import TokenPrice from "../../components/TokenPrice";
 import Account from "components/Account/Account";
 // import menus from "../../pages/menu";
 import DarkMode from "./DarkMode";
@@ -18,26 +19,18 @@ const menus = [
   },
   {
     id: 2,
-    name: "Explore",
-    links: "#",
+    name: 'Game',
+    links: '#',
+
   },
   {
     id: 3,
-    name: "Activity",
-    links: "#",
+    name: 'Lottery',
+    links: '#',
+
   },
   {
     id: 4,
-    name: "Community",
-    links: "#",
-  },
-  {
-    id: 5,
-    name: "Page",
-    links: "#",
-  },
-  {
-    id: 7,
     name: "Create Item",
     links: "#",
   },
@@ -122,9 +115,8 @@ const Header = () => {
                       <li
                         key={index}
                         onClick={() => handleOnClick(index)}
-                        className={`menu-item ${
-                          data.namesub ? "menu-item-has-children" : ""
-                        } ${activeIndex === index ? "active" : ""} `}
+                        className={`menu-item ${data.namesub ? "menu-item-has-children" : ""
+                          } ${activeIndex === index ? "active" : ""} `}
                       >
                         <Link to={data.links}>{data.name}</Link>
                         {data.namesub && (
@@ -182,6 +174,11 @@ const Header = () => {
                       </form>
                     </div>
                   </div>
+                  <TokenPrice
+                    address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+                    chain="eth"
+                    image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
+                  />
                   <Account />
 
                   <div className="admin_active" id="header_admin">

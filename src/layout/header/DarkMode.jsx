@@ -33,13 +33,13 @@ const DarkMode = () => {
     }
     return (
         <div className="mode_switcher">
-        <h6>Dark mode <strong>Available</strong></h6>
-        <Link to="#" 
-            onClick={e => switchTheme(e)}  >
-            <img src={imgsun} alt="" />
-        </Link>
+            <h6>Dark mode <strong>Available</strong></h6>
+            <Link to="#"
+                onClick={e => switchTheme(e)}  >
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEhSURBVHgBtZWNEYIwDIUfngMwgiO4gWygG+gGuoFuwAiMwAiMwAh1BDeIjfc4a4XScMd3l+MoyUsa+gMYEBGnhrUQYonZYGV+Evjibt46b7sJ/yftD43x1qoGpqCDsNc7ZEJxx9gu17FBJt63zi6MSTRgz/fS24OtG+i9nYOYvRZkmfXYjMaYr3gmgQuEDjobjh+jbyWs+KBLSoCtG5LcYYV9Vo4Jnypn5biwp8H4B6SLKGO/WG92J6f6WxTFC0uR77KsEj4n+vRYkOBu+MlnWIkE9HkKxqvwG5Yia2w0ijbCo4Jjuif6QLhjC4eNp0dFLZnnkKNIjfyimqwZyXflmKYeFdamHPXCaafEJXEnM4kWeMVShh9giVn9Tt7CxhNG3rhxSa0K5UYkAAAAAElFTkSuQmCC" alt="" />
+            </Link>
 
-    </div>
+        </div>
     );
 }
 

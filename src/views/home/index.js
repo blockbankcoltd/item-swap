@@ -12,6 +12,7 @@ import imgbg1 from '../../assets/images/slider/bg_slide_1.png'
 import shape1 from '../../assets/images/backgroup-secsion/bg-gradient1.png'
 import shape2 from '../../assets/images/backgroup-secsion/bg-gradient2.png'
 import shape3 from '../../assets/images/backgroup-secsion/bg-gradient3.png'
+import imgbg from '../../assets/images/backgroup-secsion/img_bg_page_title.jpg'
 const FAQ = () => {
     const [data] = useState(
         [
@@ -53,7 +54,7 @@ const FAQ = () => {
                 scrollbar={{ draggable: true }}
             >
                 <SwiperSlide>
-                    <div className="flat-title-page" style={{ backgroundImage: `url(${imgbg1})` }}>
+                    <div className="flat-title-page" style={{ backgroundImage: `url(${imgbg})` }}>
                         <img className="bgr-gradient gradient1" src={shape1} alt="Axies" />
                         <img className="bgr-gradient gradient2" src={shape2} alt="Axies" />
                         <img className="bgr-gradient gradient3" src={shape3} alt="Axies" />
@@ -72,16 +73,13 @@ const FAQ = () => {
                                         <div className="themesflat-container ">
                                             <div className="wrap-heading flat-slider flex">
                                                 <div className="content">
-                                                    <h2 className="heading">asasa</h2>
-                                                    <h1 className="heading mb-style"><span className="tf-text s1">asasa</span>
+                                                    <h2 className="heading">Discover, Find,</h2>
+                                                    <h1 className="heading mb-style"><span className="tf-text s1">Sell extraordinary</span>
                                                     </h1>
-                                                    <h1 className="heading">asasa</h1>
-                                                    <p className="sub-heading">asasa
-                                                    </p>
+                                                    <h1 className="heading">Game NFTs</h1>
+                                                    <p className="sub-heading">Marketplace for monster character cllections non fungible token NFTs</p>
                                                     <div className="flat-bt-slider flex style2">
                                                         <Link to="/explore-01" className="sc-button header-slider style style-1 rocket fl-button pri-1"><span>Explore
-                                                        </span></Link>
-                                                        <Link to="/create-item" className="sc-button header-slider style style-1 note fl-button pri-1"><span>Create
                                                         </span></Link>
                                                     </div>
                                                 </div>

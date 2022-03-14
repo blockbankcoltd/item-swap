@@ -1,18 +1,6 @@
 import { useState } from "react";
 import { useTokenPrice } from "react-moralis";
-
-const styles = {
-  token: {
-    padding: "0 7px",
-    height: "42px",
-    gap: "5px",
-    width: "fit-content",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    whiteSpace: "nowrap",
-  },
-};
+import { Link } from "react-router-dom";
 function TokenPrice(props) {
   const { data: formattedData } = useTokenPrice(props);
 
@@ -23,14 +11,14 @@ function TokenPrice(props) {
   const noLogoToken = "https://etherscan.io/images/main/empty-token.png";
 
   return (
-    <div style={styles.token}>
+    <Link className="sc-button header-slider style style-1 fl-button pri-1 d-flex align-items-center mr-2">
       <img
         src={props.image || noLogoToken}
         alt="logo"
-        style={{ height: props?.size || "35px" }}
+        style={{ height: props?.size || "24px" }}
       />
       <span
-        style={{ cursor: "pointer" }}
+        className="custom"
         onClick={toggleDisplayStyle}
         title={`Show in ${isUSDMode ? "ETH" : "USD"}`}
       >
@@ -39,7 +27,7 @@ function TokenPrice(props) {
             ? formattedData.formattedUsd
             : formattedData.formattedNative)}
       </span>
-    </div>
+    </Link>
   );
 }
 export default TokenPrice;

@@ -52,8 +52,13 @@ function Account() {
   if (!isAuthenticated || !account) {
     return (
       <>
-        <div onClick={() => setIsAuthModalVisible(true)}>
-          <p style={styles.text}>Authenticate</p>
+        <div className="sc-btn-top mg-r-12" id="site-header">
+          <div
+            onClick={() => setIsAuthModalVisible(true)}
+            className="sc-button header-slider style style-1 wallet fl-button pri-1"
+          >
+            <span>Wallet connect</span>
+          </div>
         </div>
         <Modal
           visible={isAuthModalVisible}
@@ -121,11 +126,14 @@ function Account() {
       >
         Hi
       </button> */}
-      <div style={styles.account} onClick={() => setIsModalVisible(true)}>
-        <p style={{ marginRight: "5px", ...styles.text }}>
-          {getEllipsisTxt(account, 6)}
-        </p>
-        <Blockie currentWallet scale={3} />
+      <div className="sc-btn-top mg-r-12" id="site-header">
+        <div
+          onClick={() => setIsModalVisible(true)}
+          className="sc-button header-slider style style-1 wallet fl-button pri-1"
+        >
+          <span>{getEllipsisTxt(account, 6)}</span>
+          <Blockie currentWallet scale={3} />
+        </div>
       </div>
       <Modal
         visible={isModalVisible}

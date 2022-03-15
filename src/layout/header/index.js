@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import TokenPrice from "../../components/TokenPrice";
 import Account from "components/Account/Account";
+import Chains from "../../components/Chains";
 // import menus from "../../pages/menu";
 import DarkMode from "./DarkMode";
 import logoheader from "../../assets/images/logo/logo.png";
@@ -19,15 +20,13 @@ const menus = [
   },
   {
     id: 2,
-    name: 'Game',
-    links: '#',
-
+    name: "Game",
+    links: "#",
   },
   {
     id: 3,
-    name: 'Lottery',
-    links: '#',
-
+    name: "Lottery",
+    links: "#",
   },
   {
     id: 4,
@@ -115,8 +114,9 @@ const Header = () => {
                       <li
                         key={index}
                         onClick={() => handleOnClick(index)}
-                        className={`menu-item ${data.namesub ? "menu-item-has-children" : ""
-                          } ${activeIndex === index ? "active" : ""} `}
+                        className={`menu-item ${
+                          data.namesub ? "menu-item-has-children" : ""
+                        } ${activeIndex === index ? "active" : ""} `}
                       >
                         <Link to={data.links}>{data.name}</Link>
                         {data.namesub && (
@@ -179,6 +179,7 @@ const Header = () => {
                     chain="eth"
                     image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
                   />
+                  <Chains />
                   <Account />
 
                   <div className="admin_active" id="header_admin">

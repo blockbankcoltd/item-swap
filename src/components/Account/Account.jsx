@@ -53,7 +53,10 @@ function Account() {
   if (!isAuthenticated || !account) {
     return (
       <>
-        <Link onClick={() => setIsAuthModalVisible(true)} className="sc-button header-slider style style-1 wallet fl-button pri-1">
+        <Link
+          onClick={() => setIsAuthModalVisible(true)}
+          className="sc-button header-slider style style-1 wallet fl-button pri-1 d-none"
+        >
           <span>Wallet connect</span>
         </Link>
         <Modal
@@ -122,10 +125,15 @@ function Account() {
       >
         Hi
       </button> */}
-      <Link className="sc-button header-slider style style-1 fl-button pri-1 d-flex align-items-center" onClick={() => setIsModalVisible(true)}>
-        <span className="mr-2 custom">{getEllipsisTxt(account, 6)}</span>
-        <Blockie currentWallet scale={3} />
-      </Link>
+      <div className="d-none d-md-inline-block">
+        <Link
+          className="sc-button header-slider style style-1 fl-button pri-1 d-flex align-items-center"
+          onClick={() => setIsModalVisible(true)}
+        >
+          <span className="mr-2 custom">{getEllipsisTxt(account, 6)}</span>
+          <Blockie currentWallet scale={3} />
+        </Link>
+      </div>
       <Modal
         visible={isModalVisible}
         footer={null}

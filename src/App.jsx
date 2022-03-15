@@ -11,7 +11,7 @@ import Chains from "components/Chains";
 import TokenPrice from "components/TokenPrice";
 import ERC20Balance from "components/ERC20Balance";
 import ERC20Transfers from "components/ERC20Transfers";
-import DEX from "components/DEX";
+import Trade from "views/trade";
 import NFTBalance from "components/NFTBalance";
 import Wallet from "components/Wallet";
 import { Tabs } from "antd";
@@ -43,17 +43,7 @@ const App = ({ isServerInfo }) => {
           <Wallet />
         </Route>
         <Route path="/1inch">
-          <Tabs defaultActiveKey="1" style={{ alignItems: "center" }}>
-            <Tabs.TabPane tab={<span>Ethereum</span>} key="1">
-              <DEX chain="eth" />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab={<span>Binance Smart Chain</span>} key="2">
-              <DEX chain="bsc" />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab={<span>Polygon</span>} key="3">
-              <DEX chain="polygon" />
-            </Tabs.TabPane>
-          </Tabs>
+          <Trade chain="eth" />
         </Route>
         <Route path="/erc20balance">
           <ERC20Balance />

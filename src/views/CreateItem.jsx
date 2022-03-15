@@ -135,7 +135,8 @@ const CreateItem = () => {
     setMetaDataUrl(nftFileMetaDataFilePath);
     console.log(options);
     const nftId = await runContractFunction({ params: options });
-
+    console.log(ethContractError);
+    console.log(nftId);
     let itemData = {
       name: itemName,
       description: itemDescription,

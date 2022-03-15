@@ -23,6 +23,7 @@ import Ramper from "components/Ramper";
 import MenuItems from "./components/MenuItems";
 import Home from "./views/home";
 import CreateItem from "views/CreateItem";
+import Lottery from "views/lottery";
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
@@ -59,6 +60,9 @@ const App = ({ isServerInfo }) => {
         </Route>
         <Route path="/contract">
           <Contract />
+        </Route>
+        <Route path="/lottery">
+          <Lottery />
         </Route>
         <Route path="/createItem">
           <CreateItem />

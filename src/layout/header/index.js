@@ -16,22 +16,22 @@ const menus = [
   {
     id: 1,
     name: "Home",
-    links: "#",
+    links: "/",
   },
   {
     id: 2,
     name: "Game",
-    links: "#",
+    links: "/games",
   },
   {
     id: 3,
     name: "Lottery",
-    links: "#",
+    links: "/lottery",
   },
   {
     id: 4,
     name: "Create Item",
-    links: "#",
+    links: "/create-item",
   },
 ];
 

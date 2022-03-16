@@ -12,11 +12,13 @@ const styles = {
     fontWeight: "500",
     fontFamily: "Roboto, sans-serif",
     fontSize: "14px",
-    padding: "0 10px",
+    padding: "23px 10px",
   },
   button: {
     border: "2px solid rgb(231, 234, 243)",
-    borderRadius: "12px",
+    borderRadius: "30px",
+    background: "transparent",
+    color: "#fff",
   },
 };
 
@@ -88,13 +90,10 @@ function Chains() {
   const { isAuthenticated } = useMoralis();
   const [selected, setSelected] = useState({});
 
-  console.log("chain", chain);
-
   useEffect(() => {
     if (!chainId) return null;
     const newSelected = menuItems.find((item) => item.key === chainId);
     setSelected(newSelected);
-    console.log("current chainId: ", chainId);
   }, [chainId]);
 
   const handleMenuClick = (e) => {
@@ -115,16 +114,21 @@ function Chains() {
   if (!chainId || !isAuthenticated) return null;
 
   return (
-    <div className="d-none d-md-inline-block">
+    <div className="">
       <Dropdown overlay={menu} trigger={["click"]}>
-        <div
+        <Button
           key={selected?.key}
           icon={selected?.icon}
-          className="sc-button header-slider style style-1 fl-button pri-1 d-flex align-items-center mr-2"
+          style={{ ...styles.button, ...styles.item }}
         >
-          <span style={{ marginLeft: "5px" }}>{selected?.value}</span>
-          <DownOutlined />
-        </div>
+          <span
+            className="d-none d-md-inline-block"
+            style={{ marginLeft: "5px" }}
+          >
+            {selected?.value}
+          </span>
+          <DownOutlined className="d-none d-md-inline-block" />
+        </Button>
       </Dropdown>
     </div>
   );

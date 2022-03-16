@@ -16,7 +16,7 @@ const menus = [
   {
     id: 1,
     name: "Home",
-    links: "#",
+    links: "/",
   },
   {
     id: 2,
@@ -30,8 +30,8 @@ const menus = [
   },
   {
     id: 4,
-    name: "Create Item",
-    links: "#",
+    name: "Swap",
+    links: "/1inch",
   },
 ];
 
@@ -174,11 +174,11 @@ const Header = () => {
                       </form>
                     </div>
                   </div>
-                  <TokenPrice
+                  {/* <TokenPrice
                     address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
                     chain="eth"
                     image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
-                  />
+                  /> */}
                   <Chains />
                   <Account />
 

@@ -1,3 +1,4 @@
+// SWAP FUNCTIONALITY
 import { useState, useEffect, useMemo } from "react";
 import { useMoralis } from "react-moralis";
 import InchModal from "./components/InchModal";
@@ -263,10 +264,10 @@ function DEX({ chain, customTokens = {} }) {
             }}
           >
             <div>
-              <Input
+              <InputNumber
                 bordered={false}
                 placeholder="0.00"
-                style={styles.input}
+                style={{ ...styles.input, marginLeft: "-10px" }}
                 readOnly
                 value={
                   quote

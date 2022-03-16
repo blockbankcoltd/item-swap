@@ -37,6 +37,7 @@ const CreateItem = () => {
     isLoading,
   } = useWeb3Contract();
 
+  // Contract Prameters
   const options = {
     abi: abi,
     contractAddress: contractAddress,
@@ -44,6 +45,7 @@ const CreateItem = () => {
     params: metaDataUrl,
   };
 
+  // Convert File to Base64
   const getBase64 = (file) => {
     return new Promise((resolve) => {
       let fileInfo;
@@ -64,8 +66,6 @@ const CreateItem = () => {
   };
 
   const handleFileInputChange = (e) => {
-    // console.log(e.target.files[0]);
-
     let file = e.target.files[0];
 
     getBase64(file)
@@ -164,17 +164,6 @@ const CreateItem = () => {
             <div className="col-md-12">
               <div className="page-title-heading mg-bt-12">
                 <h1 className="heading text-center">Create Item</h1>
-              </div>
-              <div className="breadcrumbs style2">
-                <ul>
-                  <li>
-                    <Link to="/">Home</Link>
-                  </li>
-                  <li>
-                    <Link to="#">Pages</Link>
-                  </li>
-                  <li>Create Item</li>
-                </ul>
               </div>
             </div>
           </div>

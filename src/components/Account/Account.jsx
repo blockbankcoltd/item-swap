@@ -9,6 +9,7 @@ import { getExplorer } from "helpers/networks";
 import Text from "antd/lib/typography/Text";
 import { connectors } from "./config";
 import { Link, useLocation } from "react-router-dom";
+import { FaWallet } from "react-icons/fa";
 const styles = {
   account: {
     height: "42px",
@@ -53,12 +54,19 @@ function Account() {
   if (!isAuthenticated || !account) {
     return (
       <>
-        <Link
+        <div
           onClick={() => setIsAuthModalVisible(true)}
-          className="sc-button header-slider style style-1 wallet fl-button pri-1 d-none"
+          className="sc-button header-slider style style-1 wallet fl-button pri-1 d-none d-md-inline-block"
         >
           <span>Wallet connect</span>
-        </Link>
+        </div>
+        <div
+          onClick={() => setIsAuthModalVisible(true)}
+          className="sc-button header-slider style style-1 wallet d-md-none"
+          style={{ border: 0, padding: 0 }}
+        >
+          <span></span>
+        </div>
         <Modal
           visible={isAuthModalVisible}
           footer={null}
@@ -126,13 +134,22 @@ function Account() {
         Hi
       </button> */}
       <div className="d-none d-md-inline-block">
-        <Link
+        <div
           className="sc-button header-slider style style-1 fl-button pri-1 d-flex align-items-center"
           onClick={() => setIsModalVisible(true)}
         >
           <span className="mr-2 custom">{getEllipsisTxt(account, 6)}</span>
           <Blockie currentWallet scale={3} />
-        </Link>
+        </div>
+      </div>
+      <div className="d-md-none">
+        <div
+          className="sc-button header-slider style style-1 fl-button pri-1 d-flex align-items-center"
+          onClick={() => setIsModalVisible(true)}
+          style={{ border: 0, padding: 0 }}
+        >
+          <Blockie currentWallet scale={3} />
+        </div>
       </div>
       <Modal
         visible={isModalVisible}

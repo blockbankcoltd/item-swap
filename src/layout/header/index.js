@@ -20,7 +20,7 @@ const menus = [
   {
     id: 2,
     name: 'Game',
-    links: '#',
+    links: 'explore-game',
 
   },
   {

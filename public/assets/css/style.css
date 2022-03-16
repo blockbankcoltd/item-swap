@@ -1244,14 +1244,14 @@ label.error { color: red; }
 /* link style
 -------------------------------------------------------------- */
 a {
-    text-decoration   : none;
-    color             : var(--primary-color2);
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition   : all 0.3s ease-in-out;
-    -ms-transition    : all 0.3s ease-in-out;
-    -o-transition     : all 0.3s ease-in-out;
-    transition        : all 0.3s ease-in-out;
-    letter-spacing: 0.1px;
+    text-decoration   : none !important;
+    color             : var(--primary-color2) !important;
+    -webkit-transition: all 0.3s ease-in-out !important;
+    -moz-transition   : all 0.3s ease-in-out !important;
+    -ms-transition    : all 0.3s ease-in-out !important;
+    -o-transition     : all 0.3s ease-in-out !important;
+    transition        : all 0.3s ease-in-out !important;
+    letter-spacing: 0.1px !important;
 }
 
 a:hover,
@@ -1571,7 +1571,7 @@ header{
     font-size    : 18px;
     line-height  : 26px;
     font-weight  : 700;
-    color        : #fff;
+    color        : #fff!important;
     padding-right: 15.5px;
 }
 
@@ -1657,7 +1657,7 @@ header{
 }
 
 .main-nav>ul>li>a:hover {
-    color: #fff;
+    color: #fff !important;
 }
 
 .main-nav>ul>li .sub-menu li {

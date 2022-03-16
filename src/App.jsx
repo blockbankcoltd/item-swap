@@ -16,12 +16,10 @@ import NFTBalance from "components/NFTBalance";
 import Wallet from "components/Wallet";
 import { Tabs } from "antd";
 import NativeBalance from "components/NativeBalance";
-import QuickStart from "components/QuickStart";
 import Contract from "components/Contract/Contract";
-import Text from "antd/lib/typography/Text";
 import Ramper from "components/Ramper";
-import MenuItems from "./components/MenuItems";
 import Home from "./views/home";
+import Game from "./views/game";
 import CreateItem from "views/CreateItem";
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
@@ -38,6 +36,9 @@ const App = ({ isServerInfo }) => {
       <Switch>
         <Route exact path="/">
           <Home isServerInfo={isServerInfo} />
+        </Route>
+        <Route exact path="/explore-game">
+          <Game />
         </Route>
         <Route path="/wallet">
           <Wallet />

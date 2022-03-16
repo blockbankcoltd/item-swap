@@ -5,6 +5,7 @@ import { MoralisProvider } from "react-moralis";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import ScrollToTop from "./views/component/ScrollToTop";
 import { BrowserRouter } from 'react-router-dom'
+import { MoralisDappProvider } from "./providers/MoralisDappProvider/MoralisDappProvider";
 
 /** Get your free Moralis Account https://moralis.io/ */
 
@@ -14,9 +15,11 @@ const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
 const Application = () => {
   return (
     <BrowserRouter >
-      <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
-        <ScrollToTop />
-        <App isServerInfo />
+      <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL} >
+        <MoralisDappProvider>
+          <ScrollToTop />
+          <App isServerInfo />
+        </MoralisDappProvider>
       </MoralisProvider>
     </BrowserRouter>
   );

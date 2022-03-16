@@ -263,7 +263,7 @@
 /* style-1 */
 .sc-button.style-1 {
     border    : 2px solid #fff;
-    color     : #fff;
+    color     : #fff !important;
     background: transparent none repeat scroll 0 0;
 }
 

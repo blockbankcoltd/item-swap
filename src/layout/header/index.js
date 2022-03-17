@@ -13,25 +13,25 @@ import imgsun from "../../assets/images/icon/sun.png";
 import avt from "../../assets/images/avatar/avt-2.jpg";
 
 const menus = [
-  {
-    id: 1,
-    name: "Home",
-    links: "/",
-  },
+  // {
+  //   id: 1,
+  //   name: "Home",
+  //   links: "/",
+  // },
   {
     id: 2,
-    name: "Game",
-    links: "/games",
+    name: "Trade",
+    links: "/1inch",
   },
   {
     id: 3,
-    name: "Lottery",
-    links: "/lottery",
+    name: "Games",
+    links: "/",
   },
   {
     id: 4,
-    name: "Swap",
-    links: "/1inch",
+    name: "Win",
+    links: "/",
   },
 ];
 

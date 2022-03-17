@@ -9,7 +9,7 @@ import { getExplorer } from "helpers/networks";
 import Text from "antd/lib/typography/Text";
 import { connectors } from "./config";
 import { Link, useLocation } from "react-router-dom";
-import { FaWallet } from "react-icons/fa";
+// import { FaWallet } from "react-icons/fa";
 const styles = {
   account: {
     height: "42px",

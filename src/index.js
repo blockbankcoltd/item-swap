@@ -15,7 +15,7 @@ const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
 const Application = () => {
   return (
     <BrowserRouter >
-      <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL} >
+      <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
         <MoralisDappProvider>
           <ScrollToTop />
           <App isServerInfo />

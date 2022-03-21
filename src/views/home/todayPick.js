@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
 import { getCollectionsByChain } from "../../helpers/collections";
 import { useMoralisDapp } from "../../providers/MoralisDappProvider/MoralisDappProvider";
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 function NFTTokenIds(props) {
+    let navigate = useHistory();
     const { chainId, contractABI } = useMoralisDapp();
     const NFTCollections = getCollectionsByChain(chainId);
     return (
@@ -23,12 +24,14 @@ function NFTTokenIds(props) {
                         {
                             NFTCollections?.map((nft, index) => (
                                 <div key={index} className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                    <div className={`sc-card-product`}>
+                                    <div className={`sc-card-product`} onClick={() => {
+                                        navigate.push(`items/${nft?.addrs}`);
+                                    }}>
                                         <div className="card-media">
-                                            <Link to="/item-details-01"><img src={nft?.image || "error"} alt="axies" /></Link>
+                                            <Link to="#"><img src={nft?.image || "error"} alt="axies" /></Link>
                                         </div>
                                         <div className="card-title mb-0">
-                                            <h5 className="style2"><Link to="/item-details-01">{nft.name}</Link></h5>
+                                            <h5 className="style2"><Link to="#">{nft.name}</Link></h5>
                                             <div className="tags1">Items - {nft?.item}</div>
                                         </div>
                                     </div>

@@ -14,6 +14,7 @@ import shape2 from '../../assets/images/backgroup-secsion/bg-gradient2.png'
 import shape3 from '../../assets/images/backgroup-secsion/bg-gradient3.png'
 import imgbg from '../../assets/images/backgroup-secsion/img_bg_page_title.jpg'
 import TodayPick from "./todayPick";
+
 const FAQ = () => {
     return (
         <Layout>

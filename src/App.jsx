@@ -24,6 +24,7 @@ import MenuItems from "./components/MenuItems";
 import Home from "./views/home";
 import CreateItem from "views/CreateItem";
 import Lottery from "views/lottery";
+import Test from "views/Test";
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
@@ -49,8 +50,8 @@ const App = ({ isServerInfo }) => {
         <Route path="/erc20balance">
           <ERC20Balance />
         </Route>
-        <Route path="/onramp">
-          <Ramper />
+        <Route path="/test">
+          <Test />
         </Route>
         <Route path="/erc20transfers">
           <ERC20Transfers />

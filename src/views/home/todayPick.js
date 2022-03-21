@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
-import { getCollectionsByChain } from "helpers/collections";
-import { Row, Col } from "reactstrap";
-import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
+import { getCollectionsByChain } from "../../helpers/collections";
+import { useMoralisDapp } from "../../providers/MoralisDappProvider/MoralisDappProvider";
 import { Link } from 'react-router-dom'
 
 function NFTTokenIds(props) {

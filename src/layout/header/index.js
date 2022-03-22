@@ -13,23 +13,28 @@ import imgsun from "../../assets/images/icon/sun.png";
 import avt from "../../assets/images/avatar/avt-2.jpg";
 
 const menus = [
-  // {
-  //   id: 1,
-  //   name: "Home",
-  //   links: "/",
-  // },
+  {
+    id: 1,
+    name: "Home",
+    links: "/",
+  },
   {
     id: 2,
+    name: 'Game',
+    links: 'explore-game',
+  },
+  {
+    id: 3,
     name: "Trade",
     links: "/1inch",
   },
   {
-    id: 3,
-    name: "Games",
-    links: "/",
+    id: 4,
+    name: "Lottery",
+    links: "/lottery",
   },
   {
-    id: 4,
+    id: 5,
     name: "Win",
     links: "/",
   },
@@ -114,9 +119,8 @@ const Header = () => {
                       <li
                         key={index}
                         onClick={() => handleOnClick(index)}
-                        className={`menu-item ${
-                          data.namesub ? "menu-item-has-children" : ""
-                        } ${activeIndex === index ? "active" : ""} `}
+                        className={`menu-item ${data.namesub ? "menu-item-has-children" : ""
+                          } ${activeIndex === index ? "active" : ""} `}
                       >
                         <Link to={data.links}>{data.name}</Link>
                         {data.namesub && (

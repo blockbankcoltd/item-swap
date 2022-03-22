@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  useParams,
   Redirect,
 } from "react-router-dom";
 import Account from "components/Account/Account";
@@ -14,14 +15,10 @@ import ERC20Transfers from "components/ERC20Transfers";
 import Trade from "views/trade";
 import NFTBalance from "components/NFTBalance";
 import Wallet from "components/Wallet";
-import { Tabs } from "antd";
-import NativeBalance from "components/NativeBalance";
-import QuickStart from "components/QuickStart";
-import Contract from "components/Contract/Contract";
-import Text from "antd/lib/typography/Text";
-import Ramper from "components/Ramper";
-import MenuItems from "./components/MenuItems";
 import Home from "./views/home";
+import Game from "./views/game";
+import Items from "./views/items";
+
 import CreateItem from "views/CreateItem";
 import Lottery from "views/lottery";
 import Test from "views/Test";
@@ -36,11 +33,12 @@ const App = ({ isServerInfo }) => {
       enableWeb3({ provider: connectorId });
   }, [isAuthenticated, isWeb3Enabled]);
 
+  console.log("aa", useParams());
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <Home isServerInfo={isServerInfo} />
+          <Home />
         </Route>
         <Route path="/wallet">
           <Wallet />
@@ -54,15 +52,18 @@ const App = ({ isServerInfo }) => {
         <Route path="/test">
           <Test />
         </Route>
-        <Route path="/bulkUpload">
-          <BulkUpload />
+        <Route exact path="/explore-game">
+          <Game />
         </Route>
-        <Route path="/nftBalance">
-          <NFTBalance />
+        <Route exact path="/items/:nftAddress">
+          <Items />
         </Route>
-        <Route path="/contract">
+        <Route path="/wallet">
+          <Wallet />
+        </Route>
+        {/* <Route path="/contract">
           <Contract />
-        </Route>
+        </Route> */}
         <Route path="/lottery">
           <Lottery />
         </Route>

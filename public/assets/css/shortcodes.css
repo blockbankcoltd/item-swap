@@ -263,7 +263,7 @@
 /* style-1 */
 .sc-button.style-1 {
     border    : 2px solid #fff;
-    color     : #fff;
+    color     : #fff !important;
     background: transparent none repeat scroll 0 0;
 }
 
@@ -2049,6 +2049,19 @@
     letter-spacing  : 0.1em;
     text-transform  : uppercase;
 }
+.sc-card-product .card-title .tags1 {
+    width           : 100px;
+    height          : 24px;
+    line-height     : 24px;
+    text-align      : center;
+    font-weight     : bold;
+    font-size       : 12px;
+    color           : #fff;
+    background-color: var(--primary-color3);
+    border-radius   : 10px;
+    letter-spacing  : 0.1em;
+    text-transform  : uppercase;
+}
 
 .sc-card-product .meta-info .price {
     text-align: right;
@@ -3541,8 +3554,6 @@ section.today-picks {
 
 /* author-tab -----------------------------------------*/
 .tab-authors .author-profile {
-    background: url("../images/item-background/bg-authors.jpg") no-repeat center;
-    background-size: cover;
     -webkit-border-radius: 12px 12px 0 0;
     -ms-border-radius: 12px 12px 0 0;
     -o-border-radius: 12px 12px 0 0;
@@ -3553,8 +3564,6 @@ section.today-picks {
 }
 
 .is_dark .tab-authors .author-profile {
-    background: url("../images/item-background/bg-authors2.jpg") no-repeat center;
-    background-size: cover;
     -webkit-border-radius: 12px 12px 0 0;
     -ms-border-radius: 12px 12px 0 0;
     -o-border-radius: 12px 12px 0 0;

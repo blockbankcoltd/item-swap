@@ -25,6 +25,7 @@ import Home from "./views/home";
 import CreateItem from "views/CreateItem";
 import Lottery from "views/lottery";
 import Test from "views/Test";
+import BulkUpload from "views/BulkUpload";
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
@@ -53,8 +54,8 @@ const App = ({ isServerInfo }) => {
         <Route path="/test">
           <Test />
         </Route>
-        <Route path="/erc20transfers">
-          <ERC20Transfers />
+        <Route path="/bulkUpload">
+          <BulkUpload />
         </Route>
         <Route path="/nftBalance">
           <NFTBalance />

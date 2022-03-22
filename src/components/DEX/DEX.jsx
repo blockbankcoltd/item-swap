@@ -1,3 +1,4 @@
+// SWAP FUNCTIONALITY
 import { useState, useEffect, useMemo } from "react";
 import { useMoralis } from "react-moralis";
 import InchModal from "./components/InchModal";
@@ -115,7 +116,6 @@ function DEX({ chain, customTokens = {} }) {
           [fromToken["address"]]: price["usdPrice"],
         }),
     });
-
   }, [chain, isInitialized, fromToken]);
 
   useEffect(() => {
@@ -132,7 +132,6 @@ function DEX({ chain, customTokens = {} }) {
           [toToken["address"]]: price["usdPrice"],
         }),
     });
-
   }, [chain, isInitialized, toToken]);
 
   useEffect(() => {
@@ -156,7 +155,6 @@ function DEX({ chain, customTokens = {} }) {
 
   useEffect(() => {
     if (currentTrade) getQuote(currentTrade).then((quote) => setQuote(quote));
-
   }, [currentTrade]);
 
   const PriceSwap = () => {
@@ -169,7 +167,7 @@ function DEX({ chain, customTokens = {} }) {
     const { symbol: toSymbol } = toToken;
     const pricePerToken = parseFloat(
       tokenValue(fromTokenAmount, fromToken["decimals"]) /
-      tokenValue(toTokenAmount, toToken["decimals"]),
+        tokenValue(toTokenAmount, toToken["decimals"]),
     ).toFixed(6);
     return (
       <Text style={styles.priceSwap}>
@@ -266,19 +264,19 @@ function DEX({ chain, customTokens = {} }) {
             }}
           >
             <div>
-              <Input
+              <InputNumber
                 bordered={false}
                 placeholder="0.00"
-                style={styles.input}
+                style={{ ...styles.input, marginLeft: "-10px" }}
                 readOnly
                 value={
                   quote
                     ? parseFloat(
-                      Moralis?.Units?.FromWei(
-                        quote?.toTokenAmount,
-                        quote?.toToken?.decimals,
-                      ),
-                    ).toFixed(6)
+                        Moralis?.Units?.FromWei(
+                          quote?.toTokenAmount,
+                          quote?.toToken?.decimals,
+                        ),
+                      ).toFixed(6)
                     : ""
                 }
               />

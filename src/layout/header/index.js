@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import TokenPrice from "../../components/TokenPrice";
 import Account from "components/Account/Account";
+import Chains from "../../components/Chains";
 // import menus from "../../pages/menu";
 import DarkMode from "./DarkMode";
 import logoheader from "../../assets/images/logo/logo.png";
@@ -21,18 +22,21 @@ const menus = [
     id: 2,
     name: 'Game',
     links: 'explore-game',
-
   },
   {
     id: 3,
-    name: 'Lottery',
-    links: '#',
-
+    name: "Trade",
+    links: "/1inch",
   },
   {
     id: 4,
-    name: "Create Item",
-    links: "#",
+    name: "Lottery",
+    links: "/lottery",
+  },
+  {
+    id: 5,
+    name: "Win",
+    links: "/",
   },
 ];
 
@@ -174,11 +178,12 @@ const Header = () => {
                       </form>
                     </div>
                   </div>
-                  <TokenPrice
+                  {/* <TokenPrice
                     address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
                     chain="eth"
                     image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
-                  />
+                  /> */}
+                  <Chains />
                   <Account />
 
                   <div className="admin_active" id="header_admin">

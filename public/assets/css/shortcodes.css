@@ -3554,8 +3554,6 @@ section.today-picks {
 
 /* author-tab -----------------------------------------*/
 .tab-authors .author-profile {
-    background: url("../images/item-background/bg-authors.jpg") no-repeat center;
-    background-size: cover;
     -webkit-border-radius: 12px 12px 0 0;
     -ms-border-radius: 12px 12px 0 0;
     -o-border-radius: 12px 12px 0 0;
@@ -3566,8 +3564,6 @@ section.today-picks {
 }
 
 .is_dark .tab-authors .author-profile {
-    background: url("../images/item-background/bg-authors2.jpg") no-repeat center;
-    background-size: cover;
     -webkit-border-radius: 12px 12px 0 0;
     -ms-border-radius: 12px 12px 0 0;
     -o-border-radius: 12px 12px 0 0;

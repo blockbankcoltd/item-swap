@@ -9,7 +9,6 @@ function NFTTokenIds(props) {
     const NFTCollections = getCollectionsByChain(chainId);
     return (
         <Fragment>
-
             <section className="tf-section today-pick">
                 <div className="themesflat-container">
                     <div className="row">
@@ -18,11 +17,11 @@ function NFTTokenIds(props) {
                                 <h2 className="tf-title pad-l-7">
                                     Today's Picks
                                 </h2>
-                                <Link to="/explore-03" className="exp style2">EXPLORE MORE</Link>
+                                <Link to="/explore-game" className="exp style2">EXPLORE MORE</Link>
                             </div>
                         </div>
                         {
-                            NFTCollections?.map((nft, index) => (
+                            NFTCollections?.slice(0, 8).map((nft, index) => (
                                 <div key={index} className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
                                     <div className={`sc-card-product`} onClick={() => {
                                         navigate.push(`items/${nft?.addrs}`);

@@ -10,6 +10,13 @@ export const networkCollections = {
     },
     {
       image:
+        "https://static-nft.pancakeswap.com/mainnet/0x8e311dB45B55DF68b7C1C8D01888a4C43986c60F/avatar.png",
+      name: "Degen Ape Club",
+      addrs: "0x8e311dB45B55DF68b7C1C8D01888a4C43986c60F",
+      item: '10'
+    },
+    {
+      image:
         "https://ipfs.moralis.io:2053/ipfs/QmfLbpeVHxReWKNLaXTPcWiafi49eoAL4gRwMGuXtx2Eqe/images/14.png",
       name: "Pixel Show",
       addrs: "0xCA34404dD8Bd6537BE76F3A51B379F8949bD7973",

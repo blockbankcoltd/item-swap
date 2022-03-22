@@ -25,7 +25,6 @@ const App = ({ isServerInfo }) => {
       enableWeb3({ provider: connectorId });
   }, [isAuthenticated, isWeb3Enabled]);
 
-  console.log('aa', useParams());
   return (
     <Router>
       <Switch>

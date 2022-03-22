@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom'
 function NFTTokenIds(props) {
     let navigate = useHistory();
     const { chainId, contractABI } = useMoralisDapp();
+    console.log('asxzxz', useMoralisDapp());
     const NFTCollections = getCollectionsByChain(chainId);
     return (
         <Fragment>

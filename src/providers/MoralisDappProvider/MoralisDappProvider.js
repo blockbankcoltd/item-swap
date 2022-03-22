@@ -4,7 +4,6 @@ import MoralisDappContext from "./context";
 
 function MoralisDappProvider({ children }) {
   const { web3, Moralis, user, provider } = useMoralis();
-  console.log('weeb', useMoralis());
   const [walletAddress, setWalletAddress] = useState();
   const [chainId, setChainId] = useState();
   const [contractABI, setContractABI] = useState('{"noContractDeployed": true}'); //Smart Contract ABI here

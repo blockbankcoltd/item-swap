@@ -20,6 +20,7 @@ const CreateItem = () => {
   const [itemDescription, setItemDescription] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [itemFile, setItemFile] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [metaDataUrl, setMetaDataUrl] = useState(null);
 
   const abi = [
@@ -270,7 +271,7 @@ const CreateItem = () => {
 
   const handleFileInputChange = (e) => {
     let file = e.target.files[0];
-
+    setSelectedImage(file);
     getBase64(file)
       .then((result) => {
         setItemFile(result);
@@ -390,41 +391,45 @@ const CreateItem = () => {
               <div className="sc-card-product">
                 <div className="card-media">
                   <Link to="/item-details-01">
-                    <img src={img1} alt="Axies" />
+                    <img
+                      src={
+                        selectedImage
+                          ? URL.createObjectURL(selectedImage)
+                          : img1
+                      }
+                      alt="Axies"
+                    />
                   </Link>
-                  <Link to="/login" className="wishlist-button heart">
+                  {/* <Link to="/login" className="wishlist-button heart">
                     <span className="number-like"> 100</span>
-                  </Link>
-                  <div className="featured-countdown">
+                  </Link> */}
+                  {/* <div className="featured-countdown">
                     <span className="slogan"></span>
                     <Countdown date={Date.now() + 500000000}>
                       <span>You are good to go!</span>
                     </Countdown>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="card-title">
                   <h5>
-                    <Link to="/item-details-01">"Cyber Doberman #766”</Link>
+                    <Link to="/item-details-01">{itemName}</Link>
                   </h5>
                   <div className="tags">bsc</div>
                 </div>
                 <div className="meta-info">
                   <div className="author">
-                    <div className="avatar">
+                    {/* <div className="avatar">
                       <img src={avt} alt="Axies" />
-                    </div>
+                    </div> */}
                     <div className="info">
-                      <span>Owned By</span>
-                      <h6>
-                        {" "}
-                        <Link to="/author-02">Freddie Carpenter</Link>
-                      </h6>
+                      <span>Description</span>
+                      <h6>{itemDescription}</h6>
                     </div>
                   </div>
-                  <div className="price">
+                  {/* <div className="price">
                     <span>Current Bid</span>
                     <h5> 4.89 ETH</h5>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="card-bottom">
                   <Link
@@ -500,6 +505,7 @@ const CreateItem = () => {
                               <div
                                 onClick={() => handleCreateItem()}
                                 className="sc-button fl-button pri-3 float-right"
+                                disabled={isFetching}
                               >
                                 <span>Create</span>
                               </div>

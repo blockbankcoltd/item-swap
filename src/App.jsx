@@ -45,8 +45,8 @@ const App = ({ isServerInfo }) => {
         <Route path="/1inch">
           <Trade chain="eth" />
         </Route>
-        <Route path="/erc20balance">
-          <ERC20Balance />
+        <Route path="/bulkUpload">
+          <BulkUpload />
         </Route>
         <Route path="/test">
           <Test />

@@ -5,12 +5,13 @@ import Account from "components/Account/Account";
 import Chains from "../../components/Chains";
 // import menus from "../../pages/menu";
 import DarkMode from "./DarkMode";
-import logoheader from "../../assets/images/logo/logo.png";
-import logoheader2x from "../../assets/images/logo/logo@2x.png";
-import logodark from "../../assets/images/logo/logo_dark.png";
-import logodark2x from "../../assets/images/logo/logo_dark@2x.png";
+import logoheader from "../../assets/images/logo/source/3_Horizontal_light_mode.png";
+import logoheader2x from "../../assets/images/logo/source/3_Horizontal_light_mode.png";
+import logodark from "../../assets/images/logo/source/3_Horizontal_light_mode.png";
+import logodark2x from "../../assets/images/logo/source/3_Horizontal_light_mode.png";
 import imgsun from "../../assets/images/icon/sun.png";
 import avt from "../../assets/images/avatar/avt-2.jpg";
+import { ReactComponent as HorizontalLogo } from "../../assets/images/logo/source/3_Horizontal light mode.svg";
 
 const menus = [
   {
@@ -20,8 +21,8 @@ const menus = [
   },
   {
     id: 2,
-    name: 'Game',
-    links: 'explore-game',
+    name: "Game",
+    links: "explore-game",
   },
   {
     id: 3,
@@ -32,11 +33,6 @@ const menus = [
     id: 4,
     name: "Lottery",
     links: "/lottery",
-  },
-  {
-    id: 5,
-    name: "Win",
-    links: "/",
   },
 ];
 
@@ -119,8 +115,9 @@ const Header = () => {
                       <li
                         key={index}
                         onClick={() => handleOnClick(index)}
-                        className={`menu-item ${data.namesub ? "menu-item-has-children" : ""
-                          } ${activeIndex === index ? "active" : ""} `}
+                        className={`menu-item ${
+                          data.namesub ? "menu-item-has-children" : ""
+                        } ${activeIndex === index ? "active" : ""} `}
                       >
                         <Link to={data.links}>{data.name}</Link>
                         {data.namesub && (

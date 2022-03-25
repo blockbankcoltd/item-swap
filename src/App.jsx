@@ -23,9 +23,12 @@ import CreateItem from "views/CreateItem";
 import Lottery from "views/lottery";
 import Test from "views/Test";
 import BulkUpload from "views/BulkUpload";
+
+
+
+
 const App = ({ isServerInfo }) => {
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
-    useMoralis();
+  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } = useMoralis();
 
   useEffect(() => {
     const connectorId = window.localStorage.getItem("connectorId");
@@ -33,12 +36,41 @@ const App = ({ isServerInfo }) => {
       enableWeb3({ provider: connectorId });
   }, [isAuthenticated, isWeb3Enabled]);
 
+  const { loginUser } = false;
+
+  const AuthRoute = ({ authUser, component: Component, ...rest }) => {
+    if (authUser) {
+      console.log('asasa');
+    }
+    return (
+      <Route
+        {...rest}
+        render={(props) =>
+          authUser ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/lottery",
+              }}
+            />
+          )
+        }
+      />
+    );
+  };
+
   return (
     <Router>
       <Switch>
         <Route exact path="/">
           <Home />
         </Route>
+        <AuthRoute
+          authUser={loginUser ? loginUser : null}
+          path="/explore-game"
+          component={() => <Game />}
+        />
         <Route path="/wallet">
           <Wallet />
         </Route>
@@ -51,9 +83,9 @@ const App = ({ isServerInfo }) => {
         <Route path="/test">
           <Test />
         </Route>
-        <Route exact path="/explore-game">
+        {/* <Route exact path="/explore-game">
           <Game />
-        </Route>
+        </Route> */}
         <Route exact path="/items/:nftAddress">
           <Items />
         </Route>

@@ -175,8 +175,18 @@ const BulkUpload = () => {
                 },
               },
             )
-            .then((res) => {
+            .then(async (res) => {
               console.log("metadata", res);
+              for (let i = 0; i < res.data.length; i++) {
+                let itemData = {
+                  game: "DemoGame",
+                  name: itemName,
+                  description: itemDescription,
+                  metaDataFilePath: res.data[i].path,
+                };
+                await save(itemData);
+                console.log(itemData);
+              }
             })
             .catch((err) => {
               console.log(err);

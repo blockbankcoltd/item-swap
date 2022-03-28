@@ -189,13 +189,13 @@ function Lottery() {
     useEffect(() => {
 
         async function fetchMyAPI() {
-            enableWeb3();
-            if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
-            console.log("isWeb3Enabled", isWeb3Enabled)
+            // enableWeb3();
+            // if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
+            console.log("isWeb3Enabled", isWeb3Enabled, isWeb3EnableLoading, isAuthenticated)
             updateState()
 
         }
-
+        if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
         fetchMyAPI()
 
     }, [])
@@ -333,13 +333,25 @@ function Lottery() {
                 params: {
                     from: address,
                     value: '15000000000000000',
-                    gas: 300000,
-                    gasPrice: null
+                    // gas: 300000,
+                    // gasPrice: null
                 }
             };
 
-            await fetch({ params: options });
-            updateState()
+            await fetch({
+                params: options, onSuccess: (res1) => {
+                    console.log("res1", res1)
+
+                    alert("success")
+                },
+                onError: (err) => {
+                    console.log("Error", err)
+
+                    // alert("Error", err)
+
+                }
+            });
+            // updateState()
         } catch (err) {
             setError(err.message)
         }

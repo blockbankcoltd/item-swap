@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Header from "../layout/header";
-import Footer from "../layout/footer";
+import Header from "../../layout/header";
+import Footer from "../../layout/footer";
 import Countdown from "react-countdown";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import img1 from "../assets/images/box-item/image-box-6.jpg";
-import avt from "../assets/images/avatar/avt-9.jpg";
+import img1 from "../../assets/images/box-item/image-box-6.jpg";
+import avt from "../../assets/images/avatar/avt-9.jpg";
 import {
   useMoralis,
   useMoralisFile,

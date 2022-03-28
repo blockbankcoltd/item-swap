@@ -19,16 +19,15 @@ import Home from "./views/home";
 import Game from "./views/game";
 import Items from "./views/items";
 
-import CreateItem from "views/CreateItem";
+import CreateItem from "views/admin/CreateItem";
 import Lottery from "views/lottery";
 import Test from "views/Test";
-import BulkUpload from "views/BulkUpload";
-
-
-
+import BulkUpload from "views/admin/BulkUpload";
+import StoreNftAddress from "views/admin/StoreNftAddress";
 
 const App = ({ isServerInfo }) => {
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } = useMoralis();
+  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
+    useMoralis();
 
   useEffect(() => {
     const connectorId = window.localStorage.getItem("connectorId");
@@ -36,11 +35,11 @@ const App = ({ isServerInfo }) => {
       enableWeb3({ provider: connectorId });
   }, [isAuthenticated, isWeb3Enabled]);
 
-  const { loginUser } = false;
+  const loginUser = true;
 
   const AuthRoute = ({ authUser, component: Component, ...rest }) => {
     if (authUser) {
-      console.log('asasa');
+      console.log("asasa");
     }
     return (
       <Route
@@ -71,35 +70,38 @@ const App = ({ isServerInfo }) => {
           path="/explore-game"
           component={() => <Game />}
         />
+        <AuthRoute
+          authUser={loginUser ? loginUser : null}
+          path="/admin/createItem"
+          component={() => <CreateItem />}
+        />
+        <AuthRoute
+          authUser={loginUser ? loginUser : null}
+          path="/admin/bulkUpload"
+          component={() => <BulkUpload />}
+        />
+        <AuthRoute
+          authUser={loginUser ? loginUser : null}
+          path="/admin/addCollection"
+          component={() => <StoreNftAddress />}
+        />
         <Route path="/wallet">
           <Wallet />
         </Route>
         <Route path="/1inch">
           <Trade chain="eth" />
         </Route>
-        <Route path="/bulkUpload">
-          <BulkUpload />
-        </Route>
         <Route path="/test">
           <Test />
         </Route>
-        {/* <Route exact path="/explore-game">
-          <Game />
-        </Route> */}
         <Route exact path="/items/:nftAddress">
           <Items />
         </Route>
         <Route path="/wallet">
           <Wallet />
         </Route>
-        {/* <Route path="/contract">
-          <Contract />
-        </Route> */}
         <Route path="/lottery">
           <Lottery />
-        </Route>
-        <Route path="/createItem">
-          <CreateItem />
         </Route>
         <Route path="/">
           <Redirect to="/quickstart" />

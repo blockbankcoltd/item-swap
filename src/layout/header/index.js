@@ -29,11 +29,11 @@ const menus = [
     name: "Trade",
     links: "/1inch",
   },
-  {
-    id: 4,
-    name: "Lottery",
-    links: "/lottery",
-  },
+  // {
+  //   id: 4,
+  //   name: "Lottery",
+  //   links: "/lottery",
+  // },
 ];
 
 const Header = () => {

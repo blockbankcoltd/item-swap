@@ -1,8 +1,8 @@
-import { useMoralis } from "react-moralis";
+import { useMoralis, useMoralisQuery } from "react-moralis";
 import { getEllipsisTxt } from "helpers/formatters";
 import Blockie from "../Blockie";
 import { Button, Card, Modal } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Address from "../Address/Address";
 import { SelectOutlined } from "@ant-design/icons";
 import { getExplorer } from "helpers/networks";
@@ -50,7 +50,35 @@ function Account() {
     useMoralis();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAuthModalVisible, setIsAuthModalVisible] = useState(false);
+  // localStorage.setItem("iaAdminLoggedIn", false);
 
+  const {
+    data: adminWalletAddress,
+    error,
+    isLoading,
+  } = useMoralisQuery(
+    "Admin",
+    (query) => {
+      return query.descending("createdAt");
+    },
+    [account],
+  );
+  useEffect(() => {
+    setTimeout(() => {
+      if (account) {
+        if (
+          adminWalletAddress[0].attributes.walletAddress.toString() ==
+          account.toString()
+        ) {
+          localStorage.setItem("isAdminLoggedIn", true);
+        }
+      } else {
+        localStorage.setItem("isAdminLoggedIn", false);
+      }
+    }, 2000);
+  }, [adminWalletAddress]);
+
+  if (account) localStorage.setItem("walletAddress", account);
   if (!isAuthenticated || !account) {
     return (
       <>
@@ -114,7 +142,6 @@ function Account() {
       </>
     );
   }
-
   return (
     <>
       {/* <button
@@ -201,6 +228,7 @@ function Account() {
           onClick={async () => {
             await logout();
             window.localStorage.removeItem("connectorId");
+            localStorage.setItem("isAdminLoggedIn", false);
             setIsModalVisible(false);
           }}
         >

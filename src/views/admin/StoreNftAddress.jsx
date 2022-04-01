@@ -23,7 +23,7 @@ const StoreNftAddress = () => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
   const { error, isUploading, moralisFile, saveFile } = useMoralisFile();
-  const { isSaving, error: objError, save } = useNewMoralisObject("games");
+  const { isSaving, error: objError, save } = useNewMoralisObject("Games");
 
   const {
     data,
@@ -38,9 +38,8 @@ const StoreNftAddress = () => {
     error: queryError,
     isLoading: queryIsLoading,
   } = useMoralisQuery(
-    "games",
+    "Games",
     (query) => {
-      console.log(fetchCollection);
       return query.descending("createdAt").equalTo("status", "ACTIVE");
     },
 
@@ -61,7 +60,6 @@ const StoreNftAddress = () => {
     let collectionObj = queryResult.filter(
       (result) => result.attributes.collectionAddress == collection,
     );
-    console.log(collectionObj[0]);
     collectionObj[0].set("status", "DELETED");
     await collectionObj[0].save();
     setFetchCollection(fetchCollection + 1);
@@ -85,6 +83,17 @@ const StoreNftAddress = () => {
     if (!nftAddress)
       return setNftAddressError("Collection address is required!");
 
+    let isAlreadyExist = queryResult.filter(
+      (result) => result.attributes.collectionAddress == nftAddress,
+    );
+
+    if (isAlreadyExist.length > 0) {
+      setNftAddressError("Collection already exist");
+      setTimeout(() => {
+        return setNftAddressError("");
+      }, 5000);
+      return;
+    }
     let collectionData = {
       collectionAddress: nftAddress,
       status: "ACTIVE",
@@ -93,6 +102,9 @@ const StoreNftAddress = () => {
     await save(collectionData);
     setNftAddress("");
     setSuccessMsg("Collection added successfully.");
+    setTimeout(() => {
+      setSuccessMsg("");
+    }, 5000);
     setFetchCollection(fetchCollection + 1);
     console.log("Success", queryResult);
   };
@@ -134,19 +146,15 @@ const StoreNftAddress = () => {
                       />
                       <small style={{ color: "red" }}>{nftAddressError}</small>
                       <small style={{ color: "green" }}>{successMsg}</small>
-                      <div className="row-form style-12">
+                      <div className="row-form style-12 mt-3">
                         <div className="inner-row-form">
                           <div
-                            className="sc-btn-top mg-r-12 mt-4"
-                            id="site-header"
+                            onClick={() => handleCreateItem()}
+                            style={{ cursor: "pointer" }}
+                            className="sc-button fl-button pri-3 float-right"
+                            disabled={isFetching}
                           >
-                            <div
-                              onClick={() => handleCreateItem()}
-                              className="sc-button fl-button pri-3 float-right"
-                              disabled={isFetching}
-                            >
-                              <span>Create</span>
-                            </div>
+                            <span>Create</span>
                           </div>
                         </div>
                       </div>

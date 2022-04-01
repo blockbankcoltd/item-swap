@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import {
   BrowserRouter as Router,
@@ -28,14 +28,20 @@ import StoreNftAddress from "views/admin/StoreNftAddress";
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
+    JSON.parse(localStorage.getItem("isAdminLoggedIn")),
+  );
+  // console.log(1, isAdminLoggedIn);
 
   useEffect(() => {
+    setIsAdminLoggedIn(JSON.parse(localStorage.getItem("isAdminLoggedIn")));
+    // console.log(2, isAdminLoggedIn);
     const connectorId = window.localStorage.getItem("connectorId");
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)
       enableWeb3({ provider: connectorId });
   }, [isAuthenticated, isWeb3Enabled]);
 
-  const loginUser = true;
+  const loginUser = false;
 
   const AuthRoute = ({ authUser, component: Component, ...rest }) => {
     if (authUser) {
@@ -59,29 +65,51 @@ const App = ({ isServerInfo }) => {
     );
   };
 
+  const AdminAuthRoute = ({ authUser, component: Component, ...rest }) => {
+    if (authUser) {
+      console.log("asasa");
+    }
+    return (
+      <Route
+        {...rest}
+        render={(props) =>
+          authUser ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/",
+              }}
+            />
+          )
+        }
+      />
+    );
+  };
+
   return (
     <Router>
       <Switch>
         <Route exact path="/">
           <Home />
         </Route>
-        <AuthRoute
-          authUser={loginUser ? loginUser : null}
+        <AdminAuthRoute
+          authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
           path="/explore-game"
           component={() => <Game />}
         />
-        <AuthRoute
-          authUser={loginUser ? loginUser : null}
+        <AdminAuthRoute
+          authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
           path="/admin/createItem"
           component={() => <CreateItem />}
         />
-        <AuthRoute
-          authUser={loginUser ? loginUser : null}
+        <AdminAuthRoute
+          authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
           path="/admin/bulkUpload"
           component={() => <BulkUpload />}
         />
-        <AuthRoute
-          authUser={loginUser ? loginUser : null}
+        <AdminAuthRoute
+          authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
           path="/admin/addCollection"
           component={() => <StoreNftAddress />}
         />

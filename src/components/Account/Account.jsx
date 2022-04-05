@@ -66,9 +66,12 @@ function Account() {
   useEffect(() => {
     setTimeout(() => {
       if (account) {
+        console.log("hello", adminWalletAddress);
         if (
+          adminWalletAddress &&
+          adminWalletAddress[0] &&
           adminWalletAddress[0].attributes.walletAddress.toString() ==
-          account.toString()
+            account.toString()
         ) {
           localStorage.setItem("isAdminLoggedIn", true);
         }

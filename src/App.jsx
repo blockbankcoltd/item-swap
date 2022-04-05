@@ -24,6 +24,7 @@ import Lottery from "views/lottery";
 import Test from "views/Test";
 import BulkUpload from "views/admin/BulkUpload";
 import StoreNftAddress from "views/admin/StoreNftAddress";
+import CreateRaribleMarket from "views/admin/CreateRaribleMarket";
 
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
@@ -67,7 +68,7 @@ const App = ({ isServerInfo }) => {
 
   const AdminAuthRoute = ({ authUser, component: Component, ...rest }) => {
     if (authUser) {
-      console.log("asasa");
+      console.log("asasa", authUser);
     }
     return (
       <Route
@@ -112,6 +113,11 @@ const App = ({ isServerInfo }) => {
           authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
           path="/admin/addCollection"
           component={() => <StoreNftAddress />}
+        />
+        <AdminAuthRoute
+          authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
+          path="/admin/createRaribleMarket"
+          component={() => <CreateRaribleMarket />}
         />
         <Route path="/wallet">
           <Wallet />

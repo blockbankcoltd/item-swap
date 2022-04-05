@@ -12,8 +12,9 @@ import {
   useMoralisQuery,
   useWeb3ExecuteFunction,
 } from "react-moralis";
+import SuccessModal from "components/SuccessModal";
 
-const StoreNftAddress = () => {
+const CollectionAddress = () => {
   const [nftAddress, setNftAddress] = useState("");
   const [nftAddressError, setNftAddressError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -124,21 +125,17 @@ const StoreNftAddress = () => {
     console.log("Success", queryResult);
   };
 
+  // if (successMsg) alert("Hi");
+
   return (
-    <div className="create-item">
-      <Header />
-      <section className="flat-title-page inner">
-        <div className="overlay"></div>
-        <div className="themesflat-container">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="page-title-heading mg-bt-12">
-                <h1 className="heading text-center">Collections</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div>
+      {successMsg && (
+        <SuccessModal
+          show={true}
+          title="Collection added successfully"
+          description="Rarible collection address added successfully"
+        />
+      )}
       <div className="tf-create-item tf-section">
         <div className="themesflat-container">
           <div className="row">
@@ -241,9 +238,8 @@ const StoreNftAddress = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
 
-export default StoreNftAddress;
+export default CollectionAddress;

@@ -101,7 +101,7 @@ function OpenSea() {
 		<>
 			<Flex sx={{ margin: 3 }}>
 				<Box p="2">
-					<Heading size="md">Moralis OpenSea</Heading>
+					<Heading size="md"> OpenSea</Heading>
 				</Box>
 				<Spacer />
 				<Box>

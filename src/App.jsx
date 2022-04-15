@@ -25,6 +25,8 @@ import Test from "views/Test";
 import BulkUpload from "views/admin/BulkUpload";
 import StoreNftAddress from "views/admin/StoreNftAddress";
 import CreateRaribleMarket from "views/admin/CreateRaribleMarket";
+import CreateOpenSeaMarket from "views/admin/CreateOpenSeaMarket";
+import ItemList from "views/admin/ItemList";
 
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
@@ -118,6 +120,16 @@ const App = ({ isServerInfo }) => {
           authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
           path="/admin/createRaribleMarket"
           component={() => <CreateRaribleMarket />}
+        />
+        <AdminAuthRoute
+          authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
+          path="/admin/createOpenSeaMarket"
+          component={() => <CreateOpenSeaMarket />}
+        />
+        <AdminAuthRoute
+          authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
+          path="/admin/itemList"
+          component={() => <ItemList />}
         />
         <Route path="/wallet">
           <Wallet />

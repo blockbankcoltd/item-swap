@@ -28,6 +28,10 @@ contract MorarableToken is ERC721 {
         return newItemId;
     }
 
+    function currentId() public view returns (uint256) {
+        return _tokenIds.current();
+    }
+
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
 

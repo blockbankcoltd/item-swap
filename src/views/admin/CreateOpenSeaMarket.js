@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, Table } from "react-bootstrap";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import CollectionAddress from "components/CreateItem/Rarible/CollectionAddress";
-import RaribleLazyMint from "components/CreateItem/Rarible/RaribleLazyMint";
+import AddOpenSeaCollection from "components/CreateItem/OpenSea/Index";
 import Header from "../../layout/header";
 import Footer from "../../layout/footer";
 import "react-tabs/style/react-tabs.css";
@@ -16,7 +15,7 @@ import {
   useWeb3ExecuteFunction,
 } from "react-moralis";
 
-const CreateRaribleMarket = () => {
+const CreateOpenSeaMarket = () => {
   return (
     <div className="create-item">
       <Header />
@@ -26,7 +25,7 @@ const CreateRaribleMarket = () => {
           <div className="row">
             <div className="col-md-12">
               <div className="page-title-heading mg-bt-12">
-                <h1 className="heading text-center">Rarible </h1>
+                <h1 className="heading text-center">OpenSea </h1>
               </div>
             </div>
           </div>
@@ -37,25 +36,7 @@ const CreateRaribleMarket = () => {
           <div className="row">
             <div className="col-xl-12 col-lg-12 col-md-12 col-12">
               <div className="form-create-item">
-                <div className="flat-tabs tab-create-item">
-                  <Tabs>
-                    <TabList>
-                      <Tab>
-                        <span className="icon-fl-tag"></span>Collection Address
-                      </Tab>
-                      <Tab>
-                        <span className="icon-fl-clock"></span>Lazy Mint
-                      </Tab>
-                    </TabList>
-
-                    <TabPanel>
-                      <CollectionAddress />
-                    </TabPanel>
-                    <TabPanel>
-                      <RaribleLazyMint />
-                    </TabPanel>
-                  </Tabs>
-                </div>
+                <AddOpenSeaCollection />
               </div>
             </div>
           </div>
@@ -66,4 +47,4 @@ const CreateRaribleMarket = () => {
   );
 };
 
-export default CreateRaribleMarket;
+export default CreateOpenSeaMarket;

@@ -1255,6 +1255,25 @@ a {
   letter-spacing: 0.1px !important;
 }
 
+h5{
+  color: var(--primary-color2) !important;
+}
+
+.color-change{
+  color: var(--primary-color2) !important;
+}
+
+h3.heading {
+  text-decoration: none !important;
+  color: var(--primary-color2) !important;
+  -webkit-transition: all 0.3s ease-in-out !important;
+  -moz-transition: all 0.3s ease-in-out !important;
+  -ms-transition: all 0.3s ease-in-out !important;
+  -o-transition: all 0.3s ease-in-out !important;
+  transition: all 0.3s ease-in-out !important;
+  letter-spacing: 0.1px !important;
+}
+
 a:hover,
 a:focus {
   color: var(--primary-color3);
@@ -1334,6 +1353,8 @@ a:focus {
   --bg-section2: #f8f8f8;
   --primary-color8: #7a798a;
   --primary-color9: #7a798a;
+  --today-pick: #F2F3FB;
+  --card-bg: #ffffff;
 }
 
 .is_dark {
@@ -1343,10 +1364,12 @@ a:focus {
   --primary-color5: #030303;
   --primary-color6: #ffffff;
   --primary-color7: #343444;
-  --bg-section: #14141f;
+  --bg-section: #000000;
   --bg-section2: #14141f;
   --primary-color8: #fff;
   --primary-color9: #8a8aa0;
+  --today-pick: #000000;
+  --card-bg: radial-gradient(circle at 50% -70%, #280395 25%, #120d23 50%, #120d23 75%, #120d23 75%) padding-box, linear-gradient(180deg, rgb(0, 0, 255, 0) 0%, rgb(255, 255, 255, 0.15) 99%) border-box;
 }
 
 /* Header
@@ -1516,7 +1539,7 @@ header {
 
 .flat-search-btn {
   display: flex;
-  padding: 12px 0;
+  padding: 17px 0;
   position: absolute;
   right: 15px;
   top: 0;
@@ -1571,6 +1594,15 @@ header {
 }
 
 .main-nav > ul > li > a {
+  position: relative;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #000 !important;
+  padding-right: 15.5px;
+}
+
+.is_dark .main-nav > ul > li > a {
   position: relative;
   font-size: 18px;
   line-height: 26px;
@@ -2080,7 +2112,7 @@ header {
   width: 100%;
   box-shadow: 1px 1px 5px 0px rgb(0 0 0 / 30%);
   z-index: 9999;
-  background: linear-gradient(227.3deg, #8a208c 0%, #181b81 100.84%);
+  background: #ffffff;
   border: none;
   opacity: 1;
   -webkit-transition: all 0.5s ease;
@@ -2535,8 +2567,8 @@ header {
 
 /* widget-subcribe */
 .widget-subcribe {
-  padding-top: 17px;
-  padding-left: 20px;
+  /* padding-top: 17px;
+  padding-left: 20px; */
 }
 
 .widget-subcribe .title-widget {
@@ -2550,19 +2582,20 @@ header {
 
 .widget-subcribe .form-subcribe form {
   position: relative;
+  margin: 0 5px;
 }
 
 .widget-subcribe .form-subcribe input {
-  border-radius: 10px;
+  border-radius: 25px;
   background: #f8f8f8;
   width: 100%;
-  padding: 13px 50px 12px 22px;
+  padding: 7px 50px 8px 22px;
   font-size: 14px;
   border: 1px solid rgba(138, 138, 160, 0.3);
 }
 
 .is_dark .widget-subcribe .form-subcribe input {
-  background: transparent;
+  background: #1c1c1c;
 }
 
 .widget-subcribe .form-subcribe input:focus {
@@ -2581,16 +2614,17 @@ header {
 }
 
 .widget-subcribe .form-subcribe button {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  /* border-top-right-radius: 10px; */
+  /* border-bottom-right-radius: 10px; */
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  border: 0;
   position: absolute;
   top: 0;
   right: 0;
-  background-color: var(--primary-color3);
+  background: linear-gradient(216.56deg, #00A3FF 5.32%, #0243EA 94.32%);
   font-size: 21px;
-  padding: 15px 18px 14px 19px;
+  padding: 6px 16px 6px 14px;
   color: var(--primary-color);
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -3312,4 +3346,14 @@ header {
 
 .sc-button.header-slider span.custom {
   padding-left: 5px;
+}
+
+.card-top-gradient{
+  background: #1367F2;
+  border-radius: 15px;
+  width: 150px;
+  height: 6px;
+  top: 0;
+  position: absolute;
+  left: 30%;
 }

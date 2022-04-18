@@ -9,11 +9,10 @@ import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import img1 from "../../assets/images/slider/slide_1.png";
 import imgbg1 from "../../assets/images/slider/bg_slide_1.png";
-import shape1 from "../../assets/images/backgroup-secsion/bg-gradient1.png";
-import shape2 from "../../assets/images/backgroup-secsion/bg-gradient2.png";
-import shape3 from "../../assets/images/backgroup-secsion/bg-gradient3.png";
-import imgbg from "../../assets/images/backgroup-secsion/img_bg_page_title.jpg";
 import TodayPick from "./todayPick";
+import Line_Background from "../../assets/images/item-background/Line_Background.png";
+import Dot_right from "../../assets/images/item-background/Dot_Right.png";
+import Dot_left from "../../assets/images/item-background/Dot_Left.png";
 
 const FAQ = () => {
   return (
@@ -25,14 +24,14 @@ const FAQ = () => {
         navigation
         scrollbar={{ draggable: true }}
       >
-        <SwiperSlide>
+        <SwiperSlide className="center">
           <div
             className="flat-title-page"
-            style={{ backgroundImage: `url(${imgbg})` }}
+          // style={{ backgroundImage: `url(${imgbg})` }}
           >
-            <img className="bgr-gradient gradient1" src={shape1} alt="Axies" />
-            <img className="bgr-gradient gradient2" src={shape2} alt="Axies" />
-            <img className="bgr-gradient gradient3" src={shape3} alt="Axies" />
+            <img className="bgr-gradient gradient1" src={Dot_left} alt="Axies" />
+            <img className="bgr-gradient gradient2" src={Dot_right} alt="Axies" />
+            <img className="bgr-gradient gradient3" src={Line_Background} alt="Axies" />
             <div className="shape item-w-16"></div>
             <div className="shape item-w-22"></div>
             <div className="shape item-w-32"></div>
@@ -48,13 +47,13 @@ const FAQ = () => {
                     <div className="themesflat-container ">
                       <div className="wrap-heading flat-slider flex">
                         <div className="content">
-                          <h2 className="heading">Discover, Games,</h2>
+                          <h2 className="heading">EXPLORE & STUNNING</h2>
                           <h1 className="heading mb-style">
                             <span className="tf-text s1">
-                              Invest early for high returns,
+                              P2E NFT GAMES
                             </span>
                           </h1>
-                          <h1 className="heading">Earn and Win</h1>
+                          <h1 className="heading">MARKETPLACE</h1>
                           {/* <p className="sub-heading">
                             Marketplace for monster character cllections non
                             fungible token NFTs
@@ -81,8 +80,95 @@ const FAQ = () => {
           </div>
         </SwiperSlide>
       </Swiper>
+
+      <section className="tf-box-icon create style1 tf-section">
+        <div className="themesflat-container">
+          <div className="row">
+            <div className='col-lg-6 col-md-6 col-12 d-flex align-items-center'>
+              <div className="sc-box-icon">
+                <h3 className="heading">Get all the amazing art of the world in itemswap</h3>
+                {/* <p className="content">{props.item.description}</p> */}
+              </div>
+            </div>
+            <div className='col-lg-3 col-md-6 col-12'>
+              <div className="sc-box-icon">
+                <div className="image">
+                  <div className={`icon-create`}>
+                    <img src={require('../../assets/images/icon/lock.png')} alt="" />
+                  </div>
+                </div>
+                <h3 className="heading"><Link to="/wallet-connect">Excrypted Security</Link></h3>
+                <p className="content">We have well encypted and safe security system from the name theft:</p>
+              </div>
+            </div>
+            <div className='col-lg-3 col-md-6 col-12'>
+              <div className="sc-box-icon">
+                <div className="image">
+                  <div className={`icon-create`}>
+                    <img src={require('../../assets/images/icon/timer.png')} alt="" />
+                  </div>
+                </div>
+                <h3 className="heading"><Link to="/wallet-connect">Rapid Trasactions</Link></h3>
+                <p className="content">We have flow of purchase transaction that are no complicated, It’s rapid</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <TodayPick />
-    </Layout>
+
+      <section className="tf-box-icon create1 style1 tf-section">
+        <div className="themesflat-container">
+          <div className="row">
+            <div className='col-lg-3 col-md-6 col-12'>
+              <div className="sc-box-icon sc-box-bg">
+                <div className="image">
+                  <div className={`icon-create sc-box-header-box`}>
+                    <i className="fa fa-wallet"></i>
+                  </div>
+                </div>
+                <h3 className="heading"><Link to="/wallet-connect">SET-UP YOUR WALLET</Link></h3>
+                <p className="content">Wallet that is functional for NFT purchasing. You may have a Coinbase account at this point, but very few are actually set up to buy an NFT.</p>
+              </div>
+            </div>
+            <div className='col-lg-3 col-md-6 col-12'>
+              <div className="sc-box-icon sc-box-bg">
+                <div className="image">
+                  <div className={`icon-create sc-box-header-box`}>
+                    <i className="fa fa-clipboard-list"></i>
+                  </div>
+                </div>
+                <h3 className="heading"><Link to="/wallet-connect">CREATE YOUR COLLECTION</Link></h3>
+                <p className="content">Setting up your NFT collection and creating NFTs on NFTs is easy! This guide explains how to set up your first collection</p>
+              </div>
+            </div>
+            <div className='col-lg-3 col-md-6 col-12'>
+              <div className="sc-box-icon sc-box-bg">
+                <div className="image">
+                  <div className={`icon-create sc-box-header-box`}>
+                    <i className="fa fa-cart-plus"></i>
+                  </div>
+                </div>
+                <h3 className="heading"><Link to="/wallet-connect">ADD YOUR NFTs</Link></h3>
+                <p className="content">Sed ut perspiciatis un de omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem.</p>
+              </div>
+            </div>
+            <div className='col-lg-3 col-md-6 col-12'>
+              <div className="sc-box-icon sc-box-bg">
+                <div className="image">
+                  <div className={`icon-create sc-box-header-box`}>
+                    <i className="fa fa-business-time"></i>
+                  </div>
+                </div>
+                <h3 className="heading"><Link to="/wallet-connect">LIST THEM FOR SALE</Link></h3>
+                <p className="content">Choose between auctions, fixed-price listings, and declining-price listings. You choose how you want to sell your NFTs!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Layout >
   );
 };
 

@@ -417,7 +417,7 @@
   .header_2 #main-nav>ul>li {
     float: left;
     padding: 5px 13px 5px 13px;
-}
+  }
   .header_1.header_2.style2 {
     height: 80px !important;
   }
@@ -1027,7 +1027,7 @@
   .tf-section.top-seller,
   .tf-section.top-seller.home3.s2,
   .tf-section.live-auctions.pad-b-74 {
-    padding: 70px 0px;
+    padding: 150px 0px;
   }
   .home-1 .tf-section.live-auctions {
     padding: 77px 0 0px;
@@ -1120,7 +1120,7 @@
   }
 
   .mainslider .flat-slider .heading{
-    font-size: 54px;
+    font-size: 35px;
   }
 
   .mainslider .flat-slider .heading.mb-style{

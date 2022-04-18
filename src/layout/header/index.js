@@ -5,10 +5,8 @@ import Account from "components/Account/Account";
 import Chains from "../../components/Chains";
 // import menus from "../../pages/menu";
 import DarkMode from "./DarkMode";
-import logoheader from "../../assets/images/logo/source/3_Horizontal_light_mode.png";
-import logoheader2x from "../../assets/images/logo/source/3_Horizontal_light_mode.png";
-import logodark from "../../assets/images/logo/source/3_Horizontal_light_mode.png";
-import logodark2x from "../../assets/images/logo/source/3_Horizontal_light_mode.png";
+import logoheader from "../../assets/images/logo/source/LOGO.png";
+import logodark from "../../assets/images/logo/source/Logo_dark.png";
 import imgsun from "../../assets/images/icon/sun.png";
 import avt from "../../assets/images/avatar/avt-2.jpg";
 import { ReactComponent as HorizontalLogo } from "../../assets/images/logo/source/3_Horizontal light mode.svg";
@@ -88,15 +86,15 @@ const Header = () => {
                       <img
                         className="logo-dark"
                         id="logo_header"
-                        src={logodark}
-                        srcSet={`${logodark2x}`}
+                        src={logoheader}
+                        srcSet={`${logoheader}`}
                         alt="nft-gaming"
                       />
                       <img
                         className="logo-light"
                         id="logo_header"
-                        src={logoheader}
-                        srcSet={`${logoheader2x}`}
+                        src={logodark}
+                        srcSet={`${logodark}`}
                         alt="nft-gaming"
                       />
                     </Link>
@@ -115,9 +113,8 @@ const Header = () => {
                       <li
                         key={index}
                         onClick={() => handleOnClick(index)}
-                        className={`menu-item ${
-                          data.namesub ? "menu-item-has-children" : ""
-                        } ${activeIndex === index ? "active" : ""} `}
+                        className={`menu-item ${data.namesub ? "menu-item-has-children" : ""
+                          } ${activeIndex === index ? "active" : ""} `}
                       >
                         <Link to={data.links}>{data.name}</Link>
                         {data.namesub && (
@@ -140,8 +137,32 @@ const Header = () => {
                     ))}
                   </ul>
                 </nav>
+
                 <div className="flat-search-btn flex">
-                  <div className="header-search flat-show-search" id="s1">
+                  <div className="widget widget-subcribe">
+                    <div className="form-subcribe">
+                      <form
+                        id="subscribe-form"
+                        action="#"
+                        method="GET"
+                        acceptCharset="utf-8"
+                        className="form-submit"
+                      >
+                        <input
+                          name="email"
+                          className="email"
+                          type="email"
+                          placeholder="Search"
+                          required
+                        />
+                        <button id="submit" name="submit" type="submit">
+                          <i className="fa fa-search" style={{ color: '#fff' }}></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  {/* <div className="header-search flat-show-search" id="s1">
                     <Link
                       to="#"
                       className="show-search header-search-trigger"
@@ -174,7 +195,7 @@ const Header = () => {
                         </button>
                       </form>
                     </div>
-                  </div>
+                  </div> */}
                   {/* <TokenPrice
                     address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
                     chain="eth"

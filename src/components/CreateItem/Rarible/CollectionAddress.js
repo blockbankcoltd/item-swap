@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, Table } from "react-bootstrap";
-import Header from "../../layout/header";
-import Footer from "../../layout/footer";
+import Header from "../../../layout/header";
+import Footer from "../../../layout/footer";
 import "react-tabs/style/react-tabs.css";
-import "../../customStyle.css";
+import "../../../customStyle.css";
 import {
   useMoralis,
   useMoralisFile,
@@ -112,6 +112,7 @@ const CollectionAddress = () => {
     }
     let collectionData = {
       collectionAddress: nftAddress,
+      market: "rarible",
       status: "ACTIVE",
       isActive: true,
     };

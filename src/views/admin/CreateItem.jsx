@@ -7,6 +7,8 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import img1 from "../../assets/images/box-item/image-box-6.jpg";
 import avt from "../../assets/images/avatar/avt-9.jpg";
+import { marketplaceContractAbi } from "components/ABI/marketplaceContractAbi";
+import { tokenContractAbi } from "components/ABI/tokenContractAbi";
 import {
   useMoralis,
   useMoralisFile,
@@ -23,213 +25,18 @@ const CreateItem = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [metaDataUrl, setMetaDataUrl] = useState(null);
 
-  const abi = [
-    { inputs: [], stateMutability: "nonpayable", type: "constructor" },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "approved",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "Approval",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "operator",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "bool",
-          name: "approved",
-          type: "bool",
-        },
-      ],
-      name: "ApprovalForAll",
-      type: "event",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "to", type: "address" },
-        { internalType: "uint256", name: "tokenId", type: "uint256" },
-      ],
-      name: "approve",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "string", name: "uri", type: "string" }],
-      name: "createItem",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "from", type: "address" },
-        { internalType: "address", name: "to", type: "address" },
-        { internalType: "uint256", name: "tokenId", type: "uint256" },
-      ],
-      name: "safeTransferFrom",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "from", type: "address" },
-        { internalType: "address", name: "to", type: "address" },
-        { internalType: "uint256", name: "tokenId", type: "uint256" },
-        { internalType: "bytes", name: "_data", type: "bytes" },
-      ],
-      name: "safeTransferFrom",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "operator", type: "address" },
-        { internalType: "bool", name: "approved", type: "bool" },
-      ],
-      name: "setApprovalForAll",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        { indexed: true, internalType: "address", name: "to", type: "address" },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "Transfer",
-      type: "event",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "from", type: "address" },
-        { internalType: "address", name: "to", type: "address" },
-        { internalType: "uint256", name: "tokenId", type: "uint256" },
-      ],
-      name: "transferFrom",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "address", name: "owner", type: "address" }],
-      name: "balanceOf",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
-      name: "getApproved",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        { internalType: "address", name: "owner", type: "address" },
-        { internalType: "address", name: "operator", type: "address" },
-      ],
-      name: "isApprovedForAll",
-      outputs: [{ internalType: "bool", name: "", type: "bool" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      name: "Items",
-      outputs: [
-        { internalType: "uint256", name: "id", type: "uint256" },
-        { internalType: "address", name: "creator", type: "address" },
-        { internalType: "string", name: "uri", type: "string" },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "name",
-      outputs: [{ internalType: "string", name: "", type: "string" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
-      name: "ownerOf",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "bytes4", name: "interfaceId", type: "bytes4" }],
-      name: "supportsInterface",
-      outputs: [{ internalType: "bool", name: "", type: "bool" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "symbol",
-      outputs: [{ internalType: "string", name: "", type: "string" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
-      name: "tokenURI",
-      outputs: [{ internalType: "string", name: "", type: "string" }],
-      stateMutability: "view",
-      type: "function",
-    },
-  ];
-  const contractAddress = "0x7DaC127997a70455166702310560E089b650d1B2";
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
-    useMoralis();
+  const tokenContractAddress = "0x1C225EefcBAE6a58D8Db62f50EF150D7655e4bbb";
+  const marketPlaceContractAddress =
+    "0x8f023B9D73924260b901AcDa7f3Be179680e4366";
+  const {
+    Moralis,
+    web3,
+    isWeb3Enabled,
+    enableWeb3,
+    isAuthenticated,
+    isWeb3EnableLoading,
+    user,
+  } = useMoralis();
   const { error, isUploading, moralisFile, saveFile } = useMoralisFile();
   const { isSaving, error: objError, save } = useNewMoralisObject("Item");
 
@@ -248,6 +55,8 @@ const CreateItem = () => {
     isFetching,
     isLoading,
   } = useWeb3ExecuteFunction();
+
+  const { runContractFunction } = useWeb3Contract();
 
   // Convert File to Base64
   const getBase64 = (file) => {
@@ -292,6 +101,32 @@ const CreateItem = () => {
   }, [isAuthenticated, isWeb3Enabled, itemName, itemFile]);
 
   const handleCreateItem = async () => {
+    // const options11 = {
+    //   address: tokenContractAddress.toLowerCase(),
+    //   token_id: 60,
+    //   chain: "rinkeby",
+    // };
+    // const NFTowners = await Moralis.Web3API.token.getNFTOwners(options11);
+    // const queryResults = NFTowners.result.filter(
+    //   (x) =>
+    //     x.token_address == tokenContractAddress.toLowerCase() &&
+    //     x.token_id == 60,
+    // );
+    // //query.equalTo("token_address", request.object.get('tokenAddress'));
+    // //query.equalTo("token_id", request.object.get('tokenId'));
+    // const object = queryResults[0];
+    // console.log("object", NFTowners);
+    // // if (object) {
+    // //   const owner = object.owner_of;
+    // //   const userQuery = new Moralis.Query(Moralis.User);
+    // //   userQuery.equalTo("accounts", owner);
+    // //   const userObject = await userQuery.first({ useMasterKey: true });
+    // //   if (userObject) {
+    // //     request.object.set("user", userObject);
+    // //   }
+    // //   request.object.set("token", object);
+    // // }
+    // return;
     // console.log(itemFile);
     if (!itemFile) {
       alert("Please select a file!!");
@@ -340,19 +175,44 @@ const CreateItem = () => {
 
     // Contract Prameters
     const options = {
-      abi: abi,
-      contractAddress: contractAddress,
+      abi: tokenContractAbi,
+      contractAddress: tokenContractAddress,
       functionName: "createItem",
       params: {
         uri: nftFileMetaDataFilePath,
       },
     };
 
-    const nftId = await fetch({ params: options });
-    console.log(ethContractError);
-    console.log(options);
-    console.log(nftId);
-    console.log(data, isFetching, isLoading);
+    const transaction = await fetch({ params: options });
+    const receipt = await transaction.wait();
+    // console.log(options);
+    const nftId = parseInt(receipt.events[0].args.tokenId._hex, 16);
+    console.log("receipt", parseInt(receipt.events[0].args.tokenId._hex, 16));
+    await ensureMarketplaceIsApproved(nftId);
+
+    const setPriceOptions = {
+      abi: marketplaceContractAbi,
+      contractAddress: marketPlaceContractAddress,
+      functionName: "addItemToMarket",
+      params: {
+        tokenId: nftId,
+        tokenAddress: tokenContractAddress,
+        askingPrice: itemPrice,
+      },
+    };
+
+    const transaction1 = await fetch({
+      params: setPriceOptions,
+      onSuccess: (res1) => {
+        console.log("res5", res1);
+      },
+      onError: (err) => {
+        console.log("Error5", err);
+      },
+    });
+    const receipt1 = await transaction1.wait();
+    console.log("receipt1", receipt1);
+
     let itemData = {
       name: itemName,
       description: itemDescription,
@@ -361,11 +221,54 @@ const CreateItem = () => {
       metaDataFilePath: nftFileMetaDataFilePath,
       metaDataFileHash: nftFileMetaDataFileHash,
       nftId: nftId,
-      nftContractAddress: contractAddress,
+      nftContractAddress: tokenContractAddress,
     };
 
     await save(itemData);
     console.log("Success", itemData);
+  };
+
+  const ensureMarketplaceIsApproved = async (tokenId) => {
+    const userAddress = user;
+    // console.log("userAddress", user);
+    let options = {
+      abi: tokenContractAbi,
+      contractAddress: tokenContractAddress,
+      functionName: "getApproved",
+      params: { tokenId: tokenId },
+    };
+
+    let options1 = {
+      abi: tokenContractAbi,
+      contractAddress: tokenContractAddress,
+      functionName: "approve",
+      params: { to: marketPlaceContractAddress, tokenId: tokenId },
+    };
+
+    const approvedAddress = await fetch({
+      params: options,
+      onSuccess: (res1) => {
+        console.log("res1", res1);
+      },
+      onError: (err) => {
+        console.log("Error", err);
+      },
+    });
+    console.log("approved", approvedAddress);
+    if (approvedAddress != marketPlaceContractAddress) {
+      const result = await fetch({
+        params: options1,
+        onSuccess: (res1) => {
+          console.log("res2", res1);
+        },
+        onError: (err) => {
+          console.log("Error2", err);
+        },
+      });
+
+      const r = await result.wait();
+      console.log("r", r);
+    }
   };
 
   return (
@@ -378,6 +281,7 @@ const CreateItem = () => {
             <div className="col-md-12">
               <div className="page-title-heading mg-bt-12">
                 <h1 className="heading text-center">Create Item</h1>
+                {data && <pre>{JSON.stringify(data)}</pre>}
               </div>
             </div>
           </div>

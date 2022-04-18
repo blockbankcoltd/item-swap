@@ -113,11 +113,11 @@ const BulkUpload = () => {
     // });
   };
 
-  useEffect(() => {
-    if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
-    // console.log(itemName);
-    // console.log(itemFile);
-  }, [isAuthenticated, isWeb3Enabled, itemName, itemFile]);
+  // useEffect(() => {
+  //   if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
+  //   // console.log(itemName);
+  //   // console.log(itemFile);
+  // }, [isAuthenticated, isWeb3Enabled, itemName, itemFile]);
 
   const handleCreateItem = async () => {
     axios

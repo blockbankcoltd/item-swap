@@ -1,8 +1,7 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.1;
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 
 contract MorarableToken is ERC721 {
     using Counters for Counters.Counter;
@@ -26,10 +25,6 @@ contract MorarableToken is ERC721 {
         Items[newItemId] = Item(newItemId, msg.sender, uri);
 
         return newItemId;
-    }
-
-    function currentId() public view returns (uint256) {
-        return _tokenIds.current();
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {

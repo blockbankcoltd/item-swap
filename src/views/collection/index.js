@@ -9,88 +9,15 @@ import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import img1 from "../../assets/images/slider/slide_1.png";
 import imgbg1 from "../../assets/images/slider/bg_slide_1.png";
-import TodayPick from "./todayPick";
+import TodayPick from "../home/todayPick";
 import Line_Background from "../../assets/images/item-background/Line_Background.png";
 import Dot_right from "../../assets/images/item-background/Dot_Right.png";
 import Dot_left from "../../assets/images/item-background/Dot_Left.png";
 
-const FAQ = () => {
+const Collection = () => {
   return (
     <Layout>
-      <Swiper
-        modules={[Navigation, Scrollbar, A11y]}
-        spaceBetween={0}
-        slidesPerView={1}
-        navigation
-        scrollbar={{ draggable: true }}
-      >
-        <SwiperSlide className="center">
-          <div
-            className="flat-title-page"
-            // style={{ backgroundImage: `url(${imgbg})` }}
-          >
-            <img
-              className="bgr-gradient gradient1"
-              src={Dot_left}
-              alt="Axies"
-            />
-            <img
-              className="bgr-gradient gradient2"
-              src={Dot_right}
-              alt="Axies"
-            />
-            <img
-              className="bgr-gradient gradient3"
-              src={Line_Background}
-              alt="Axies"
-            />
-            <div className="shape item-w-16"></div>
-            <div className="shape item-w-22"></div>
-            <div className="shape item-w-32"></div>
-            <div className="shape item-w-48"></div>
-            <div className="shape style2 item-w-51"></div>
-            <div className="shape style2 item-w-51 position2"></div>
-            <div className="shape item-w-68"></div>
-            <div className="overlay"></div>
-            <div className="swiper-container mainslider home">
-              <div className="swiper-wrapper">
-                <div className="swiper-slide">
-                  <div className="slider-item">
-                    <div className="themesflat-container ">
-                      <div className="wrap-heading flat-slider flex">
-                        <div className="content">
-                          <h2 className="heading">EXPLORE & STUNNING</h2>
-                          <h1 className="heading mb-style">
-                            <span className="tf-text s1">P2E NFT GAMES</span>
-                          </h1>
-                          <h1 className="heading">MARKETPLACE</h1>
-                          {/* <p className="sub-heading">
-                            Marketplace for monster character cllections non
-                            fungible token NFTs
-                          </p> */}
-                          <div className="flat-bt-slider flex style2">
-                            <Link
-                              to="/explore-01"
-                              className="sc-button header-slider style style-1 rocket fl-button pri-1"
-                            >
-                              <span>Explore</span>
-                            </Link>
-                          </div>
-                        </div>
-                        <div className="image">
-                          <img className="img-bg" src={imgbg1} alt="axies" />
-                          <img src={img1} alt="axies" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-      </Swiper>
-
+      <div className="tf-section tf-item-details"></div>
       <section className="tf-box-icon create style1 tf-section">
         <div className="themesflat-container">
           <div className="row">
@@ -222,4 +149,4 @@ const FAQ = () => {
   );
 };
 
-export default FAQ;
+export default Collection;

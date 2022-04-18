@@ -27,6 +27,7 @@ import StoreNftAddress from "views/admin/StoreNftAddress";
 import CreateRaribleMarket from "views/admin/CreateRaribleMarket";
 import CreateOpenSeaMarket from "views/admin/CreateOpenSeaMarket";
 import ItemList from "views/admin/ItemList";
+import Collection from "views/collection";
 
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
@@ -95,6 +96,9 @@ const App = ({ isServerInfo }) => {
       <Switch>
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route exact path="/collection">
+          <Collection />
         </Route>
         <AdminAuthRoute
           authUser={isAdminLoggedIn ? isAdminLoggedIn : null}

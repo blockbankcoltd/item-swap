@@ -275,7 +275,7 @@ const CreateItem = () => {
     <div className="create-item">
       <Header />
       <section className="flat-title-page inner">
-        <div className="overlay"></div>
+        {/* <div className="overlay"></div> */}
         <div className="themesflat-container">
           <div className="row">
             <div className="col-md-12">

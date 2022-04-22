@@ -135,6 +135,9 @@ const App = ({ isServerInfo }) => {
           path="/admin/itemList"
           component={() => <ItemList />}
         />
+        <Route path="/explore-games">
+          <Game />
+        </Route>
         <Route path="/wallet">
           <Wallet />
         </Route>

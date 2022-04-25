@@ -27,7 +27,8 @@ const Games = () => {
         <SwiperSlide className="center">
           <div
             className="flat-title-page"
-            // style={{ backgroundImage: `url(${imgbg})` }}
+            style={{ paddingBottom:"20px" }}
+          // style={{ backgroundImage: `url(${imgbg})` }}
           >
             <img
               className="bgr-gradient gradient1"
@@ -68,16 +69,19 @@ const Games = () => {
                             Marketplace for monster character cllections non
                             fungible token NFTs
                           </p> */}
-                          <div className="flat-bt-slider flex style2">
+                          <div className="flex"
+                            style={{ justifyContent: "center" }}
+                          >
                             <Link
                               to="/explore-games"
-                              className="sc-button header-slider style style-1 fl-button pri-1"
+                              className="header-slider style style-1 fl-button pri-1"
                             >
-                                <img 
+                              <span>Powered by </span>
+                              <img
                                 src={"https://seeklogo.com/images/O/opensea-logo-7DE9D85D62-seeklogo.com.png"}
-                                width={30}
-                                />
-                              <span>OpenSea</span>
+                                width={20}
+                              />
+                              <span> OpenSea</span>
                             </Link>
                           </div>
                         </div>

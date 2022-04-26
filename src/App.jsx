@@ -31,13 +31,18 @@ import Collection from "views/collection";
 import OpenSea from "views/OpenSea";
 
 const App = ({ isServerInfo }) => {
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
+  const { isWeb3Enabled, enableWeb3, Moralis, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
   const isAdminLoggedIn = JSON.parse(localStorage.getItem("isAdminLoggedIn"));
   // const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
   //   JSON.parse(localStorage.getItem("isAdminLoggedIn")),
   // );
   // console.log(1, isAdminLoggedIn);
+
+  const APP_ID = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
+  const SERVER_URL = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
+
+  Moralis.start({ serverUrl:SERVER_URL, appId:APP_ID });
 
   useEffect(() => {
     // setIsAdminLoggedIn(JSON.parse(localStorage.getItem("isAdminLoggedIn")));

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useMoralisQuery, useMoralis } from "react-moralis";
 import { Accordion } from "react-bootstrap-accordion";
 import Layout from "../../layout";
 import { Navigation, Scrollbar, A11y } from "swiper";
@@ -13,8 +14,57 @@ import TodayPick from "./todayPick";
 import Line_Background from "../../assets/images/item-background/Line_Background.png";
 import Dot_right from "../../assets/images/item-background/Dot_Right.png";
 import Dot_left from "../../assets/images/item-background/Dot_Left.png";
+import LiveAuction from "./LiveAuction";
+import liveAuctionData from "assets/fake-data/data-live-auction";
+import PopularCollection from "components/UI/PopularCollection";
+import popularCollectionData from "assets/fake-data/data-popular-collection";
 
 const Home = () => {
+  const {
+    Moralis,
+    user,
+    logout,
+    authenticate,
+    enableWeb3,
+    isInitialized,
+    isAuthenticated,
+    isWeb3Enabled,
+  } = useMoralis();
+
+  const { fetch } = useMoralisQuery(
+    "Games",
+    (query) =>
+      query
+        .descending("createdAt")
+        .equalTo("status", "ACTIVE")
+        .descending("createdAt")
+        .limit(4),
+    [],
+    { autoFetch: false },
+  );
+
+  const getCollectionData = useCallback(async () => {
+    const collections = await fetch();
+    console.log("collectionss", collections);
+    // return;
+    if (collections && collections.length > 0) {
+      collections.forEach(async (collection, index) => {
+        let tokenAddress = collection.attributes.collectionAddress;
+        console.log(tokenAddress, collection);
+        const res = await Moralis.Plugins.opensea.getAsset({
+          network: "testnet",
+          tokenAddress: "0x27AF21619746A2AbB01d3056F971cDe936145939",
+          tokenId: "",
+        });
+        console.log(res);
+      });
+    }
+  }, []);
+  // console.log("Collections", collections);
+
+  useEffect(() => {
+    getCollectionData().catch(console.error);
+  }, [getCollectionData]);
   return (
     <Layout>
       <Swiper
@@ -145,6 +195,8 @@ const Home = () => {
       </section>
 
       <TodayPick />
+      <PopularCollection data={popularCollectionData} />
+      <LiveAuction data={liveAuctionData} />
 
       <section className="tf-box-icon create1 style1 tf-section">
         <div className="themesflat-container">

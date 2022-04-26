@@ -23,17 +23,17 @@ const OpenSea = () => {
   );
 
   const getAsset = async () => {
-    const options = {
-      address: "0x60e4d786628fea6478f785a6d7e704777c86a7c6",
-      chain: "eth",
-    };
-    const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
-    // const res = await Moralis.Plugins.opensea.getAsset({
-    //   network: "testnet",
-    //   tokenAddress: values.tokenAddress,
-    //   tokenId: values.tokenId,
-    // });
-    console.log(NFTs);
+    // const options = {
+    //   address: "0x60e4d786628fea6478f785a6d7e704777c86a7c6",
+    //   chain: "eth",
+    // };
+    // const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+    const res = await Moralis.Plugins.opensea.getAsset({
+      network: "testnet",
+      tokenAddress: values.tokenAddress,
+      tokenId: values.tokenId,
+    });
+    console.log(res);
   };
 
   //   useEffect(() => {

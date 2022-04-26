@@ -4,7 +4,7 @@ import App from "./App";
 import { MoralisProvider } from "react-moralis";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import ScrollToTop from "./views/component/ScrollToTop";
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from "react-router-dom";
 import { MoralisDappProvider } from "./providers/MoralisDappProvider/MoralisDappProvider";
 import { configureStore } from "./redux/storeInitial";
 import { Provider } from "react-redux";

@@ -33,13 +33,14 @@ import OpenSea from "views/OpenSea";
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
-    JSON.parse(localStorage.getItem("isAdminLoggedIn")),
-  );
+  const isAdminLoggedIn = JSON.parse(localStorage.getItem("isAdminLoggedIn"));
+  // const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
+  //   JSON.parse(localStorage.getItem("isAdminLoggedIn")),
+  // );
   // console.log(1, isAdminLoggedIn);
 
   useEffect(() => {
-    setIsAdminLoggedIn(JSON.parse(localStorage.getItem("isAdminLoggedIn")));
+    // setIsAdminLoggedIn(JSON.parse(localStorage.getItem("isAdminLoggedIn")));
     // console.log(2, isAdminLoggedIn);
     const connectorId = window.localStorage.getItem("connectorId");
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading)

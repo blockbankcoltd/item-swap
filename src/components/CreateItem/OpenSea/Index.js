@@ -61,15 +61,25 @@ const AddOpenSeaCollection = () => {
     collectionObj[0].set("isActive", action);
     await collectionObj[0].save();
 
-    await Moralis.Plugins.rarible.lazyMint({
-      chain: "rinkeby",
-      userAddress: "0xaF2d6E51f39B9fF9862f5b991b2F1440513a26f9",
-      tokenType: "ERC1155",
-      tokenUri: "/ipfs/QmWLsBu6nS4ovaHbGAXprD1qEssJu4r5taQfB74sCG51tp",
-      supply: 100,
-      royaltiesAmount: 5,
-      // 0.05% royalty. Optional
-    });
+    // await Moralis.Plugins.rarible.lazyMint({
+    //   chain: "rinkeby",
+    //   userAddress: "0xaF2d6E51f39B9fF9862f5b991b2F1440513a26f9",
+    //   tokenType: "ERC1155",
+    //   tokenUri: "/ipfs/QmWLsBu6nS4ovaHbGAXprD1qEssJu4r5taQfB74sCG51tp",
+    //   supply: 100,
+    //   royaltiesAmount: 5,
+    //   // 0.05% royalty. Optional
+    // });
+  };
+
+  const handleIsHot = async (collection) => {
+    let collectionObj = queryResult.filter(
+      (result) => result.attributes.collectionAddress == collection,
+    );
+    let action = !collectionObj[0].attributes.isHot;
+    collectionObj[0].set("isHot", action);
+    let result = await collectionObj[0].save();
+    console.log("result", result);
   };
 
   const handleDelete = async (collection) => {
@@ -185,6 +195,7 @@ const AddOpenSeaCollection = () => {
                         Collection
                       </th>
                       <th className="tf-title">Status</th>
+                      <th className="tf-title">Is Hot</th>
                       <th className="tf-title">Is Active</th>
                       <th className="tf-title">Action</th>
                     </tr>
@@ -198,6 +209,21 @@ const AddOpenSeaCollection = () => {
                           </td>
                           <td className="tf-title text-left">
                             {result.attributes.status}
+                          </td>
+                          <td className="text-center">
+                            <label className="switch">
+                              <input
+                                type="checkbox"
+                                value={result.attributes.isHot}
+                                defaultChecked={result.attributes.isHot}
+                                onChange={() =>
+                                  handleIsHot(
+                                    result.attributes.collectionAddress,
+                                  )
+                                }
+                              />
+                              <span className="slider round"></span>
+                            </label>
                           </td>
                           <td className="text-center">
                             <label className="switch">

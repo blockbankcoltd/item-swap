@@ -20,6 +20,8 @@ import PopularCollection from "components/UI/PopularCollection";
 import popularCollectionData from "assets/fake-data/data-popular-collection";
 
 const Home = () => {
+  const [collectionData, setCollectionData] = useState([]);
+
   const {
     Moralis,
     user,
@@ -57,10 +59,22 @@ const Home = () => {
           tokenId: "",
         });
         console.log(res);
+        setCollectionData([
+          ...collectionData,
+          {
+            name: res.collection.name,
+            description: res.description,
+            owner: {
+              username: res.owner.user.username,
+              profileImage: res.owner.profile_img_url,
+            },
+            previewImage: res.imageUrlThumbnail,
+          },
+        ]);
       });
     }
   }, []);
-  // console.log("Collections", collections);
+  console.log("Collections", collectionData);
 
   useEffect(() => {
     getCollectionData().catch(console.error);
@@ -194,7 +208,7 @@ const Home = () => {
         </div>
       </section>
 
-      <TodayPick />
+      <TodayPick data={collectionData} />
       <PopularCollection data={popularCollectionData} />
       <LiveAuction data={liveAuctionData} />
 

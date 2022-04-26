@@ -6,6 +6,8 @@ import { AiOutlineHeart } from "react-icons/ai";
 import nft5 from "../../assets/images/nft/nft5.png";
 
 function NFTTokenIds(props) {
+  let data = props.data;
+  console.log("data", props.data);
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();
   console.log("asxzxz", useMoralisDapp());
@@ -23,7 +25,7 @@ function NFTTokenIds(props) {
                 </Link>
               </div>
             </div>
-            {NFTCollections?.slice(0, 8).map((nft, index) => (
+            {data?.slice(0, 8).map((nft, index) => (
               // <div key={index} className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
               //     <div className="sc-card-wrapper">
               //         <div className="card-top-gradient"></div>
@@ -47,14 +49,14 @@ function NFTTokenIds(props) {
                     <div className="d-flex align-items-center">
                       <img
                         className="sc-card-img"
-                        src="https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg"
+                        src={nft.owner.profileImage}
                       />
                       <div>
                         <p className="mb-0 gilroy-normal font-13 line-height creator">
                           Creator
                         </p>
                         <h5 className="gilroy-semibold font-15">
-                          Samson Frost
+                          {nft.owner.username}
                         </h5>
                       </div>
                     </div>
@@ -70,7 +72,7 @@ function NFTTokenIds(props) {
                     </div>
                   </div>
                   <br />
-                  <h5 className="gilroy-bold">Clone Micheno #2586</h5>
+                  <h5 className="gilroy-bold">{nft.name}</h5>
                   <br />
                   <div className="d-flex justify-content-between align-items-center">
                     <div>

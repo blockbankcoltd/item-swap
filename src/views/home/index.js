@@ -10,14 +10,10 @@ import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import img1 from "../../assets/images/slider/slide_1.png";
 import imgbg1 from "../../assets/images/slider/bg_slide_1.png";
-import TodayPick from "./todayPick";
 import Line_Background from "../../assets/images/item-background/Line_Background.png";
 import Dot_right from "../../assets/images/item-background/Dot_Right.png";
 import Dot_left from "../../assets/images/item-background/Dot_Left.png";
-import LiveAuction from "./LiveAuction";
-import liveAuctionData from "assets/fake-data/data-live-auction";
-import PopularCollection from "components/UI/PopularCollection";
-import popularCollectionData from "assets/fake-data/data-popular-collection";
+import List from "./List";
 
 const Home = () => {
   const {
@@ -30,6 +26,11 @@ const Home = () => {
     isAuthenticated,
     isWeb3Enabled,
   } = useMoralis();
+
+  const [newList, setNewlist] = useState([]);
+  const [popularList, setPopularlist] = useState([]);
+  const [hotList, setHotlist] = useState([]);
+
 
   const { fetch } = useMoralisQuery(
     "Games",
@@ -44,11 +45,17 @@ const Home = () => {
   );
 
   const getCollectionData = useCallback(async () => {
-    const collections = await fetch();
-    console.log("collectionss", collections);
-    // return;
+    console.log("sd12");
+
+    const collections = await fetch({
+      onSuccess: (result) => console.log(result),onError:(error) => console.log("err1",error)
+    });
+    console.log("sd12 collectionss", collections);
+
     if (collections && collections.length > 0) {
-      collections.forEach(async (collection, index) => {
+      let newAry = [];
+      for (let collection of collections) {
+
         let tokenAddress = collection.attributes.collectionAddress;
         console.log(tokenAddress, collection);
         const res = await Moralis.Plugins.opensea.getAsset({
@@ -56,15 +63,19 @@ const Home = () => {
           tokenAddress: "0x27AF21619746A2AbB01d3056F971cDe936145939",
           tokenId: "",
         });
-        console.log(res);
-      });
+
+        newAry.push(res)
+      }
+      setPopularlist(newAry);
     }
   }, []);
-  // console.log("Collections", collections);
 
   useEffect(() => {
+    console.log("sd");
     getCollectionData().catch(console.error);
-  }, [getCollectionData]);
+  }, []);
+
+
   return (
     <Layout>
       <Swiper
@@ -77,7 +88,7 @@ const Home = () => {
         <SwiperSlide className="center">
           <div
             className="flat-title-page"
-            // style={{ backgroundImage: `url(${imgbg})` }}
+          // style={{ backgroundImage: `url(${imgbg})` }}
           >
             <img
               className="bgr-gradient gradient1"
@@ -94,6 +105,7 @@ const Home = () => {
               src={Line_Background}
               alt="Axies"
             />
+
             <div className="shape item-w-16"></div>
             <div className="shape item-w-22"></div>
             <div className="shape item-w-32"></div>
@@ -194,9 +206,9 @@ const Home = () => {
         </div>
       </section>
 
-      <TodayPick />
-      <PopularCollection data={popularCollectionData} />
-      <LiveAuction data={liveAuctionData} />
+      <List title={"Popular NFTs"} data={popularList} />
+      <List title={"Hot Collection"} data={hotList} />
+      <List title={"New Release"} data={newList} />
 
       <section className="tf-box-icon create1 style1 tf-section">
         <div className="themesflat-container">

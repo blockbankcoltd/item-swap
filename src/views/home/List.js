@@ -12,8 +12,9 @@ import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 
-const LiveAuction = (props) => {
+const List = (props) => {
   const data = props.data;
+  const title = props.title;
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -24,8 +25,8 @@ const LiveAuction = (props) => {
           <div className="row">
             <div className="col-md-12">
               <div className="heading-live-auctions">
-                <h2 className="tf-title pb-20">New Release</h2>
-                <Link to="/explore-03" className="exp style2">
+                <h2 className="tf-title pb-20">{title}</h2>
+                <Link to="/games" className="exp style2">
                   EXPLORE MORE
                 </Link>
               </div>
@@ -52,8 +53,9 @@ const LiveAuction = (props) => {
                 pagination={{ clickable: true }}
                 scrollbar={{ draggable: true }}
               >
-                {data.slice(0, 7).map((item, index) => (
-                  <SwiperSlide key={index}>
+                {data && data.length > 0 ? data.map((item, index) => {
+                  console.log("uer", item)
+                  return <SwiperSlide key={index}>
                     <div className="swiper-container show-shadow carousel auctions">
                       <div className="swiper-wrapper">
                         <div className="swiper-slide">
@@ -63,14 +65,15 @@ const LiveAuction = (props) => {
                                 <div className="d-flex align-items-center">
                                   <img
                                     className="sc-card-img"
-                                    src="https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg"
+                                    src={item.owner.profile_img_url}
                                   />
                                   <div>
                                     <p className="mb-0 gilroy-normal font-13 line-height creator">
                                       Creator
                                     </p>
                                     <h5 className="gilroy-semibold font-15">
-                                      Samson Frost
+                                      {/* {item.owner.address} */}
+                                      {item.assetContract.tokenSymbol}
                                     </h5>
                                   </div>
                                 </div>
@@ -82,20 +85,20 @@ const LiveAuction = (props) => {
                               <div className="card img-div">
                                 <img
                                   style={{ borderRadius: "15px" }}
-                                  src={nft5}
+                                  src={item.assetContract.imageUrl}
                                 />
                                 <div className="history-btn">
                                   <button className="my-btn">
-                                    See History
+                                    View details
                                   </button>
                                 </div>
                               </div>
                               <br />
                               <h5 className="gilroy-bold">
-                                Clone Micheno #2586
+                                {item.assetContract.name}
                               </h5>
                               <br />
-                              <div className="d-flex justify-content-between align-items-center">
+                              {/* <div className="d-flex justify-content-between align-items-center">
                                 <div>
                                   <div
                                     className="mb-0 font-13 gilroy-normal"
@@ -122,14 +125,15 @@ const LiveAuction = (props) => {
                                     Bid
                                   </button>
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </SwiperSlide>
-                ))}
+                }
+                ) : <span style={{ color: "grey" }}>No Data</span>}
               </Swiper>
             </div>
           </div>
@@ -140,8 +144,8 @@ const LiveAuction = (props) => {
   );
 };
 
-LiveAuction.propTypes = {
+List.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default LiveAuction;
+export default List;

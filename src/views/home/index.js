@@ -14,7 +14,7 @@ import Line_Background from "../../assets/images/item-background/Line_Background
 import Dot_right from "../../assets/images/item-background/Dot_Right.png";
 import Dot_left from "../../assets/images/item-background/Dot_Left.png";
 
-const FAQ = () => {
+const Home = () => {
   return (
     <Layout>
       <Swiper
@@ -70,7 +70,7 @@ const FAQ = () => {
                           </p> */}
                           <div className="flat-bt-slider flex style2">
                             <Link
-                              to="/explore-01"
+                              to="/explore-games"
                               className="sc-button header-slider style style-1 rocket fl-button pri-1"
                             >
                               <span>Explore</span>
@@ -222,4 +222,4 @@ const FAQ = () => {
   );
 };
 
-export default FAQ;
+export default Home;

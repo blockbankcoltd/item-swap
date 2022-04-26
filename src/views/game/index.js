@@ -1,98 +1,107 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Accordion } from "react-bootstrap-accordion";
 import Layout from "../../layout";
-import { getCollectionsByChain } from "../../helpers/collections";
-import { useMoralisDapp } from "../../providers/MoralisDappProvider/MoralisDappProvider";
-import { Link, useHistory } from 'react-router-dom'
+import { Navigation, Scrollbar, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import "swiper/scss/navigation";
+import "swiper/scss/pagination";
+import img1 from "../../assets/images/slider/slide_1.png";
+import imgbg1 from "../../assets/images/slider/bg_slide_1.png";
+import TodayPick from "./todayPick";
+import Line_Background from "../../assets/images/item-background/Line_Background.png";
+import Dot_right from "../../assets/images/item-background/Dot_Right.png";
+import Dot_left from "../../assets/images/item-background/Dot_Left.png";
 
-const App = () => {
-    let navigate = useHistory();
-    const { chainId, contractABI } = useMoralisDapp();
-    const NFTCollections = getCollectionsByChain(chainId);
-    console.log('NFTCollections', NFTCollections);
-
-    const [visible, setVisible] = useState(4);
-    const showMoreItems = () => {
-        setVisible((prevValue) => prevValue + 4);
-    }
-    return (
-        <Layout>
-            <section className="flat-title-page inner">
-                <div className="overlay"></div>
-                <div className="themesflat-container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="page-title-heading mg-bt-12">
-                                <h1 className="heading text-center">Explore Games</h1>
-                            </div>
-                            <div className="breadcrumbs style2">
-                                <ul>
-                                    <li><Link to="/">Home</Link></li>
-                                    <li>Explore Games</li>
-                                </ul>
-                            </div>
+const Games = () => {
+  return (
+    <Layout>
+      <Swiper
+        modules={[Navigation, Scrollbar, A11y]}
+        spaceBetween={0}
+        slidesPerView={1}
+        navigation
+        scrollbar={{ draggable: true }}
+      >
+        <SwiperSlide className="center">
+          <div
+            className="flat-title-page"
+            style={{ paddingBottom:"20px" }}
+          // style={{ backgroundImage: `url(${imgbg})` }}
+          >
+            <img
+              className="bgr-gradient gradient1"
+              src={Dot_left}
+              alt="Axies"
+            />
+            <img
+              className="bgr-gradient gradient2"
+              src={Dot_right}
+              alt="Axies"
+            />
+            <img
+              className="bgr-gradient gradient3"
+              src={Line_Background}
+              alt="Axies"
+            />
+            <div className="shape item-w-16"></div>
+            <div className="shape item-w-22"></div>
+            <div className="shape item-w-32"></div>
+            <div className="shape item-w-48"></div>
+            <div className="shape style2 item-w-51"></div>
+            <div className="shape style2 item-w-51 position2"></div>
+            <div className="shape item-w-68"></div>
+            <div className="overlay1"></div>
+            <div className="swiper-container mainslider home">
+              <div className="swiper-wrapper">
+                <div className="swiper-slide">
+                  <div className="slider-item">
+                    <div className="themesflat-container ">
+                      <div className="wrap-heading flat-slider flex">
+                        <div className="content">
+                          {/* <h2 className="heading">EXPLORE & STUNNING</h2> */}
+                          <h1 className="heading mb-style">
+                            <span className="tf-text s1">GAME MARKETPLACE</span>
+                          </h1>
+                          {/* <h1 className="heading">MARKETPLACE</h1> */}
+                          {/* <p className="sub-heading">
+                            Marketplace for monster character cllections non
+                            fungible token NFTs
+                          </p> */}
+                          <div className="flex"
+                            style={{ justifyContent: "center" }}
+                          >
+                            <Link
+                              to="/explore-games"
+                              className="header-slider style style-1 fl-button pri-1"
+                            >
+                              <span>Powered by </span>
+                              <img
+                                src={"https://seeklogo.com/images/O/opensea-logo-7DE9D85D62-seeklogo.com.png"}
+                                width={20}
+                              />
+                              <span> OpenSea</span>
+                            </Link>
+                          </div>
                         </div>
+                        {/* <div className="image">
+                          <img className="img-bg" src={imgbg1} alt="axies" />
+                          <img src={img1} alt="axies" />
+                        </div> */}
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </section>
-            <section className="tf-section sc-explore-1">
-                <div className="themesflat-container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="wrap-box explore-1 flex mg-bt-40">
-                                <div className="seclect-box style-1">
-                                    <div id="item_category" className="dropdown">
-                                        <Link to="#" className="btn-selector nolink">All categories</Link>
-                                        <ul >
-                                            <li><span>Art</span></li>
-                                            <li className="active"><span>Music</span></li>
-                                            <li><span>Domain Names</span></li>
-                                            <li><span>Virtual World</span></li>
-                                            <li><span>Trading Cards</span></li>
-                                            <li><span>Sports</span></li>
-                                            <li><span>Utility</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="seclect-box style-2 box-right">
-                                    <div id="sort-by" className="dropdown">
-                                        <Link to="#" className="btn-selector nolink">Sort by</Link>
-                                        <ul >
-                                            <li><span>Top rate</span></li>
-                                            <li><span>Mid rate</span></li>
-                                            <li><span>Low rate</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {
-                            NFTCollections && NFTCollections.slice(0, visible).map((nft, index) => (
-                                <div key={index} className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-                                    <div className={`sc-card-product`} onClick={() => {
-                                        navigate.push(`items/${nft?.addrs}`);
-                                    }}>
-                                        <div className="card-media">
-                                            <Link><img src={nft?.image || "error"} alt="axies" /></Link>
-                                        </div>
-                                        <div className="card-title mb-0">
-                                            <h5 className="style2"><Link>{nft.name}</Link></h5>
-                                            <div className="tags1">Items - {nft?.item}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                        {
-                            NFTCollections && visible < NFTCollections.length &&
-                            <div className="col-md-12 wrap-inner load-more text-center">
-                                <Link to="#" id="load-more" className="sc-button loadmore fl-button pri-3" onClick={showMoreItems}><span>Load More</span></Link>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </section>
-        </Layout>
-    );
-}
+              </div>
+            </div>
+          </div>
+        </SwiperSlide>
+      </Swiper>
 
-export default App;
+      <TodayPick />
+    </Layout>
+  );
+};
+
+export default Games;

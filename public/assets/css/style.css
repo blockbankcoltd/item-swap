@@ -1020,6 +1020,10 @@ label.error {
   padding-left: 7px;
 }
 
+.pad-l-15 {
+  padding-left: 15px;
+}
+
 .pad-0-15 {
   padding: 0 15px;
 }
@@ -1353,8 +1357,22 @@ a:focus {
   --bg-section2: #f8f8f8;
   --primary-color8: #7a798a;
   --primary-color9: #7a798a;
+  --primary-color10: #02283f24;
+  --primary-color11: #ffffff;
+  --primary-border: 1px solid #14141f;
   --today-pick: #F2F3FB;
+  --light-text: #14141f;
   --card-bg: #ffffff;
+  --same-text : #ffffff;
+  --card-gredient-1: linear-gradient(180deg, #1367F257 -59%, #ffffff 58%, #ffffff 21%, #ffffff 75%);
+  --card-gredient-2: linear-gradient(180deg, #1367F257 -59%, #ffffff 58%, #ffffff 21%, #ffffff 75%);
+  --card-gredient-3: linear-gradient(180deg, #1367F257 -59%, #ffffff 58%, #ffffff 21%, #ffffff 75%);
+  --card-gredient-4: linear-gradient(180deg, #1367F257 -59%, #ffffff 58%, #ffffff 21%, #ffffff 75%);
+  --card-bg-1: radial-gradient(circle at 50% -70%, #ffffff 0%, #ffffff 0%) padding-box,
+  linear-gradient(180deg, rgb(0, 0, 255, 0) 0%, #08a5ea 99%) border-box;
+  --card-bg-2: radial-gradient(circle at 50% -70%, #08a5ea 25%, #ffffff00 50.52%) padding-box;
+  --border-right: 1px solid #019BFE;
+  --text-gredient-1 : -webkit-linear-gradient(90deg, #014CEB -89.62%, rgba(1, 76, 235, 0.84) 100%);
 }
 
 .is_dark {
@@ -1368,8 +1386,23 @@ a:focus {
   --bg-section2: #14141f;
   --primary-color8: #fff;
   --primary-color9: #8a8aa0;
+  --primary-color10: #1f1a2e;
+  --primary-color11: #120d23;
+  --primary-border: 1px solid #ffffff30;
   --today-pick: #000000;
-  --card-bg: radial-gradient(circle at 50% -70%, #280395 25%, #120d23 50%, #120d23 75%, #120d23 75%) padding-box, linear-gradient(180deg, rgb(0, 0, 255, 0) 0%, rgb(255, 255, 255, 0.15) 99%) border-box;
+  --light-text: #b0b6bc;
+  --same-text : #ffffff;
+  --card-gredient-1: linear-gradient(180deg, #280395 -59%, #120d23 58%, #120d23 21%, #120d23 75%);
+  --card-gredient-2: linear-gradient(171deg, #280395 -10%, #120d23 50%, #120d23 21%, #120d23 75%);
+  --card-gredient-3: linear-gradient(171deg, #280395 -10%, #120d23 50%, #120d23 21%, #120d23 75%);
+  --card-gredient-4: linear-gradient(171deg, #280395 -10%, #120d23 50%, #120d23 21%, #120d23 75%);
+  --card-bg: radial-gradient(circle at 50% -70%, #1367f2 25%, #120d23 50%, #120d23 75%, #120d23 75%) padding-box,
+  linear-gradient(180deg, rgb(0, 0, 255, 0) 0%, rgb(255, 255, 255, 0.15) 99%) border-box;
+  --card-bg-1: radial-gradient(circle at 50% -70%, #08a5ea 0%, #120d23 0%) padding-box,
+  linear-gradient(180deg, rgb(0, 0, 255, 0) 0%, rgb(255, 255, 255, 0.35) 99%) border-box;
+  --card-bg-2: radial-gradient(circle at 50% -70%, #08a5ea 25%, #ffffff00 50.52%) padding-box;
+  --border-right: 0;
+  --text-gredient-1 : -webkit-linear-gradient(90deg, #014CEB -89.62%, #FFFFFF 100%);
 }
 
 /* Header

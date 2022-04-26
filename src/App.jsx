@@ -28,6 +28,7 @@ import CreateRaribleMarket from "views/admin/CreateRaribleMarket";
 import CreateOpenSeaMarket from "views/admin/CreateOpenSeaMarket";
 import ItemList from "views/admin/ItemList";
 import Collection from "views/collection";
+import OpenSea from "views/OpenSea";
 
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
@@ -137,6 +138,9 @@ const App = ({ isServerInfo }) => {
         />
         <Route path="/wallet">
           <Wallet />
+        </Route>
+        <Route path="/openSea">
+          <OpenSea />
         </Route>
         <Route path="/1inch">
           <Trade chain="eth" />

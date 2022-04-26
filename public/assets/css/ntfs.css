@@ -10,6 +10,18 @@
   font-display: block;
 }
 
+/* @font-face {
+  font-family: 'gilroy-light';
+  src: url('../font/gilroy/Gilroy-Light.eot');
+  src: url('../font/gilroy/Gilroy-Light.eot') format('embedded-opentype'),
+    url('../font/gilroy/Gilroy-Light.eot.ttf') format('truetype'),
+    url('../font/gilroy/Gilroy-Light.eot.woff') format('woff');
+  font-weight: lighter;
+  font-style: lighter;
+  font-display: block;
+} */
+
+
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'nfts' !important;

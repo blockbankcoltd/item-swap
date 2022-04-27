@@ -6,6 +6,7 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import Countdown from "react-countdown";
 import CardModal from "./CardModal";
 import { AiOutlineHeart } from "react-icons/ai";
+import CollectionLoader from "components/Loader/CollectionLoader";
 import nft5 from "../../assets/images/nft/nft5.png";
 
 import "swiper/scss";
@@ -20,7 +21,7 @@ const List = (props) => {
 
   return (
     <Fragment>
-      <section className="tf-section live-auctions">
+      <section className="tf-section live-auctions pt-2">
         <div className="themesflat-container">
           <div className="row">
             <div className="col-md-12">
@@ -53,52 +54,54 @@ const List = (props) => {
                 pagination={{ clickable: true }}
                 scrollbar={{ draggable: true }}
               >
-                {data && data.length > 0 ? data.map((item, index) => {
-                  console.log("uer", item)
-                  return <SwiperSlide key={index}>
-                    <div className="swiper-container show-shadow carousel auctions">
-                      <div className="swiper-wrapper">
-                        <div className="swiper-slide">
-                          <div className="slider-item">
-                            <div className="p-3 sc-card-product">
-                              <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
-                                <div className="d-flex align-items-center">
-                                  <img
-                                    className="sc-card-img"
-                                    src={item.owner.profile_img_url}
-                                  />
-                                  <div>
-                                    <p className="mb-0 gilroy-normal font-13 line-height creator">
-                                      Creator
-                                    </p>
-                                    <h5 className="gilroy-semibold font-15">
-                                      {/* {item.owner.address} */}
-                                      {item.assetContract.tokenSymbol}
-                                    </h5>
+                {data && data.length > 0 ? (
+                  data.map((item, index) => {
+                    console.log("uer", item);
+                    return (
+                      <SwiperSlide key={index}>
+                        <div className="swiper-container show-shadow carousel auctions">
+                          <div className="swiper-wrapper">
+                            <div className="swiper-slide">
+                              <div className="slider-item">
+                                <div className="p-3 sc-card-product">
+                                  <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
+                                    <div className="d-flex align-items-center">
+                                      <img
+                                        className="sc-card-img"
+                                        src={item.owner.profile_img_url}
+                                      />
+                                      <div>
+                                        <p className="mb-0 gilroy-normal font-13 line-height creator">
+                                          Creator
+                                        </p>
+                                        <h5 className="gilroy-semibold font-15">
+                                          {/* {item.owner.address} */}
+                                          {item.assetContract.tokenSymbol}
+                                        </h5>
+                                      </div>
+                                    </div>
+                                    <div className="d-flex justify-content-end align-items-center likes">
+                                      <AiOutlineHeart className="font-14 icon me-1" />
+                                      <p className="font-13 m-0">3.5k</p>
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="d-flex justify-content-end align-items-center likes">
-                                  <AiOutlineHeart className="font-14 icon me-1" />
-                                  <p className="font-13 m-0">3.5k</p>
-                                </div>
-                              </div>
-                              <div className="card img-div">
-                                <img
-                                  style={{ borderRadius: "15px" }}
-                                  src={item.assetContract.imageUrl}
-                                />
-                                <div className="history-btn">
-                                  <button className="my-btn">
-                                    View details
-                                  </button>
-                                </div>
-                              </div>
-                              <br />
-                              <h5 className="gilroy-bold">
-                                {item.assetContract.name}
-                              </h5>
-                              <br />
-                              {/* <div className="d-flex justify-content-between align-items-center">
+                                  <div className="card img-div">
+                                    <img
+                                      style={{ borderRadius: "15px" }}
+                                      src={item.assetContract.imageUrl}
+                                    />
+                                    <div className="history-btn">
+                                      <button className="my-btn">
+                                        View details
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <br />
+                                  <h5 className="gilroy-bold">
+                                    {item.assetContract.name}
+                                  </h5>
+                                  <br />
+                                  {/* <div className="d-flex justify-content-between align-items-center">
                                 <div>
                                   <div
                                     className="mb-0 font-13 gilroy-normal"
@@ -126,14 +129,17 @@ const List = (props) => {
                                   </button>
                                 </div>
                               </div> */}
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                }
-                ) : <span style={{ color: "grey" }}>No Data</span>}
+                      </SwiperSlide>
+                    );
+                  })
+                ) : (
+                  <span style={{ color: "grey" }}>No Data</span>
+                )}
               </Swiper>
             </div>
           </div>

@@ -14,6 +14,7 @@ import Line_Background from "../../assets/images/item-background/Line_Background
 import Dot_right from "../../assets/images/item-background/Dot_Right.png";
 import Dot_left from "../../assets/images/item-background/Dot_Left.png";
 import List from "./List";
+import Loader from "./Loader";
 
 const Home = () => {
   const [collectionData, setCollectionData] = useState([]);
@@ -29,9 +30,9 @@ const Home = () => {
     isWeb3Enabled,
   } = useMoralis();
 
-  const [newList, setNewlist] = useState([]);
-  const [popularList, setPopularlist] = useState([]);
-  const [hotList, setHotlist] = useState([]);
+  const [newList, setNewlist] = useState(null);
+  const [popularList, setPopularlist] = useState(null);
+  const [hotList, setHotlist] = useState(null);
 
   const { fetch } = useMoralisQuery(
     "Games",
@@ -61,12 +62,29 @@ const Home = () => {
         console.log(tokenAddress, collection);
         const res = await Moralis.Plugins.opensea.getAsset({
           network: "testnet",
-          tokenAddress: "0x27AF21619746A2AbB01d3056F971cDe936145939",
+          tokenAddress: tokenAddress,
           tokenId: "",
         });
         newAry.push(res);
       }
+
+      newAry.forEach((arr) => {
+        collections.forEach((col) => {
+          if (arr.tokenAddress === col.attributes.collectionAddress) {
+            arr["isHot"] = col.attributes.isHot;
+          }
+        });
+      });
+
+      console.log(
+        "results",
+        newAry[0].tokenAddress,
+        collections[0].attributes.collectionAddress,
+        newAry,
+      );
       setPopularlist(newAry);
+      setNewlist(newAry);
+      setHotlist(newAry.filter((arr) => arr.isHot === false));
     }
   }, []);
 
@@ -134,7 +152,7 @@ const Home = () => {
                               to="/explore-games"
                               className="sc-button header-slider style style-1 rocket fl-button pri-1"
                             >
-                              <span>Explore</span>
+                              <span>Go to Market</span>
                             </Link>
                           </div>
                         </div>
@@ -205,9 +223,13 @@ const Home = () => {
         </div>
       </section>
 
-      <List title={"Popular NFTs"} data={popularList} />
-      <List title={"Hot Collection"} data={hotList} />
-      <List title={"New Release"} data={newList} />
+      {popularList ? (
+        <List title={"Popular NFTs"} data={popularList} />
+      ) : (
+        <Loader />
+      )}
+      {hotList ? <List title={"Hot Collection"} data={hotList} /> : <Loader />}
+      {newList ? <List title={"New Release"} data={newList} /> : <Loader />}
 
       <section className="tf-box-icon create1 style1 tf-section">
         <div className="themesflat-container">

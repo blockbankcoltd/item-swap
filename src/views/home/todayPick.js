@@ -25,7 +25,7 @@ function NFTTokenIds(props) {
                 </Link>
               </div>
             </div>
-            {data?.slice(0, 8).map((nft, index) => (
+            {NFTCollections?.slice(0, 8).map((nft, index) => (
               // <div key={index} className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
               //     <div className="sc-card-wrapper">
               //         <div className="card-top-gradient"></div>
@@ -47,17 +47,12 @@ function NFTTokenIds(props) {
                 <div className="p-3 sc-card-product">
                   <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
                     <div className="d-flex align-items-center">
-                      <img
-                        className="sc-card-img"
-                        src={nft.owner.profileImage}
-                      />
+                      <img className="sc-card-img" src={nft.image} />
                       <div>
                         <p className="mb-0 gilroy-normal font-13 line-height creator">
                           Creator
                         </p>
-                        <h5 className="gilroy-semibold font-15">
-                          {nft.owner.username}
-                        </h5>
+                        <h5 className="gilroy-semibold font-15">{nft.name}</h5>
                       </div>
                     </div>
                     <div className="d-flex justify-content-end align-items-center likes">

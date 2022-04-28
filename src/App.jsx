@@ -31,8 +31,13 @@ import Collection from "views/collection";
 import OpenSea from "views/OpenSea";
 
 const App = ({ isServerInfo }) => {
-  const { isWeb3Enabled, enableWeb3, Moralis, isAuthenticated, isWeb3EnableLoading } =
-    useMoralis();
+  const {
+    isWeb3Enabled,
+    enableWeb3,
+    Moralis,
+    isAuthenticated,
+    isWeb3EnableLoading,
+  } = useMoralis();
   const isAdminLoggedIn = JSON.parse(localStorage.getItem("isAdminLoggedIn"));
   // const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
   //   JSON.parse(localStorage.getItem("isAdminLoggedIn")),
@@ -42,7 +47,7 @@ const App = ({ isServerInfo }) => {
   const APP_ID = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
   const SERVER_URL = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
 
-  Moralis.start({ serverUrl:SERVER_URL, appId:APP_ID });
+  Moralis.start({ serverUrl: SERVER_URL, appId: APP_ID });
 
   useEffect(() => {
     // setIsAdminLoggedIn(JSON.parse(localStorage.getItem("isAdminLoggedIn")));
@@ -104,7 +109,7 @@ const App = ({ isServerInfo }) => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route exact path="/collection">
+        <Route exact path="/collection/:tokenAddress">
           <Collection />
         </Route>
         <AdminAuthRoute

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useMoralisQuery, useMoralis } from "react-moralis";
+import { Link, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap-accordion";
 import Layout from "../../layout";
 import { Navigation, Scrollbar, A11y } from "swiper";
@@ -23,10 +24,58 @@ import { BsBookmarkDash } from "react-icons/bs";
 import { FaEllipsisV } from "react-icons/fa";
 import { BiGridAlt, BiGrid, BiSliderAlt } from "react-icons/bi";
 import { FiSearch } from "react-icons/fi";
+import Items from "components/Items";
 
-const Collection = () => {
+const Collection = (props) => {
   //ACTIVE TAB
-  const [activeTab, setActiveTab] = useState(2);
+  const [activeTab, setActiveTab] = useState(1);
+  const [gameData, setGameData] = useState(null);
+  const [items, setItems] = useState(null);
+  const { tokenAddress } = useParams();
+  console.log("tokenAddress", tokenAddress);
+  const { Moralis } = useMoralis();
+
+  const getCollectionData = useCallback(async () => {
+    console.log("sd12");
+
+    const res = await Moralis.Plugins.opensea.getAsset({
+      network: "testnet",
+      tokenAddress: tokenAddress,
+      tokenId: "",
+    });
+
+    console.log("results", res);
+    setGameData(res);
+
+    const options = {
+      address: "0x27af21619746a2abb01d3056f971cde936145939",
+      chain: "rinkeby",
+    };
+    const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+
+    NFTs.result.length = 3;
+    console.log("NFTs", NFTs);
+    let arr = [];
+    for (let nft of NFTs.result) {
+      const options1 = {
+        address: nft.token_address,
+        token_id: nft.token_id,
+        chain: "rinkeby",
+      };
+      const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
+        options1,
+      );
+      arr.push(tokenIdMetadata);
+    }
+
+    console.log("tokenIdMetadata", arr);
+    setItems(arr);
+  }, []);
+
+  useEffect(() => {
+    console.log("sd");
+    getCollectionData().catch(console.error);
+  }, []);
 
   return (
     <Layout>
@@ -44,7 +93,7 @@ const Collection = () => {
                   <div>
                     <div className="d-flex align-items-center">
                       <h2 className="tf-title pad-l-15 mb-0 pb-1 gilroy-bold">
-                        Samson Frost
+                        {gameData.collection.name}
                       </h2>
                       <BsPatchCheckFill
                         className="text-golden mg-l-8"
@@ -53,7 +102,7 @@ const Collection = () => {
                     </div>
                     <div className="d-flex align-items-center">
                       <p className="content pad-l-15 mb-0 gilroy-normal">
-                        Created by @team_frost
+                        Created by @{gameData.owner.user.username}
                       </p>
                       <BsPatchCheckFill
                         className="text-info mg-l-8"
@@ -68,7 +117,7 @@ const Collection = () => {
                     <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
                       <div className="border-right">
                         <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          10.0k
+                          {gameData.collection.traitStats["Token ID"].max + 1}
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                           ITEMS
@@ -78,7 +127,7 @@ const Collection = () => {
                     <div className="flex-fill py-4 card-gredient-2">
                       <div className="border-right">
                         <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          5.5k
+                          {gameData.collection.stats.num_owners}
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                           OWNER
@@ -88,7 +137,7 @@ const Collection = () => {
                     <div className="flex-fill py-4 card-gredient-3">
                       <div className="border-right">
                         <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          27.68
+                          {gameData.collection.stats.floor_price}
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                           FLOOR PRICE
@@ -98,7 +147,9 @@ const Collection = () => {
                     <div className="flex-fill py-4 card-gredient-4 border-top-right-radius">
                       <div>
                         <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          267.8k
+                          {Math.round(
+                            gameData.collection.stats.total_volume * 10,
+                          ) / 10}
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                           VOLUME TRADED
@@ -112,12 +163,7 @@ const Collection = () => {
                   ></div>
                   <div className="collection-desc gilroy-normal">
                     <p className=" font-15">
-                      Samson starts with a collection of 10,000 avatars that
-                      give you membership access to The Garden: a corner of the
-                      internet where artists, builders, & web enthusiasts meet
-                      to create a decentralize future. holders receive access to
-                      exclusive drops, experiences, and more. Visit azuki.com
-                      for more details.
+                      {gameData.collection.description}
                     </p>
                   </div>
                 </div>
@@ -164,7 +210,7 @@ const Collection = () => {
                         alt="Axies"
                       />
                       <img className="dotted-pattern-bg-1" src={dotPattern} />
-                      <div class="bottom-left-text-overlay gilroy-bold font-18 text-white">
+                      <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
                         #2436
                       </div>
                     </div>
@@ -176,7 +222,7 @@ const Collection = () => {
                         className="border-radius-30"
                         alt="Axies"
                       />
-                      <div class="bottom-left-text-overlay gilroy-bold font-18 text-white">
+                      <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
                         #2436
                       </div>
                     </div>
@@ -188,7 +234,7 @@ const Collection = () => {
                         className="border-radius-30"
                         alt="Axies"
                       />
-                      <div class="bottom-left-text-overlay gilroy-bold font-18 text-white">
+                      <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
                         #2436
                       </div>
                     </div>
@@ -200,7 +246,7 @@ const Collection = () => {
                         className="border-radius-30"
                         alt="Axies"
                       />
-                      <div class="bottom-left-text-overlay gilroy-bold font-18 text-white">
+                      <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
                         #2436
                       </div>
                       <img className="dotted-pattern-bg-2" src={dotPattern} />
@@ -339,8 +385,8 @@ const Collection = () => {
       </section>
       {/* FOR MOBILE ONLY */}
 
-      <TodayPick />
-      <PopularCollection data={popularCollectionData} />
+      <Items data={items} />
+      {/* <PopularCollection data={popularCollectionData} /> */}
     </Layout>
   );
 };

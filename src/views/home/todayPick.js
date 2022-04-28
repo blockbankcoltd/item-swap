@@ -7,10 +7,10 @@ import nft5 from "../../assets/images/nft/nft5.png";
 
 function NFTTokenIds(props) {
   let data = props.data;
-  console.log("data", props.data);
+  // console.log("data", props.data);
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();
-  console.log("asxzxz", useMoralisDapp());
+  // console.log("asxzxz", useMoralisDapp());
   const NFTCollections = getCollectionsByChain(chainId);
   return (
     <Fragment>
@@ -43,7 +43,7 @@ function NFTTokenIds(props) {
               //     </div>
               // </div>
 
-              <div className="col-md-3 px-3 my-4">
+              <div className="col-md-3 px-3 my-4" key={index}>
                 <div className="p-3 sc-card-product">
                   <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
                     <div className="d-flex align-items-center">

@@ -17,8 +17,6 @@ import List from "./List";
 import Loader from "./Loader";
 
 const Home = () => {
-  const [collectionData, setCollectionData] = useState([]);
-
   const {
     Moralis,
     user,

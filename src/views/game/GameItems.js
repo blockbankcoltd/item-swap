@@ -19,9 +19,9 @@ function GameItems(props) {
             <div className="col-md-12">
               <div className="heading-live-auctions mg-bt-21">
                 <h2 className="tf-title pad-l-7">{props.title}</h2>
-                <Link to="/explore-game" className="exp style2">
+                {/* <Link to="/explore-game" className="exp style2">
                   EXPLORE MORE
-                </Link>
+                </Link> */}
               </div>
             </div>
             {data?.slice(0, 8).map((nft, index) => (

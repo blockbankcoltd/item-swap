@@ -29,6 +29,7 @@ import CreateOpenSeaMarket from "views/admin/CreateOpenSeaMarket";
 import ItemList from "views/admin/ItemList";
 import Collection from "views/collection";
 import OpenSea from "views/OpenSea";
+import Item from "views/item";
 
 const App = ({ isServerInfo }) => {
   const {
@@ -111,6 +112,9 @@ const App = ({ isServerInfo }) => {
         </Route>
         <Route exact path="/collection/:tokenAddress">
           <Collection />
+        </Route>
+        <Route exact path="/item/:tokenAddress/:tokenId">
+          <Item />
         </Route>
         <AdminAuthRoute
           authUser={isAdminLoggedIn ? isAdminLoggedIn : null}

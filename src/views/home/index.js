@@ -82,7 +82,7 @@ const Home = () => {
       );
       setPopularlist(newAry);
       setNewlist(newAry);
-      setHotlist(newAry.filter((arr) => arr.isHot === false));
+      setHotlist(newAry.filter((arr) => arr.isHot === true));
     }
   }, []);
 

@@ -30,7 +30,7 @@ import Title from "components/Loader/Title";
 import ItemsLoader from "components/Loader/ItemsLoader";
 import CollectionThumbnail from "components/Loader/CollectionThumbnail";
 
-const Collection = (props) => {
+const Item = (props) => {
   //ACTIVE TAB
   const [activeTab, setActiveTab] = useState(1);
   const [gameData, setGameData] = useState([]);
@@ -93,29 +93,41 @@ const Collection = (props) => {
               <div className="content-left ml-5 d-flex flex-column justify-content-between h-100">
                 {/* Author */}
                 {gameData.collection ? (
-                  <div className="d-flex justify-content-start align-items-center">
-                    <div>
-                      <img src={author} />
+                  <div>
+                    <div className="d-flex justify-content-start align-items-center mb-4">
+                      <div>
+                        <img
+                          style={{ width: "30px", borderRadius: "50%" }}
+                          src={author}
+                        />
+                      </div>
+                      <div>
+                        <div className="d-flex align-items-center">
+                          <p className="content pad-l-15 mb-0 gilroy-normal">
+                            Author Name
+                          </p>
+                          <BsPatchCheckFill
+                            className="text-golden mg-l-8"
+                            size={18}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="d-flex align-items-center">
-                        <h2 className="tf-title pad-l-15 mb-0 pb-1 gilroy-bold">
-                          {gameData.collection.name}
-                        </h2>
-                        <BsPatchCheckFill
-                          className="text-golden mg-l-8"
-                          size={32}
-                        />
+                    <div className="d-flex align-items-center">
+                      <h2 className="tf-title mb-0 pb-1 gilroy-bold">
+                        Author Name
+                      </h2>
+                    </div>
+                    <div className="d-flex align-items-center">
+                      <p className="content mb-0 gilroy-normal font-15">
+                        Owned by <span>@Author Name</span>
+                      </p>
+                    </div>
+                    <div className="d-flex justify-content-center mt-5 align-items-center">
+                      <div className="d-flex justify-content-center mt-5 align-items-center watchlist-btn me-3 w-50">
+                        <h4 className="mb-0">Highest Bid - 12.25ETH</h4>
                       </div>
-                      <div className="d-flex align-items-center">
-                        <p className="content pad-l-15 mb-0 gilroy-normal">
-                          Created by @{gameData.owner?.user.username}
-                        </p>
-                        <BsPatchCheckFill
-                          className="text-info mg-l-8"
-                          size={18}
-                        />
-                      </div>
+                      <div style={{ borderBottom: "2px solid #ccc" }} />
                     </div>
                   </div>
                 ) : (
@@ -128,9 +140,7 @@ const Collection = (props) => {
                     <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
                       <div className="border-right">
                         <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection
-                            ? gameData.collection.traitStats["Token ID"].max + 1
-                            : ""}
+                          1234
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                           ITEMS
@@ -140,7 +150,7 @@ const Collection = (props) => {
                     <div className="flex-fill py-4 card-gredient-2">
                       <div className="border-right">
                         <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection?.stats.num_owners}
+                          1234
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                           OWNER
@@ -150,7 +160,7 @@ const Collection = (props) => {
                     <div className="flex-fill py-4 card-gredient-3">
                       <div className="border-right">
                         <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection?.stats.floor_price}
+                          1234
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                           FLOOR PRICE
@@ -160,11 +170,7 @@ const Collection = (props) => {
                     <div className="flex-fill py-4 card-gredient-4 border-top-right-radius">
                       <div>
                         <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection
-                            ? Math.round(
-                                gameData.collection.stats.total_volume * 10,
-                              ) / 10
-                            : ""}
+                          1234
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                           VOLUME TRADED
@@ -179,7 +185,7 @@ const Collection = (props) => {
                   <div className="collection-desc gilroy-normal">
                     <p className=" font-15">
                       {gameData.collection ? (
-                        gameData.collection.description
+                        "Description"
                       ) : (
                         <GameDescription />
                       )}
@@ -222,54 +228,18 @@ const Collection = (props) => {
               <div className="content-right">
                 {gameData.collection ? (
                   <div className="row">
-                    <div className="col-6 px-3 ps-5">
+                    <div className="col-6 px-3 ps-5 w-100">
                       <div className="media" style={{ position: "relative" }}>
                         <img
                           src={nft1}
-                          className="border-radius-30"
+                          className="border-radius-30 w-100"
                           alt="Axies"
                         />
                         <img className="dotted-pattern-bg-1" src={dotPattern} />
-                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #2436
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 px-3 mb-4 pe-5">
-                      <div className="media" style={{ position: "relative" }}>
-                        <img
-                          src={nft2}
-                          className="border-radius-30"
-                          alt="Axies"
-                        />
-                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #2436
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 px-3 ps-5">
-                      <div className="media" style={{ position: "relative" }}>
-                        <img
-                          src={nft3}
-                          className="border-radius-30"
-                          alt="Axies"
-                        />
-                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #2436
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 px-3 pe-5">
-                      <div className="media" style={{ position: "relative" }}>
-                        <img
-                          src={nft4}
-                          className="border-radius-30"
-                          alt="Axies"
-                        />
-                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #2436
-                        </div>
                         <img className="dotted-pattern-bg-2" src={dotPattern} />
+                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
+                          #2436
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -408,10 +378,10 @@ const Collection = (props) => {
       </section>
       {/* FOR MOBILE ONLY */}
 
-      {items ? <Items data={items} /> : <ItemsLoader />}
+      {/* {items ? <Items data={items} /> : <ItemsLoader />} */}
       {/* <PopularCollection data={popularCollectionData} /> */}
     </Layout>
   );
 };
 
-export default Collection;
+export default Item;

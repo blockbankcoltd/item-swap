@@ -103,7 +103,7 @@ const Home = () => {
         <SwiperSlide className="center">
           <div
             className="flat-title-page"
-            // style={{ backgroundImage: `url(${imgbg})` }}
+          // style={{ backgroundImage: `url(${imgbg})` }}
           >
             <img
               className="bgr-gradient gradient1"

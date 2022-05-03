@@ -113,9 +113,8 @@ const Header = () => {
                       <li
                         key={index}
                         onClick={() => handleOnClick(index)}
-                        className={`menu-item ${
-                          data.namesub ? "menu-item-has-children" : ""
-                        } ${activeIndex === index ? "active" : ""} `}
+                        className={`menu-item ${data.namesub ? "menu-item-has-children" : ""
+                          } ${activeIndex === index ? "active" : ""} `}
                       >
                         <Link to={data.links}>{data.name}</Link>
                         {data.namesub && (
@@ -140,31 +139,7 @@ const Header = () => {
                 </nav>
 
                 <div className="flat-search-btn flex">
-                  <div className="widget widget-subcribe">
-                    <div className="form-subcribe">
-                      <form
-                        id="subscribe-form"
-                        action="#"
-                        method="GET"
-                        acceptCharset="utf-8"
-                        className="form-submit"
-                      >
-                        <input
-                          name="email"
-                          className="email"
-                          type="email"
-                          placeholder="Search"
-                          required
-                        />
-                        <button id="submit" name="submit" type="submit">
-                          <i
-                            className="fa fa-search"
-                            style={{ color: "#fff" }}
-                          ></i>
-                        </button>
-                      </form>
-                    </div>
-                  </div>
+
 
                   {/* <div className="header-search flat-show-search" id="s1">
                     <Link

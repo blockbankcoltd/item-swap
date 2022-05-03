@@ -920,7 +920,7 @@
   border: none
 }
 .my-btn {
-  padding: 6px 25px;
+  padding: 10px 25px;
   font-weight: 700;
   background: linear-gradient(#cee1ff, #cee1ff) padding-box,
               linear-gradient(360deg, #1367f2, rgb(0, 0, 255, 0) 50%) border-box;
@@ -4532,7 +4532,7 @@ section.today-picks {
 .mode_switcher {
   display: flex;
   position: absolute;
-  top: 21px;
+  top: 19px;
   right: 11px;
   justify-content: center;
   align-items: center;
@@ -8880,7 +8880,7 @@ button.accordion-button {
 .history-btn {
   margin-left: auto;
   margin-right: auto;
-  margin-top: -22px;
+  margin-top: -14px;
 }
 
 .img-div {

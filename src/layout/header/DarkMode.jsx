@@ -33,7 +33,32 @@ const DarkMode = () => {
     }
     return (
         <div className="mode_switcher">
-            <h6>Dark mode <strong>Available</strong></h6>
+            {/* <h6>Dark mode <strong>Available</strong></h6> */}
+            <div className="widget widget-subcribe">
+                <div className="form-subcribe">
+                    <form
+                        id="subscribe-form"
+                        action="#"
+                        method="GET"
+                        acceptCharset="utf-8"
+                        className="form-submit"
+                    >
+                        <input
+                            name="email"
+                            className="email"
+                            type="email"
+                            placeholder="Search"
+                            required
+                        />
+                        <button id="submit" name="submit" type="submit">
+                            <i
+                                className="fa fa-search"
+                                style={{ color: "#fff" }}
+                            ></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
             <Link to="#"
                 onClick={e => switchTheme(e)}  >
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEhSURBVHgBtZWNEYIwDIUfngMwgiO4gWygG+gGuoFuwAiMwAiMwAh1BDeIjfc4a4XScMd3l+MoyUsa+gMYEBGnhrUQYonZYGV+Evjibt46b7sJ/yftD43x1qoGpqCDsNc7ZEJxx9gu17FBJt63zi6MSTRgz/fS24OtG+i9nYOYvRZkmfXYjMaYr3gmgQuEDjobjh+jbyWs+KBLSoCtG5LcYYV9Vo4Jnypn5biwp8H4B6SLKGO/WG92J6f6WxTFC0uR77KsEj4n+vRYkOBu+MlnWIkE9HkKxqvwG5Yia2w0ijbCo4Jjuif6QLhjC4eNp0dFLZnnkKNIjfyimqwZyXflmKYeFdamHPXCaafEJXEnM4kWeMVShh9giVn9Tt7CxhNG3rhxSa0K5UYkAAAAAElFTkSuQmCC" alt="" />

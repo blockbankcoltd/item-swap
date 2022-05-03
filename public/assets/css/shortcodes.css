@@ -8887,3 +8887,58 @@ button.accordion-button {
   background-color: var(--primary-color11) !important;
   border: none !important;
 }
+
+.primary-btn {
+      position: relative;
+      background-color: #5142fc;
+      color: #fff;
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 700;
+      border-radius: 30px;
+      width: 219px;
+      font-family: 'gilroy-bold';
+}
+
+.primary-btn:hover {
+  color: #fff;
+  -moz-box-shadow: 0px 3px 16px 0px #2f536d1f;
+  -webkit-box-shadow: 0px 3px 16px 0px #2f536d1f;
+  box-shadow: 0px 3px 16px 0px #2f536d1f;
+}
+
+.card-2 {
+  background-color: var(--primary-color);
+  border-radius: 20px;
+  -moz-box-shadow: 0px 3px 16px 0px #2f536d1f;
+  -webkit-box-shadow: 0px 3px 16px 0px #2f536d1f;
+  box-shadow: 0px 3px 16px 0px #2f536d1f;
+}
+
+.card-2 .card-2-header {
+  font-size: 20px;
+  color: var(--primary-color2);
+  background-color: var(--primary-color10);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 10px 15px;
+  font-family: 'gilroy-bold';
+}
+
+.card-2-body {
+  padding: 10px 15px;
+}
+
+.card-2-body .card-2-ul {
+  border-bottom: 1px solid #bbbbbb40;;
+}
+.card-2-body .card-2-ul li {
+  padding: 10px 0;
+  font-size: 14px;
+  color: var(--primary-color2);
+  font-family: 'gilroy-semibold';
+}
+
+.text-primary {
+  color: #00A3FF;
+}

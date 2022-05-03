@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Fragment } from "react";
 import { useMoralisQuery, useMoralis } from "react-moralis";
 import { Link, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap-accordion";
@@ -29,6 +29,7 @@ import GameDescription from "components/Loader/GameDescription";
 import Title from "components/Loader/Title";
 import ItemsLoader from "components/Loader/ItemsLoader";
 import CollectionThumbnail from "components/Loader/CollectionThumbnail";
+import { BiFilter } from "react-icons/bi";
 
 const Item = (props) => {
   //ACTIVE TAB
@@ -89,7 +90,7 @@ const Item = (props) => {
         <div className="themesflat-container mt-5 pb-5">
           <div className="row">
             {/* <div className="col-xl-1 col-md-1"></div> */}
-            <div className="col-lg-7 col-md-12 pe-md-5 mb-sm-4">
+            <div className="col-lg-6 col-md-12 pe-md-5 mb-sm-4">
               <div className="content-left ml-5 d-flex flex-column justify-content-between h-100">
                 {/* Author */}
                 {gameData.collection ? (
@@ -124,107 +125,67 @@ const Item = (props) => {
                       </p>
                     </div>
                     <div className="d-flex justify-content-center mt-5 align-items-center">
-                      <div className="d-flex justify-content-center mt-5 align-items-center watchlist-btn me-3 w-50">
-                        <h4 className="mb-0">Highest Bid - 12.25ETH</h4>
+                      <div className="d-flex justify-content-center align-items-center  item-btn me-3">
+                        <h4 className="mb-0 text-nowrap">
+                          Highest Bid - 12.25ETH
+                        </h4>
                       </div>
-                      <div style={{ borderBottom: "2px solid #ccc" }} />
+                      <div
+                        className="w-100"
+                        style={{ borderBottom: "1px solid #999" }}
+                      />
+                    </div>
+                    <div className="collection-desc gilroy-normal">
+                      <p className=" font-15">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Quisque nisl eros, pulvinar facilisis justo mollis,
+                        auctor consequat urna. Morbi a bibendum metus. Donec
+                        scelerisque sollicitudin enim eu venenatis. Duis
+                        tincidunt laoreet ex, in pretium orci vestibulum eget.
+                        Class aptent taciti sociosqu ad litora torquent per
+                        conubia nostra, per inceptos himenaeos. Duis pharetra
+                        luctus lacus ut vestibulum. Maecenas ipsum lacus,
+                        lacinia quis posuere ut, pulvinar vitae dolor. Integer
+                        eu nibh at nisi ullamcorper sagittis id vel leo. Integer
+                        feugiat faucibus libero, at maximus nisl suscipit
+                        posuere. Morbi nec enim nunc. Phasellus bibendum turpis
+                        ut ipsum egestas, sed sollicitudin elit convallis. Cras
+                        pharetra mi tristique sapien vestibulum lobortis. Nam
+                        eget bibendum metus, non dictum mauris. Nulla at tellus
+                        sagittis, viverra est a, bibendum metus.
+                      </p>
                     </div>
                   </div>
                 ) : (
                   <Title />
                 )}
 
-                {/* Content */}
-                <div className="sc-card-product-1">
-                  <div className="d-flex">
-                    <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
-                      <div className="border-right">
-                        <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          1234
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          ITEMS
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex-fill py-4 card-gredient-2">
-                      <div className="border-right">
-                        <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          1234
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          OWNER
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex-fill py-4 card-gredient-3">
-                      <div className="border-right">
-                        <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          1234
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          FLOOR PRICE
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex-fill py-4 card-gredient-4 border-top-right-radius">
-                      <div>
-                        <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          1234
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          VOLUME TRADED
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="sc-card-product-2"
-                    style={{ height: "3px" }}
-                  ></div>
-                  <div className="collection-desc gilroy-normal">
-                    <p className=" font-15">
-                      {gameData.collection ? (
-                        "Description"
-                      ) : (
-                        <GameDescription />
-                      )}
-                    </p>
-                  </div>
-                </div>
                 {/* Links */}
                 <div className="d-sm-flex justify-content-between align-items-center">
-                  <div className="d-flex justify-content-center align-items-center">
-                    <div className="social-btn me-3">
-                      <FiGlobe className="icon" />
-                    </div>
-                    <div className="social-btn me-3">
-                      <FiCodesandbox className="icon" />
-                    </div>
-                    <div className="social-btn me-3">
-                      <FiInstagram className="icon" />
-                    </div>
-                    <div className="social-btn me-3">
-                      <FaFacebookF className="icon" />
-                    </div>
+                  <div className="">
+                    <p className="text-16 mb-0">Current Bid</p>
+                    <h2 className="tf-title text-start mb-0 pb-1 gilroy-bold font-26">
+                      8.50<span>ETH</span>
+                    </h2>
                   </div>
                   <br />
                   <div className="d-flex justify-content-around align-items-center">
-                    <div className="d-flex justify-content-center align-items-center watchlist-btn me-3 w-100">
-                      <BsBookmarkDash
-                        size={20}
-                        className="watchlist-icon me-2"
-                      />
-                      <h4 className="mb-0">Watchlist</h4>
-                    </div>
-                    <div>
-                      <FaEllipsisV size={20} className="menu-btn" />
+                    {/* <div className="d-flex justify-content-center align-items-center item-btn me-3 mx-5">
+                      <h4 className="mb-0 gilroy-bold">Buy for 8.50ETH</h4>
+                    </div> */}
+                    <button class="primary-btn text-nowrap mx-2 w-100">
+                      Buy for 8.50ETH
+                    </button>
+                    <div className="d-flex justify-content-center align-items-center item-btn mx-2 px-5">
+                      <h4 className="mb-0 gilroy-bold text-nowrap">
+                        Place a bid
+                      </h4>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-lg-5 col-md-12" style={{ zIndex: "999" }}>
+            <div className="col-lg-6 col-md-12" style={{ zIndex: "999" }}>
               <div className="content-right">
                 {gameData.collection ? (
                   <div className="row">
@@ -252,134 +213,131 @@ const Item = (props) => {
         </div>
       </div>
 
-      {/* FOR DESKTOP ONLY */}
-      <section className="tf-box-icon1 create style1 tf-section d-none d-md-block">
-        <div className="themesflat-container d-flex justify-content-between align-items-center">
-          <div className="d-flex justyfy-content-between align-items-center order-1">
-            <div className="d-flex justyfy-content-between align-items-center display-type-section">
-              <div className="display-type-btn-left display-type-btn-active">
-                <BiGridAlt className="tile-icon active" size={24} />
+      <Fragment>
+        <section className="tf-section today-pick pt-0">
+          <div className="themesflat-container">
+            <div className="row p-md-10">
+              <div className="col-md-6 mb-5 px-5">
+                <div className="card-2">
+                  <div className="card-2-header">
+                    <BiFilter className="text-primary" size={30} /> Properties
+                  </div>
+                  <div className="card-2-body">
+                    <ul className="card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div className="display-type-btn-right">
-                <BiGrid className="tile-icon" size={24} />
+              <div className="col-md-6 mb-5 px-5">
+                <div className="card-2">
+                  <div className="card-2-header">
+                    <BiFilter className="text-primary" size={30} /> Properties
+                  </div>
+                  <div className="card-2-body">
+                    <ul className="card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6 mb-5 px-5">
+                <div className="card-2">
+                  <div className="card-2-header">
+                    <BiFilter className="text-primary" size={30} /> Properties
+                  </div>
+                  <div className="card-2-body">
+                    <ul className="card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                    <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
+                      <li className="text-primary">Background</li>
+                      <li>Pink</li>
+                      <li className="gilroy-normal">19% have this trait</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="d-flex justyfy-content-between align-items-center order-3">
-            <div>
-              <FiSearch size={20} className="mx-2 menu-btn border-blue" />
-            </div>
-            <div>
-              <BiSliderAlt size={20} className="mx-2 menu-btn border-blue" />
-            </div>
-          </div>
-          <div className="d-flex justify-content-center align-items-center order-2">
-            <div
-              className={
-                activeTab === 1
-                  ? "d-flex justify-content-center align-items-center item-btn me-3 mx-5"
-                  : ""
-              }
-              onClick={() => (activeTab !== 1 ? setActiveTab(1) : "")}
-            >
-              <h4
-                className={
-                  activeTab === 1
-                    ? "mb-0 gilroy-bold"
-                    : "mb-0 gilroy-bold muted cursor-pointer mx-5"
-                }
-              >
-                Items
-              </h4>
-            </div>
-            <div
-              className={
-                activeTab === 2
-                  ? "d-flex justify-content-center align-items-center item-btn me-3 mx-5"
-                  : ""
-              }
-              onClick={() => (activeTab !== 2 ? setActiveTab(2) : "")}
-            >
-              <h4
-                className={
-                  activeTab === 2
-                    ? "mb-0 gilroy-bold"
-                    : "mb-0 gilroy-bold muted cursor-pointer mx-5"
-                }
-              >
-                Activity
-              </h4>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* FOR DESKTOP ONLY */}
-      {/* FOR MOBILE ONLY */}
-      <section className="tf-box-icon1 create style1 tf-section d-md-none">
-        <div className="themesflat-container d-flex justify-content-between align-items-center">
-          <div className="d-flex justyfy-content-between align-items-center order-1">
-            <div className="d-flex justyfy-content-between align-items-center display-type-section">
-              <div className="display-type-btn-left display-type-btn-active">
-                <BiGridAlt className="tile-icon active" size={24} />
-              </div>
-              <div className="display-type-btn-right">
-                <BiGrid className="tile-icon" size={24} />
-              </div>
-            </div>
-          </div>
-          <div className="d-flex justyfy-content-between align-items-center order-3">
-            <div>
-              <FiSearch size={20} className="mx-2 menu-btn border-blue" />
-            </div>
-            <div>
-              <BiSliderAlt size={20} className="mx-2 menu-btn border-blue" />
-            </div>
-          </div>
-        </div>
-        <br />
-        <div className="d-flex justify-content-center align-items-center order-2">
-          <div
-            className={
-              activeTab === 1
-                ? "d-flex justify-content-center align-items-center item-btn me-3 mx-5"
-                : ""
-            }
-            onClick={() => (activeTab !== 1 ? setActiveTab(1) : "")}
-          >
-            <h4
-              className={
-                activeTab === 1
-                  ? "mb-0 gilroy-bold"
-                  : "mb-0 gilroy-bold muted cursor-pointer mx-5"
-              }
-            >
-              Items
-            </h4>
-          </div>
-          <div
-            className={
-              activeTab === 2
-                ? "d-flex justify-content-center align-items-center item-btn me-3 mx-5"
-                : ""
-            }
-            onClick={() => (activeTab !== 2 ? setActiveTab(2) : "")}
-          >
-            <h4
-              className={
-                activeTab === 2
-                  ? "mb-0 gilroy-bold"
-                  : "mb-0 gilroy-bold muted cursor-pointer mx-5"
-              }
-            >
-              Activity
-            </h4>
-          </div>
-        </div>
-      </section>
-      {/* FOR MOBILE ONLY */}
-
-      {/* {items ? <Items data={items} /> : <ItemsLoader />} */}
-      {/* <PopularCollection data={popularCollectionData} /> */}
+        </section>
+      </Fragment>
     </Layout>
   );
 };

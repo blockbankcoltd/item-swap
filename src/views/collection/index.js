@@ -51,7 +51,7 @@ const Collection = (props) => {
     });
 
     setGameData(res);
-    console.log("results", gameData);
+    console.log("results", res);
 
     const options = {
       address: "0x27af21619746a2abb01d3056f971cde936145939",

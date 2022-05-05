@@ -18,14 +18,14 @@ function Items(props) {
       <section className="tf-section today-pick">
         <div className="themesflat-container">
           <div className="row p-md-10">
-            <div className="col-md-12">
+            {/* <div className="col-md-12">
               <div className="heading-live-auctions mg-bt-21">
                 <h2 className="tf-title pad-l-7">Populer NFTs</h2>
                 <Link to="/explore-game" className="exp style2">
                   EXPLORE MORE
                 </Link>
               </div>
-            </div>
+            </div> */}
             {data.map((nft, index) => (
               <Item data={nft} />
             ))}

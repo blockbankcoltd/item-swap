@@ -92,7 +92,7 @@ const List = (props) => {
                                         src={item.assetContract.imageUrl}
                                       />
                                       <div className="history-btn">
-                                        <a className="my-btn">
+                                        <a className="my-btn my-btn-clr">
                                           View details
                                         </a>
                                       </div>

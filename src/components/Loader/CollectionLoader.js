@@ -8,7 +8,7 @@ const CollectionLoader = (props) => (
     height={490}
     viewBox="0 0 450 490"
     backgroundColor="#f3f3f3"
-    foregroundColor="#ecebeb"
+    foregroundColor="#a7a6a6"
     {...props}
   >
     <rect x="9" y="12" rx="4" ry="4" width="47" height="47" />

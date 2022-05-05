@@ -8,7 +8,7 @@ const Title = (props) => {
       width={720}
       viewBox="0 0 720 100"
       backgroundColor="#f3f3f3"
-      foregroundColor="#ecebeb"
+      foregroundColor="#002a98"
       {...props}
     >
       <circle cx="50" cy="50" r="50" />

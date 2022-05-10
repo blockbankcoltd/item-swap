@@ -41,16 +41,19 @@ const App = ({ isServerInfo }) => {
     isWeb3EnableLoading,
   } = useMoralis();
   const isAdminLoggedIn = JSON.parse(localStorage.getItem("isAdminLoggedIn"));
+  console.log("isAdminLoggedIn", isAdminLoggedIn);
   // const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
   //   JSON.parse(localStorage.getItem("isAdminLoggedIn")),
   // );
   // console.log(1, isAdminLoggedIn);
 
-  const APP_ID = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
-  const SERVER_URL = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
+  // Testnet
+  // const APP_ID = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
+  // const SERVER_URL = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
 
-  // const APP_ID = "qECeUtEvtZpyMyfGX8eFMmbN8nIXEA45z1eqQZ2c";
-  // const SERVER_URL = "https://majoemkakjml.usemoralis.com:2053/server";
+  // Mainnet
+  const APP_ID = "qECeUtEvtZpyMyfGX8eFMmbN8nIXEA45z1eqQZ2c";
+  const SERVER_URL = "https://majoemkakjml.usemoralis.com:2053/server";
 
   Moralis.start({ serverUrl: SERVER_URL, appId: APP_ID });
 
@@ -120,7 +123,7 @@ const App = ({ isServerInfo }) => {
         <Route exact path="/item/:tokenAddress/:tokenId">
           <Item />
         </Route>
-        <Route exact path="/user/:tokenAddress/:tokenId">
+        <Route exact path="/user">
           <User />
         </Route>
         <AdminAuthRoute

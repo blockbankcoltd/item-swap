@@ -28,11 +28,15 @@ const Game = ({ data }) => {
           </div>
           <div className="card img-div">
             <img
-              style={{ borderRadius: "15px" }}
+              style={{
+                borderRadius: "15px",
+                maxHeight: "300px",
+                minHeight: "300px",
+              }}
               src={data.assetContract.imageUrl}
             />
             <div className="history-btn">
-              <button className="my-btn">See History</button>
+              <button className="my-btn">View</button>
             </div>
           </div>
           <br />

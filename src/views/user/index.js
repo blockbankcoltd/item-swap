@@ -12,7 +12,7 @@ import TodayPick from "../home/todayPick";
 import PopularCollection from "components/UI/PopularCollection";
 import popularCollectionData from "assets/fake-data/data-popular-collection";
 import avatar from "../../assets/images/avatar/avt-0.png";
-import cover from "../../assets/images/nft/cover.png";
+import cover from "../../assets/images/nft/cover-1.png";
 import dotPattern from "../../assets/images/icon/dot-pattern.png";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { FiGlobe, FiCodesandbox, FiInstagram } from "react-icons/fi";
@@ -21,7 +21,7 @@ import { BsBookmarkDash } from "react-icons/bs";
 import { FaEllipsisV } from "react-icons/fa";
 import { BiGridAlt, BiGrid, BiSliderAlt } from "react-icons/bi";
 import { FiSearch } from "react-icons/fi";
-import Items from "components/Items";
+import Items from "./Items";
 import GameDescription from "components/Loader/GameDescription";
 import Title from "components/Loader/Title";
 import ItemsLoader from "components/Loader/ItemsLoader";
@@ -44,19 +44,19 @@ const User = (props) => {
 
     await Moralis.initPlugins();
 
-    const res = await Moralis.Plugins.opensea.getAsset({
-      network: "testnet",
-      tokenAddress: tokenAddress,
-      tokenId: tokenId,
-    });
-
-    setGameData(res);
-    console.log("results", res);
-
-    const options5 = { chain: "rinkeby", address: account };
+    const options5 = { chain: "eth", address: account };
     const myNfts = await Moralis.Web3API.account.getNFTs(options5);
 
     console.log("myNfts", myNfts);
+
+    // const res = await Moralis.Plugins.opensea.getAsset({
+    //   network: "testnet",
+    //   tokenAddress: myNfts.result[0].token_address,
+    //   tokenId: myNfts.result[0].token_id,
+    // });
+
+    // setGameData(res);
+    // console.log("results", res);
 
     const options = {
       address: "0x27af21619746a2abb01d3056f971cde936145939",
@@ -64,10 +64,10 @@ const User = (props) => {
     };
     const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
 
-    NFTs.result.length = 3;
     console.log("NFTs", NFTs);
+    NFTs.result.length = 3;
     let arr = [];
-    for (let nft of NFTs.result) {
+    for (let nft of myNfts.result) {
       const options1 = {
         address: nft.token_address,
         token_id: nft.token_id,
@@ -112,19 +112,19 @@ const User = (props) => {
                 <br />
                 <div className="d-flex align-items-center">
                   <h2 className="tf-title pad-l-15 mb-0 pb-1 gilroy-bold">
-                    Samson Frost
+                    {account && account.substring(2, 8).toUpperCase()}
                   </h2>
                   <BsPatchCheckFill className="text-golden mg-l-8" size={32} />
                 </div>
-                <div className="d-flex align-items-center">
+                {/* <div className="d-flex align-items-center">
                   <p className="content pad-l-15 mb-0 gilroy-normal">
                     Created by @abc
                   </p>
                   <BsPatchCheckFill className="text-info mg-l-8" size={18} />
-                </div>
-                <div className="collection-desc gilroy-normal">
+                </div> */}
+                {/* <div className="collection-desc gilroy-normal">
                   <p className=" font-15">Description</p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

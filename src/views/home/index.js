@@ -38,6 +38,7 @@ const Home = () => {
       query
         .descending("createdAt")
         .equalTo("status", "ACTIVE")
+        .equalTo("isActive", true)
         .descending("createdAt")
         .limit(4),
     [],
@@ -51,17 +52,25 @@ const Home = () => {
       onSuccess: (result) => console.log(result),
       onError: (error) => console.log("err1", error),
     });
-    console.log("sd12 collectionss", collections);
+
+    console.log("sd12 nfts", collections);
 
     if (collections && collections.length > 0) {
       let newAry = [];
       for (let collection of collections) {
         let tokenAddress = collection.attributes.collectionAddress;
+
+        const options = {
+          address: tokenAddress,
+          chain: "eth",
+        };
+        const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+
         console.log(tokenAddress, collection);
         const res = await Moralis.Plugins.opensea.getAsset({
-          network: "testnet",
+          network: "mainnet",
           tokenAddress: tokenAddress,
-          tokenId: "",
+          tokenId: NFTs.result[NFTs.result.length - 1].token_id,
         });
         newAry.push(res);
       }
@@ -70,6 +79,7 @@ const Home = () => {
         collections.forEach((col) => {
           if (arr.tokenAddress === col.attributes.collectionAddress) {
             arr["isHot"] = col.attributes.isHot;
+            arr["likes"] = col.attributes.likes;
           }
         });
       });
@@ -103,7 +113,7 @@ const Home = () => {
         <SwiperSlide className="center">
           <div
             className="flat-title-page"
-          // style={{ backgroundImage: `url(${imgbg})` }}
+            // style={{ backgroundImage: `url(${imgbg})` }}
           >
             <img
               className="bgr-gradient gradient1"

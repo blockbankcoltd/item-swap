@@ -66,19 +66,19 @@ function Account() {
   useEffect(() => {
     setTimeout(() => {
       if (account) {
-        console.log("hello", adminWalletAddress);
+        console.log("hello", adminWalletAddress, account);
         if (
           adminWalletAddress &&
           adminWalletAddress[0] &&
           adminWalletAddress[0].attributes.walletAddress.toString() ==
-          account.toString()
+            account.toString()
         ) {
           localStorage.setItem("isAdminLoggedIn", true);
         }
       } else {
         localStorage.setItem("isAdminLoggedIn", false);
       }
-    }, 2000);
+    }, 4000);
   }, [adminWalletAddress]);
 
   if (account) localStorage.setItem("walletAddress", account);
@@ -218,6 +218,15 @@ function Account() {
             </a>
           </div>
         </Card>
+        <div
+          style={{
+            borderTop: "1px solid #ccc",
+            borderBottom: "1px solid #ccc",
+            padding: "10px 0",
+          }}
+        >
+          <Link to="/user">Profile</Link>
+        </div>
         <Button
           size="large"
           type="primary"

@@ -14,6 +14,7 @@ import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 
 const List = (props) => {
+  console.log("props", props);
   const data = props.data;
   const title = props.title;
 
@@ -27,7 +28,7 @@ const List = (props) => {
             <div className="col-md-12">
               <div className="heading-live-auctions">
                 <h2 className="tf-title pb-20">{title}</h2>
-                <Link to="/games" className="exp style2">
+                <Link to="/explore-games" className="exp style2">
                   EXPLORE MORE
                 </Link>
               </div>
@@ -83,12 +84,18 @@ const List = (props) => {
                                       </div>
                                       <div className="d-flex justify-content-end align-items-center likes">
                                         <AiOutlineHeart className="font-14 icon me-1" />
-                                        <p className="font-13 m-0">3.5k</p>
+                                        <p className="font-13 m-0">
+                                          {item.likes}
+                                        </p>
                                       </div>
                                     </div>
                                     <div className="card img-div">
                                       <img
-                                        style={{ borderRadius: "15px" }}
+                                        style={{
+                                          borderRadius: "15px",
+                                          maxHeight: "300px",
+                                          minHeight: "300px",
+                                        }}
                                         src={item.assetContract.imageUrl}
                                       />
                                       <div className="history-btn">

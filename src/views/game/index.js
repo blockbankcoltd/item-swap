@@ -53,11 +53,18 @@ const Games = () => {
       let newAry = [];
       for (let collection of collections) {
         let tokenAddress = collection.attributes.collectionAddress;
+
+        const options = {
+          address: tokenAddress,
+          chain: "eth",
+        };
+        const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+
         console.log(tokenAddress, collection);
         const res = await Moralis.Plugins.opensea.getAsset({
-          network: "testnet",
+          network: "mainnet",
           tokenAddress: tokenAddress,
-          tokenId: "",
+          tokenId: NFTs.result[NFTs.result.length - 1].token_id,
         });
         newAry.push(res);
       }

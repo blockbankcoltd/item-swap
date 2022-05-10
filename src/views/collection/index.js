@@ -29,6 +29,7 @@ import GameDescription from "components/Loader/GameDescription";
 import Title from "components/Loader/Title";
 import ItemsLoader from "components/Loader/ItemsLoader";
 import CollectionThumbnail from "components/Loader/CollectionThumbnail";
+import { ETHLogo } from "components/Chains/Logos";
 
 const Collection = (props) => {
   const { innerWidth } = window;
@@ -47,34 +48,45 @@ const Collection = (props) => {
 
     await Moralis.initPlugins();
 
+    const options = {
+      address: tokenAddress,
+      chain: "eth",
+    };
+    const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+
     const res = await Moralis.Plugins.opensea.getAsset({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: tokenAddress,
-      tokenId: "",
+      tokenId: NFTs.result[NFTs.result.length - 1].token_id,
     });
 
     setGameData(res);
     console.log("results", res);
 
-    const options = {
-      address: "0x27af21619746a2abb01d3056f971cde936145939",
-      chain: "rinkeby",
-    };
-    const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
-
-    NFTs.result.length = 3;
+    NFTs.result.length = 10;
     console.log("NFTs", NFTs);
     let arr = [];
     for (let nft of NFTs.result) {
       const options1 = {
         address: nft.token_address,
         token_id: nft.token_id,
-        chain: "rinkeby",
+        chain: "eth",
       };
       const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
         options1,
       );
       arr.push(tokenIdMetadata);
+
+      // const trade = await Moralis.Plugins.opensea.getOrders({
+      //   network: "mainnet",
+      //   tokenAddress: nft.token_address,
+      //   tokenId: nft.token_id,
+      //   //   orderSide: side,
+      //   page: 1,
+      //   // pagination shows 20 orders each page
+      // });
+      // // setOrders(trade.orders);
+      // console.log("trade", trade);
     }
 
     console.log("tokenIdMetadata", arr);
@@ -92,57 +104,25 @@ const Collection = (props) => {
         <div className="themesflat-container mt-5 pb-5">
           <div className="row">
             {/* <div className="col-xl-1 col-md-1"></div> */}
-            <div className="col-lg-5 col-md-12 order-2" style={{ zIndex: "999" }}>
+            <div
+              className="col-lg-5 col-md-12 order-2"
+              style={{ zIndex: "999" }}
+            >
               <div className="content-right">
                 {gameData.collection ? (
                   <div className="row">
-                    <div className="col-6 px-3 ps-5">
+                    <div className="col-6 px-3 ps-5 w-100">
                       <div className="media" style={{ position: "relative" }}>
-                        <img
-                          src={nft1}
-                          className="border-radius-30"
-                          alt="Axies"
-                        />
+                        {gameData.imagePreviewUrl ? (
+                          <img
+                            src={gameData.imagePreviewUrl}
+                            className="border-radius-30 w-100"
+                            alt="Axies"
+                          />
+                        ) : (
+                          <ItemThumbnail />
+                        )}
                         <img className="dotted-pattern-bg-1" src={dotPattern} />
-                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #2436
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 px-3 mb-4 pe-5">
-                      <div className="media" style={{ position: "relative" }}>
-                        <img
-                          src={nft2}
-                          className="border-radius-30"
-                          alt="Axies"
-                        />
-                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #2436
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 px-3 ps-5">
-                      <div className="media" style={{ position: "relative" }}>
-                        <img
-                          src={nft3}
-                          className="border-radius-30"
-                          alt="Axies"
-                        />
-                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #2436
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 px-3 pe-5">
-                      <div className="media" style={{ position: "relative" }}>
-                        <img
-                          src={nft4}
-                          className="border-radius-30"
-                          alt="Axies"
-                        />
-                        <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #2436
-                        </div>
                         <img className="dotted-pattern-bg-2" src={dotPattern} />
                       </div>
                     </div>
@@ -191,8 +171,8 @@ const Collection = (props) => {
                     <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
                       <div className="border-right">
                         <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection
-                            ? gameData.collection.traitStats["Token ID"].max + 1
+                          {gameData && gameData.collection
+                            ? gameData.collection.stats.total_supply
                             : ""}
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
@@ -212,11 +192,16 @@ const Collection = (props) => {
                     </div>
                     <div className="flex-fill py-4 card-gredient-3">
                       <div className="border-right">
-                        <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection?.stats.floor_price}
-                        </h3>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <ETHLogo />
+                          <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height ms-2">
+                            {gameData.collection?.stats.average_price.toFixed(
+                              2,
+                            )}
+                          </h3>
+                        </div>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          FLOOR PRICE
+                          AVERAGE PRICE
                         </p>
                       </div>
                     </div>
@@ -225,8 +210,8 @@ const Collection = (props) => {
                         <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
                           {gameData.collection
                             ? Math.round(
-                              gameData.collection.stats.total_volume * 10,
-                            ) / 10
+                                gameData.collection.stats.total_volume * 10,
+                              ) / 10
                             : ""}
                         </h3>
                         <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
@@ -281,7 +266,6 @@ const Collection = (props) => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

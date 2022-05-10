@@ -8,6 +8,7 @@ import React, {
 import { useMoralisQuery, useMoralis } from "react-moralis";
 import { Link, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap-accordion";
+import moment from "moment";
 import Layout from "../../layout";
 import { Navigation, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -31,12 +32,18 @@ import { BiFilter } from "react-icons/bi";
 import { BsFillFileTextFill } from "react-icons/bs";
 import { AiFillTag } from "react-icons/ai";
 import ItemThumbnail from "components/Loader/ItemThumbnail";
+import { ETHLogo } from "components/Chains/Logos";
 
 const Item = (props) => {
   //ACTIVE TAB
   const [activeTab, setActiveTab] = useState(1);
   const [gameData, setGameData] = useState([]);
   const [itemData, setItemData] = useState([]);
+  const [sell, setSell] = useState(false);
+  const [price, setPrice] = useState(null);
+  const [sellButtonDisabled, SetSellButtonDisabled] = useState(null);
+  const [listings, setListings] = useState(null);
+  const [offers, setOffers] = useState(null);
   const [itemMetadata, setItemMetadata] = useState([]);
   const [items, setItems] = useState(null);
   const [transfers, setTransfers] = useState([]);
@@ -59,12 +66,10 @@ const Item = (props) => {
   );
 
   const getCollectionData = useCallback(async () => {
-    console.log("sd12", Moralis);
-
     await Moralis.initPlugins();
 
     const res = await Moralis.Plugins.opensea.getAsset({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
     });
@@ -75,7 +80,7 @@ const Item = (props) => {
     const options1 = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "rinkeby",
+      chain: "eth",
     };
     const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
       options1,
@@ -84,11 +89,10 @@ const Item = (props) => {
     setItemData(tokenIdMetadata);
     setItemMetadata(JSON.parse(tokenIdMetadata.metadata));
     console.log("tokenIdMetadata", tokenIdMetadata);
-
     const options = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "rinkeby",
+      chain: "eth",
     };
     const tokenIdOwners = await Moralis.Web3API.token.getTokenIdOwners(options);
 
@@ -97,7 +101,7 @@ const Item = (props) => {
     const options2 = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "rinkeby",
+      chain: "eth",
     };
     const transfers = await Moralis.Web3API.token.getWalletTokenIdTransfers(
       options2,
@@ -107,7 +111,7 @@ const Item = (props) => {
     console.log("transfers", transfers);
 
     const trade = await Moralis.Plugins.opensea.getOrders({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
       //   orderSide: side,
@@ -122,18 +126,35 @@ const Item = (props) => {
     console.log("Buy", price);
     if (!isAuthenticated) authenticate();
     const result = await Moralis.Plugins.opensea.createBuyOrder({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
       tokenType: itemData.contract_type,
       amount: parseFloat(price),
       userAddress: account,
-      paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
+      //   paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //Testnet
+      paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //Mainnet
     });
   };
 
+  const handleSell = async () => {
+    SetSellButtonDisabled(true);
+    const result = await Moralis.Plugins.opensea.createSellOrder({
+      network: "mainnet",
+      tokenAddress: tokenAddress,
+      tokenId: tokenId,
+      tokenType: itemData.contract_type,
+      userAddress: account,
+      startAmount: price,
+      endAmount: price,
+
+      // expirationTime: expirationTime, Only set if you startAmount > endAmount
+    });
+    SetSellButtonDisabled(false);
+    setSell(false);
+  };
+
   useEffect(() => {
-    console.log("sd");
     getCollectionData().catch(console.error);
   }, []);
   // return <></>;
@@ -170,7 +191,11 @@ const Item = (props) => {
                     </div>
                     <div className="d-flex align-items-center">
                       <h2 className="tf-title mb-0 pb-1 gilroy-bold">
-                        {itemMetadata.name ? itemMetadata.name : "#" + tokenId}
+                        {itemMetadata.name
+                          ? itemMetadata.name
+                          : "#" + tokenId.length < 5
+                          ? tokenId
+                          : tokenId.substring(0, 3).toUpperCase() + "..."}
                       </h2>
                     </div>
                     <div className="d-flex align-items-center">
@@ -198,7 +223,11 @@ const Item = (props) => {
                             src={dotPattern}
                           />
                           <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                            #{tokenId}
+                            #
+                            {tokenId.length < 5
+                              ? tokenId
+                              : tokenId.substring(0, 4).toUpperCase()}
+                            ...
                           </div>
                         </div>
                       </div>
@@ -222,17 +251,15 @@ const Item = (props) => {
                 ) : (
                   <Title />
                 )}
-
                 {/* Links */}
                 {orders.length > 0 ? (
                   <div className="d-sm-flex justify-content-between align-items-center">
                     <div className="">
                       <p className="text-16 mb-0">Current Price</p>
                       <h2 className="tf-title text-start mb-0 pb-1 gilroy-bold font-26">
-                        {Moralis.Units.FromWei(orders[0].currentPrice)}
+                        {Moralis.Units.FromWei(orders[0].currentPrice)}{" "}
                         <span>
-                          {gameData.collection &&
-                            gameData.collection.paymentTokens[0].symbol}
+                          {orders[0] && orders[0].paymentTokenContract.symbol}
                         </span>
                       </h2>
                     </div>
@@ -251,8 +278,7 @@ const Item = (props) => {
                         }
                       >
                         Buy for {Moralis.Units.FromWei(orders[0].currentPrice)}{" "}
-                        {gameData.collection &&
-                          gameData.collection.paymentTokens[0].symbol}
+                        {orders[0] && orders[0].paymentTokenContract.symbol}
                       </button>
                       {/* Place a bid section */}
                       {/* <div className="d-flex justify-content-center align-items-center item-btn mx-2 px-5">
@@ -264,6 +290,59 @@ const Item = (props) => {
                   </div>
                 ) : (
                   ""
+                )}
+                {account === itemData.owner_of ? (
+                  <div>
+                    {!sell ? (
+                      <button
+                        class="primary-btn text-nowrap mx-2 w-100"
+                        onClick={() => setSell(true)}
+                      >
+                        Sell
+                      </button>
+                    ) : (
+                      <></>
+                    )}
+                    {sell ? (
+                      <div>
+                        <div className="d-flex">
+                          <div className="input-group mb-3">
+                            <input
+                              type="text"
+                              class="form-control  number-input"
+                              placeholder="Enter Amount"
+                              aria-label="Enter Amount"
+                              aria-describedby="basic-addon2"
+                              onChange={(e) => setPrice(e.target.value)}
+                            />
+                            <span class="input-group-text" id="basic-addon2">
+                              ETH
+                            </span>
+                          </div>
+                        </div>
+                        <br />
+                        <div className="d-flex">
+                          <div
+                            className="d-flex justify-content-center align-items-center watchlist-btn me-3 w-100"
+                            onClick={() => setSell(false)}
+                          >
+                            <h4 className="mb-0">Cancel</h4>
+                          </div>
+                          <button
+                            class="primary-btn text-nowrap mx-2 w-100"
+                            onClick={handleSell}
+                            // disabled={sellButtonDisabled}
+                          >
+                            Sell
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                ) : (
+                  <></>
                 )}
                 <br />
                 <br />
@@ -278,10 +357,8 @@ const Item = (props) => {
                         {itemMetadata.attributes ? (
                           itemMetadata.attributes.map((trait) => (
                             <ul className="card-2-ul d-flex justify-content-between align-items-center">
-                              <li className="text-primary">
-                                {trait.trait_type}
-                              </li>
-                              <li>{trait.value}</li>
+                              <li className="text-primary">{trait.type}</li>
+                              <li>{trait.description}</li>
                               {/* <li className="gilroy-normal">
                                   19% have this trait
                                 </li> */}
@@ -305,8 +382,8 @@ const Item = (props) => {
                       {itemData ? (
                         <div className="card-2-body">
                           <ul className="card-2-ul d-flex justify-content-between align-items-center">
-                            <li className="text-primary">Contract Address</li>
-                            <li>
+                            <li>Contract Address</li>
+                            <li className="text-primary">
                               {itemData.token_address &&
                                 `${itemData.token_address
                                   .substring(2, 8)
@@ -316,11 +393,16 @@ const Item = (props) => {
                             </li>
                           </ul>
                           <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
-                            <li className="text-primary">Token ID</li>
-                            <li>{itemData.token_id}</li>
+                            <li>Token ID</li>
+                            <li>
+                              {tokenId.length < 5
+                                ? tokenId
+                                : tokenId.substring(0, 4).toUpperCase()}
+                              ...
+                            </li>
                           </ul>
                           <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
-                            <li className="text-primary">Token Standard</li>
+                            <li>Token Standard</li>
                             <li>{itemData.contract_type}</li>
                           </ul>
                           {/* <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
@@ -358,7 +440,11 @@ const Item = (props) => {
                         <img className="dotted-pattern-bg-1" src={dotPattern} />
                         <img className="dotted-pattern-bg-2" src={dotPattern} />
                         <div className="bottom-left-text-overlay gilroy-bold font-18 text-white">
-                          #{tokenId}
+                          #
+                          {tokenId.length < 5
+                            ? tokenId
+                            : tokenId.substring(0, 4).toUpperCase()}
+                          ...
                         </div>
                       </div>
                     </div>
@@ -382,12 +468,47 @@ const Item = (props) => {
                           <li className="gilroy-normal">Expiration</li>
                           <li className="gilroy-normal">From</li>
                         </ul>
-                        <ul className="card-2-ul card-2-ul d-flex justify-content-between align-items-center">
-                          <li></li>
-                          <li>$30,955.25</li>
-                          <li>About 2 hour</li>
-                          <li className="text-primary">Samson Frost</li>
-                        </ul>
+                        {orders ? (
+                          orders.map((order) => (
+                            <ul className="card-2-ul d-flex justify-content-between align-items-center">
+                              <li className="gilroy-normal">
+                                <ETHLogo />
+                                &nbsp;
+                                {Moralis.Units.FromWei(order.currentPrice)}
+                              </li>
+                              <li className="gilroy-normal">USD Price</li>
+                              <li className="gilroy-normal">
+                                {moment(order.expirationTime).format("llll")}
+                              </li>
+                              <li className="gilroy-normal text-primary">
+                                {order.maker.substring(2, 8).toUpperCase()}
+                                ...
+                                {order.maker.substring(39, 42).toUpperCase()}
+                              </li>
+                            </ul>
+                          ))
+                        ) : (
+                          <p className="text-16 mb-0">No Data</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-12 mb-5 px-5">
+                    <div className="card-2">
+                      <div className="card-2-header">
+                        <AiFillTag className="text-primary" size={30} /> Offers
+                      </div>
+                      <div className="card-2-body">
+                        {offers ? (
+                          <ul className="card-2-ul d-flex justify-content-between align-items-center">
+                            <li className="gilroy-normal">Price</li>
+                            <li className="gilroy-normal">USD Price</li>
+                            <li className="gilroy-normal">Expiration</li>
+                            <li className="gilroy-normal">From</li>
+                          </ul>
+                        ) : (
+                          <p className="text-16 mb-0">No Data</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -437,7 +558,7 @@ const Item = (props) => {
                                 ? "Minted"
                                 : "Transfer"}
                             </li>
-                            <li style={{ width: "15%" }}>{transfer.amount}</li>
+                            <li style={{ width: "15%" }}></li>
                             <li
                               className="text-primary"
                               style={{ width: "25%" }}
@@ -462,7 +583,7 @@ const Item = (props) => {
                                 .toUpperCase()}`}
                             </li>
                             <li style={{ width: "20%" }}>
-                              {transfer.block_timestamp}
+                              {moment(transfer.block_timestamp).fromNow()}
                             </li>
                           </ul>
                         ))}

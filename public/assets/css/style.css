@@ -1392,10 +1392,10 @@ a:focus {
   --today-pick: #000000;
   --light-text: #b0b6bc;
   --same-text : #ffffff;
-  --card-gredient-1: linear-gradient(180deg, #280395 -59%, #120d23 58%, #120d23 21%, #120d23 75%);
-  --card-gredient-2: linear-gradient(171deg, #280395 -10%, #120d23 50%, #120d23 21%, #120d23 75%);
-  --card-gredient-3: linear-gradient(171deg, #280395 -10%, #120d23 50%, #120d23 21%, #120d23 75%);
-  --card-gredient-4: linear-gradient(171deg, #280395 -10%, #120d23 50%, #120d23 21%, #120d23 75%);
+  --card-gredient-1: linear-gradient(200deg, #1367F2 -20%, #120d23 50%, #120d23 21%, #120d23 75%);
+  --card-gredient-2: linear-gradient(175deg, #1367f2e8 -10%, #120d23 75%, #120d23 21%, #120d23 75%);
+  --card-gredient-3: linear-gradient(175deg, #1367f2e8 -10%, #120d23 75%, #120d23 21%, #120d23 75%);
+  --card-gredient-4: linear-gradient(163deg, #1367F2 -10%, #120d23 43%, #120d23 21%, #120d23 75%);
   --card-bg: radial-gradient(circle at 50% -70%, #1367f2 25%, #120d23 50%, #120d23 75%, #120d23 75%) padding-box,
   linear-gradient(180deg, rgb(0, 0, 255, 0) 0%, rgb(255, 255, 255, 0.15) 99%) border-box;
   --card-bg-1: radial-gradient(circle at 50% -70%, #08a5ea 0%, #120d23 0%) padding-box,

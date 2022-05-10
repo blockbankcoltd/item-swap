@@ -414,6 +414,13 @@
 }
 
 @media only screen and (max-width: 991px) {
+  .game-sec-1{
+    
+  }
+  .game-sec-2{
+    
+  }
+
   .header_2 #main-nav>ul>li {
     float: left;
     padding: 5px 13px 5px 13px;
@@ -666,7 +673,7 @@
     padding: 180px 0 20px;
   }
   .mode_switcher a{
-    margin-bottom: 5px;
+    margin-bottom: 0px;
   }
 
   .flat-search-btn{
@@ -874,6 +881,20 @@
 
 }
 @media only screen and (max-width: 767px) {
+  .sc-button.header-slider span.wallet {
+  padding: 0 !important;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.sc-button.style span.wallet::before {
+  position: unset;
+}
+
   .form-infor-profile,
   .form-upload-profile .option-profile,
   .tab-authors .author-profile .widget-social ul,
@@ -1057,7 +1078,7 @@
   }
   .tf-section.tf-item-details,
   .tf-section.top-seller.style-2 {
-    padding: 70px 0px 0px 0px;
+    padding: 120px 0px 0px 0px;
   }
 
   .tf-section.tl-pb-0{
@@ -1209,6 +1230,10 @@
 
   .themesflat-container {
       width: 750px;
+  }
+
+  .chain-button{
+    background: transparent !important;
   }
 
   .style-2 .sc-box-icon,
@@ -1475,6 +1500,24 @@
 
   .tf-title {
     font-size: 24px;
+  }
+
+  .game-header{
+    margin-bottom: 20px;
+  }
+
+  .game-image{
+    width: 90px;
+  }
+
+  .game-text-des{
+    font-size: 18px;
+  }
+
+  .game-heading{
+    font-size: 21px;
+    line-height: 20px;
+    text-align: left;
   }
 
 

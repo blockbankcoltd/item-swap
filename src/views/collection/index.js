@@ -92,136 +92,7 @@ const Collection = (props) => {
         <div className="themesflat-container mt-5 pb-5">
           <div className="row">
             {/* <div className="col-xl-1 col-md-1"></div> */}
-            <div className="col-lg-7 col-md-12 pe-md-5 mb-sm-4">
-              <div className="content-left ml-5 d-flex flex-column justify-content-between h-100">
-                {/* Author */}
-                {gameData.collection ? (
-                  <div className="d-flex justify-content-start align-items-center">
-                    <div>
-                      <img src={author} />
-                    </div>
-                    <div>
-                      <div className="d-flex align-items-center">
-                        <h2 className="tf-title pad-l-15 mb-0 pb-1 gilroy-bold">
-                          {gameData.collection.name}
-                        </h2>
-                        <BsPatchCheckFill
-                          className="text-golden mg-l-8"
-                          size={32}
-                        />
-                      </div>
-                      <div className="d-flex align-items-center">
-                        <p className="content pad-l-15 mb-0 gilroy-normal">
-                          Created by @{gameData.owner?.user.username}
-                        </p>
-                        <BsPatchCheckFill
-                          className="text-info mg-l-8"
-                          size={18}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <Title />
-                )}
-
-                {/* Content */}
-                <div className="sc-card-product-1">
-                  <div className="d-flex">
-                    <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
-                      <div className="border-right">
-                        <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection
-                            ? gameData.collection.traitStats["Token ID"].max + 1
-                            : ""}
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          ITEMS
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex-fill py-4 card-gredient-2">
-                      <div className="border-right">
-                        <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection?.stats.num_owners}
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          OWNER
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex-fill py-4 card-gredient-3">
-                      <div className="border-right">
-                        <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection?.stats.floor_price}
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          FLOOR PRICE
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex-fill py-4 card-gredient-4 border-top-right-radius">
-                      <div>
-                        <h3 className="cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection
-                            ? Math.round(
-                                gameData.collection.stats.total_volume * 10,
-                              ) / 10
-                            : ""}
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          VOLUME TRADED
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="sc-card-product-2"
-                    style={{ height: "3px" }}
-                  ></div>
-                  <div className="collection-desc gilroy-normal">
-                    <p className=" font-15">
-                      {gameData.collection ? (
-                        gameData.collection.description
-                      ) : (
-                        <GameDescription />
-                      )}
-                    </p>
-                  </div>
-                </div>
-                {/* Links */}
-                <div className="d-sm-flex justify-content-between align-items-center">
-                  <div className="d-flex justify-content-center align-items-center">
-                    <div className="social-btn me-3">
-                      <FiGlobe className="icon" />
-                    </div>
-                    <div className="social-btn me-3">
-                      <FiCodesandbox className="icon" />
-                    </div>
-                    <div className="social-btn me-3">
-                      <FiInstagram className="icon" />
-                    </div>
-                    <div className="social-btn me-3">
-                      <FaFacebookF className="icon" />
-                    </div>
-                  </div>
-                  <br />
-                  <div className="d-flex justify-content-around align-items-center">
-                    <div className="d-flex justify-content-center align-items-center watchlist-btn me-3 w-100">
-                      <BsBookmarkDash
-                        size={20}
-                        className="watchlist-icon me-2"
-                      />
-                      <h4 className="mb-0">Watchlist</h4>
-                    </div>
-                    <div>
-                      <FaEllipsisV size={20} className="menu-btn" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-5 col-md-12" style={{ zIndex: "999" }}>
+            <div className="col-lg-5 col-md-12 order-2" style={{ zIndex: "999" }}>
               <div className="content-right">
                 {gameData.collection ? (
                   <div className="row">
@@ -281,6 +152,136 @@ const Collection = (props) => {
                 )}
               </div>
             </div>
+            <div className="col-lg-7 col-md-12 pe-md-5 mb-sm-4 order-1">
+              <div className="content-left ml-5 d-flex flex-column justify-content-between h-100">
+                {/* Author */}
+                {gameData.collection ? (
+                  <div className="d-flex justify-content-start align-items-center game-header">
+                    <div>
+                      <img className="game-image" src={author} />
+                    </div>
+                    <div>
+                      <div className="d-flex align-items-center">
+                        <h2 className="tf-title pad-l-15 mb-0 pb-1 gilroy-bold game-heading">
+                          {gameData.collection.name}
+                        </h2>
+                        <BsPatchCheckFill
+                          className="text-golden mg-l-8"
+                          size={32}
+                        />
+                      </div>
+                      <div className="d-flex align-items-center">
+                        <p className="content pad-l-15 mb-0 gilroy-normal">
+                          Created by @{gameData.owner?.user.username}
+                        </p>
+                        <BsPatchCheckFill
+                          className="text-info mg-l-8"
+                          size={18}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Title />
+                )}
+
+                {/* Content */}
+                <div className="sc-card-product-1">
+                  <div className="d-flex">
+                    <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
+                      <div className="border-right">
+                        <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
+                          {gameData.collection
+                            ? gameData.collection.traitStats["Token ID"].max + 1
+                            : ""}
+                        </h3>
+                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
+                          ITEMS
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex-fill py-4 card-gredient-2">
+                      <div className="border-right">
+                        <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
+                          {gameData.collection?.stats.num_owners}
+                        </h3>
+                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
+                          OWNER
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex-fill py-4 card-gredient-3">
+                      <div className="border-right">
+                        <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
+                          {gameData.collection?.stats.floor_price}
+                        </h3>
+                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
+                          FLOOR PRICE
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex-fill py-4 card-gredient-4 border-top-right-radius">
+                      <div>
+                        <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
+                          {gameData.collection
+                            ? Math.round(
+                              gameData.collection.stats.total_volume * 10,
+                            ) / 10
+                            : ""}
+                        </h3>
+                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
+                          VOLUME TRADED
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="sc-card-product-2"
+                    style={{ height: "3px" }}
+                  ></div>
+                  <div className="collection-desc gilroy-normal">
+                    <p className=" font-15">
+                      {gameData.collection ? (
+                        gameData.collection.description
+                      ) : (
+                        <GameDescription />
+                      )}
+                    </p>
+                  </div>
+                </div>
+                {/* Links */}
+                <div className="d-sm-flex justify-content-between align-items-center">
+                  <div className="d-flex justify-content-center align-items-center">
+                    <div className="social-btn me-3">
+                      <FiGlobe className="icon" />
+                    </div>
+                    <div className="social-btn me-3">
+                      <FiCodesandbox className="icon" />
+                    </div>
+                    <div className="social-btn me-3">
+                      <FiInstagram className="icon" />
+                    </div>
+                    <div className="social-btn me-3">
+                      <FaFacebookF className="icon" />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="d-flex justify-content-around align-items-center">
+                    <div className="d-flex justify-content-center align-items-center watchlist-btn me-3 w-100">
+                      <BsBookmarkDash
+                        size={20}
+                        className="watchlist-icon me-2"
+                      />
+                      <h4 className="mb-0">Watchlist</h4>
+                    </div>
+                    <div>
+                      <FaEllipsisV size={20} className="menu-btn" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

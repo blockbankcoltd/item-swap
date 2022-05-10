@@ -14,12 +14,6 @@ const styles = {
     fontSize: "14px",
     padding: "23px 10px",
   },
-  button: {
-    border: "2px solid rgb(231, 234, 243)",
-    borderRadius: "30px",
-    background: "transparent",
-    color: "#fff",
-  },
 };
 
 const menuItems = [
@@ -119,7 +113,7 @@ function Chains() {
         <Button
           key={selected?.key}
           icon={selected?.icon}
-          style={{ ...styles.button, ...styles.item }}
+          className="chain-button"
         >
           <span
             className="d-none d-md-inline-block color-change"

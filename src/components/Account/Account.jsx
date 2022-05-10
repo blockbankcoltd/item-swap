@@ -71,7 +71,7 @@ function Account() {
           adminWalletAddress &&
           adminWalletAddress[0] &&
           adminWalletAddress[0].attributes.walletAddress.toString() ==
-            account.toString()
+          account.toString()
         ) {
           localStorage.setItem("isAdminLoggedIn", true);
         }
@@ -96,7 +96,7 @@ function Account() {
           className="sc-button header-slider style style-1 wallet d-md-none"
           style={{ border: 0, padding: 0 }}
         >
-          <span></span>
+          <span className="wallet"></span>
         </div>
         <Modal
           visible={isAuthModalVisible}

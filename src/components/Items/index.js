@@ -8,7 +8,6 @@ import Item from "./Item";
 
 function Items(props) {
   let data = props.data;
-  console.log("data", props.data);
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();
   // console.log("asxzxz", useMoralisDapp());
@@ -27,7 +26,7 @@ function Items(props) {
               </div>
             </div> */}
             {data.map((nft, index) => (
-              <Item data={nft} />
+              <Item data={nft} key={index} />
             ))}
           </div>
         </div>

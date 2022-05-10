@@ -31,6 +31,9 @@ import ItemsLoader from "components/Loader/ItemsLoader";
 import CollectionThumbnail from "components/Loader/CollectionThumbnail";
 
 const Collection = (props) => {
+  const { innerWidth } = window;
+  console.log("innerWidth", innerWidth);
+
   //ACTIVE TAB
   const [activeTab, setActiveTab] = useState(1);
   const [gameData, setGameData] = useState([]);

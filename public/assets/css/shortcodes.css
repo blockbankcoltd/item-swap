@@ -8942,3 +8942,14 @@ button.accordion-button {
 .text-primary {
   color: #00A3FF;
 }
+
+.profile-cover {
+  border-radius: 15px;
+}
+
+.profile-pic {
+  width: 90px;
+  border-radius: 50%;
+  border: 6px solid var(--primary-color);
+  margin-top: -32px;
+}

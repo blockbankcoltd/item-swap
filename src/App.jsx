@@ -30,6 +30,7 @@ import ItemList from "views/admin/ItemList";
 import Collection from "views/collection";
 import OpenSea from "views/OpenSea";
 import Item from "views/item";
+import User from "views/user";
 
 const App = ({ isServerInfo }) => {
   const {
@@ -47,6 +48,9 @@ const App = ({ isServerInfo }) => {
 
   const APP_ID = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
   const SERVER_URL = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
+
+  // const APP_ID = "qECeUtEvtZpyMyfGX8eFMmbN8nIXEA45z1eqQZ2c";
+  // const SERVER_URL = "https://majoemkakjml.usemoralis.com:2053/server";
 
   Moralis.start({ serverUrl: SERVER_URL, appId: APP_ID });
 
@@ -115,6 +119,9 @@ const App = ({ isServerInfo }) => {
         </Route>
         <Route exact path="/item/:tokenAddress/:tokenId">
           <Item />
+        </Route>
+        <Route exact path="/user/:tokenAddress/:tokenId">
+          <User />
         </Route>
         <AdminAuthRoute
           authUser={isAdminLoggedIn ? isAdminLoggedIn : null}

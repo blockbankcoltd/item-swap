@@ -22,11 +22,11 @@ const menus = [
     name: "Game",
     links: "explore-games",
   },
-  {
-    id: 3,
-    name: "Trade",
-    links: "/1inch",
-  },
+  // {
+  //   id: 3,
+  //   name: "Trade",
+  //   links: "/1inch",
+  // },
   // {
   //   id: 4,
   //   name: "Lottery",

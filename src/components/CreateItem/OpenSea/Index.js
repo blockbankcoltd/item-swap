@@ -70,7 +70,7 @@ const AddOpenSeaCollection = () => {
     await collectionObj[0].save();
 
     // await Moralis.Plugins.rarible.lazyMint({
-    //   chain: "rinkeby",
+    //   chain: "eth",
     //   userAddress: "0xaF2d6E51f39B9fF9862f5b991b2F1440513a26f9",
     //   tokenType: "ERC1155",
     //   tokenUri: "/ipfs/QmWLsBu6nS4ovaHbGAXprD1qEssJu4r5taQfB74sCG51tp",
@@ -131,14 +131,14 @@ const AddOpenSeaCollection = () => {
 
     const options = {
       address: nftAddress,
-      chain: "rinkeby",
+      chain: "eth",
     };
     const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
 
     console.log("NFT ADDRESS", NFTs);
 
     const res = await Moralis.Plugins.opensea.getAsset({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: nftAddress,
       tokenId: NFTs.result[NFTs.result.length - 1].token_id,
     });

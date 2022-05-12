@@ -69,7 +69,7 @@ const Item = (props) => {
     await Moralis.initPlugins();
 
     const res = await Moralis.Plugins.opensea.getAsset({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
     });
@@ -80,7 +80,7 @@ const Item = (props) => {
     const options1 = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "rinkeby",
+      chain: "eth",
     };
     const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
       options1,
@@ -92,7 +92,7 @@ const Item = (props) => {
     const options = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "rinkeby",
+      chain: "eth",
     };
     const tokenIdOwners = await Moralis.Web3API.token.getTokenIdOwners(options);
 
@@ -101,7 +101,7 @@ const Item = (props) => {
     const options2 = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "rinkeby",
+      chain: "eth",
     };
     const transfers = await Moralis.Web3API.token.getWalletTokenIdTransfers(
       options2,
@@ -111,7 +111,7 @@ const Item = (props) => {
     console.log("transfers", transfers);
 
     const trade = await Moralis.Plugins.opensea.getOrders({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
       //   orderSide: side,
@@ -126,21 +126,21 @@ const Item = (props) => {
     console.log("Buy", price);
     if (!isAuthenticated) authenticate();
     const result = await Moralis.Plugins.opensea.createBuyOrder({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
       tokenType: itemData.contract_type,
       amount: parseFloat(price),
       userAddress: account,
-      //   paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //Testnet
-      paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //testnet
+      //   paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //mainnet
+      paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //mainnet
     });
   };
 
   const handleSell = async () => {
     SetSellButtonDisabled(true);
     const result = await Moralis.Plugins.opensea.createSellOrder({
-      network: "testnet",
+      network: "mainnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
       tokenType: itemData.contract_type,

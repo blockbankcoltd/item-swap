@@ -173,7 +173,7 @@ const Collection = (props) => {
                       </div>
                       <div className="d-flex align-items-center">
                         <p className="content pad-l-15 mb-0 gilroy-normal">
-                          Created by @{gameData.owner?.user.username}
+                          Created by @{gameData.owner?.user?.username}
                         </p>
                         <BsPatchCheckFill
                           className="text-info mg-l-8"

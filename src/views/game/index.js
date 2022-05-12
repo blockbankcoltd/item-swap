@@ -28,21 +28,29 @@ const Games = () => {
   } = useMoralis();
 
   const [games, setGames] = useState(null);
+  const [filter, setFilter] = useState("popular");
 
   const { fetch } = useMoralisQuery(
     "Games",
-    (query) =>
-      query
-        .descending("createdAt")
-        .equalTo("status", "ACTIVE")
-        .descending("createdAt"),
-    [],
+    (query) => {
+      if (filter == "hot") {
+        console.log("hot", filter);
+        return query
+          .equalTo("status", "ACTIVE")
+          .equalTo("isHot", true)
+          .descending("createdAt");
+      } else {
+        console.log("!hot", filter);
+        return query
+          .equalTo("status", "ACTIVE")
+          .descending(filter === "popular" ? "likes" : "createdAt");
+      }
+    },
+    [filter],
     { autoFetch: false },
   );
 
   const getCollectionData = useCallback(async () => {
-    console.log("sd12");
-
     const collections = await fetch({
       onSuccess: (result) => console.log(result),
       onError: (error) => console.log("err1", error),
@@ -50,48 +58,51 @@ const Games = () => {
     console.log("sd12 collectionss", collections);
 
     if (collections && collections.length > 0) {
-      let newAry = [];
-      for (let collection of collections) {
-        let tokenAddress = collection.attributes.collectionAddress;
-
-        const options = {
-          address: tokenAddress,
-          chain: "eth",
-        };
-        const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
-
-        console.log(tokenAddress, collection);
-        const res = await Moralis.Plugins.opensea.getAsset({
-          network: "mainnet",
-          tokenAddress: tokenAddress,
-          tokenId: NFTs.result[NFTs.result.length - 1].token_id,
-        });
-        newAry.push(res);
-      }
-
-      newAry.forEach((arr) => {
-        collections.forEach((col) => {
-          if (arr.tokenAddress === col.attributes.collectionAddress) {
-            arr["isHot"] = col.attributes.isHot;
-          }
-        });
-      });
-
-      console.log(
-        "results",
-        newAry[0].tokenAddress,
-        collections[0].attributes.collectionAddress,
-        newAry,
-      );
+      let newAry = JSON.parse(JSON.stringify(collections));
       setGames(newAry);
+
+      // let newAry = [];
+      // for (let collection of collections) {
+      //   let tokenAddress = collection.attributes.collectionAddress;
+
+      //   const options = {
+      //     address: tokenAddress,
+      //     chain: "rinkeby",
+      //   };
+      //   const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+
+      //   console.log("aaaaaa", tokenAddress, collection, NFTs);
+      //   const res = await Moralis.Plugins.opensea.getAsset({
+      //     network: "testnet",
+      //     tokenAddress: tokenAddress,
+      //     tokenId: NFTs.result[NFTs.result.length - 1].token_id,
+      //   });
+      //   newAry.push(res);
+      // }
+
+      // newAry.forEach((arr) => {
+      //   collections.forEach((col) => {
+      //     if (arr.tokenAddress === col.attributes.collectionAddress) {
+      //       arr["isHot"] = col.attributes.isHot;
+      //     }
+      //   });
+      // });
+
+      // console.log(
+      //   "results",
+      //   newAry[0].tokenAddress,
+      //   collections[0].attributes.collectionAddress,
+      //   newAry,
+      // );
+      // setGames(newAry);
     }
   }, []);
 
   useEffect(() => {
     console.log("sd");
     getCollectionData().catch(console.error);
-  }, []);
-
+  }, [filter]);
+  console.log("filter", filter);
   return (
     <Layout>
       <Swiper
@@ -178,7 +189,17 @@ const Games = () => {
           </div>
         </SwiperSlide>
       </Swiper>
-      {games ? <GameItems title="Explore Games" data={games} /> : <Loader />}
+      {games ? (
+        <GameItems
+          getCollectionData={getCollectionData}
+          setGames={setGames}
+          setFilter={setFilter}
+          title="Explore Games"
+          data={games}
+        />
+      ) : (
+        <Loader />
+      )}
     </Layout>
   );
 };

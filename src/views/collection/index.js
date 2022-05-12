@@ -43,54 +43,75 @@ const Collection = (props) => {
   console.log("tokenAddress", tokenAddress);
   const { Moralis } = useMoralis();
 
+  const { fetch } = useMoralisQuery(
+    "Games",
+    (query) =>
+      query
+        .descending("createdAt")
+        .equalTo("status", "ACTIVE")
+        .equalTo("collectionAddress", tokenAddress)
+        .descending("createdAt"),
+    [],
+    { autoFetch: false },
+  );
+
   const getCollectionData = useCallback(async () => {
     console.log("sd12", Moralis);
 
-    await Moralis.initPlugins();
-
-    const options = {
-      address: tokenAddress,
-      chain: "eth",
-    };
-    const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
-
-    const res = await Moralis.Plugins.opensea.getAsset({
-      network: "mainnet",
-      tokenAddress: tokenAddress,
-      tokenId: NFTs.result[NFTs.result.length - 1].token_id,
+    const collections = await fetch({
+      onSuccess: (result) => console.log(result),
+      onError: (error) => console.log("err1", error),
     });
+    console.log("sd12 collectionss", collections);
 
-    setGameData(res);
-    console.log("results", res);
+    setGameData(collections[0].attributes.gameInfo);
+    setItems(JSON.parse(collections[0].attributes.gameItems));
 
-    NFTs.result.length = 10;
-    console.log("NFTs", NFTs);
-    let arr = [];
-    for (let nft of NFTs.result) {
-      const options1 = {
-        address: nft.token_address,
-        token_id: nft.token_id,
-        chain: "eth",
-      };
-      const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
-        options1,
-      );
-      arr.push(tokenIdMetadata);
+    // await Moralis.initPlugins();
 
-      // const trade = await Moralis.Plugins.opensea.getOrders({
-      //   network: "mainnet",
-      //   tokenAddress: nft.token_address,
-      //   tokenId: nft.token_id,
-      //   //   orderSide: side,
-      //   page: 1,
-      //   // pagination shows 20 orders each page
-      // });
-      // // setOrders(trade.orders);
-      // console.log("trade", trade);
-    }
+    // const options = {
+    //   address: tokenAddress,
+    //   chain: "rinkeby",
+    // };
+    // const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
 
-    console.log("tokenIdMetadata", arr);
-    setItems(arr);
+    // const res = await Moralis.Plugins.opensea.getAsset({
+    //   network: "testnet",
+    //   tokenAddress: tokenAddress,
+    //   tokenId: NFTs.result[NFTs.result.length - 1].token_id,
+    // });
+
+    // setGameData(res);
+    // console.log("results", res);
+
+    // NFTs.result.length = 10;
+    // console.log("NFTs", NFTs);
+    // let arr = [];
+    // for (let nft of NFTs.result) {
+    //   const options1 = {
+    //     address: nft.token_address,
+    //     token_id: nft.token_id,
+    //     chain: "rinkeby",
+    //   };
+    //   const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
+    //     options1,
+    //   );
+    //   arr.push(tokenIdMetadata);
+
+    //   // const trade = await Moralis.Plugins.opensea.getOrders({
+    //   //   network: "testnet",
+    //   //   tokenAddress: nft.token_address,
+    //   //   tokenId: nft.token_id,
+    //   //   //   orderSide: side,
+    //   //   page: 1,
+    //   //   // pagination shows 20 orders each page
+    //   // });
+    //   // // setOrders(trade.orders);
+    //   // console.log("trade", trade);
+    // }
+
+    // console.log("tokenIdMetadata", arr);
+    // setItems(arr);
   }, []);
 
   useEffect(() => {

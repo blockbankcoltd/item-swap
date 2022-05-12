@@ -3,8 +3,8 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 const Item = ({ data }) => {
-  console.log("data", data);
   let metadata = JSON.parse(data.metadata);
+  console.log("data", metadata);
   return (
     <div className="col-md-3 px-3 my-4">
       <Link to={`/item/${data.token_address}/${data.token_id}`}>

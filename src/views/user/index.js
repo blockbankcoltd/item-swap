@@ -44,7 +44,7 @@ const User = (props) => {
 
     await Moralis.initPlugins();
 
-    const options5 = { chain: "eth", address: account };
+    const options5 = { chain: "rinkeby", address: account };
     const myNfts = await Moralis.Web3API.account.getNFTs(options5);
 
     console.log("myNfts", myNfts);

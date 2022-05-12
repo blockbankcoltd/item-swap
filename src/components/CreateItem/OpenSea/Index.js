@@ -15,6 +15,9 @@ import {
 } from "react-moralis";
 
 const AddOpenSeaCollection = () => {
+  const network = process.env.network;
+  const chain = process.env.chain;
+
   const [nftAddress, setNftAddress] = useState("");
   const [nftAddressError, setNftAddressError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -30,6 +33,11 @@ const AddOpenSeaCollection = () => {
   } = useMoralis();
   const { error, isUploading, moralisFile, saveFile } = useMoralisFile();
   const { isSaving, error: objError, save } = useNewMoralisObject("Games");
+  const {
+    isSaving: gameItemsIsSaving,
+    error: gameItemsError,
+    save: gameItemsSave,
+  } = useNewMoralisObject("GameItems");
 
   const {
     data,
@@ -120,12 +128,32 @@ const AddOpenSeaCollection = () => {
       }, 5000);
       return;
     }
+
+    const options = {
+      address: nftAddress,
+      chain: "rinkeby",
+    };
+    const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+
+    console.log("NFT ADDRESS", NFTs);
+
+    const res = await Moralis.Plugins.opensea.getAsset({
+      network: "testnet",
+      tokenAddress: nftAddress,
+      tokenId: NFTs.result[NFTs.result.length - 1].token_id,
+    });
+
+    console.log("result", res);
+
     let collectionData = {
       collectionAddress: nftAddress,
       market: "opensea",
       status: "ACTIVE",
       isActive: true,
+      gameInfo: res,
+      gameItems: JSON.stringify(NFTs.result),
     };
+
     await save(collectionData);
     setNftAddress("");
     setSuccessMsg("Collection added successfully.");

@@ -64,28 +64,35 @@ const List = (props) => {
                           <div className="swiper-wrapper">
                             <div className="swiper-slide">
                               <div className="slider-item">
-                                <Link to={`/collection/${item.tokenAddress}`}>
+                                <Link
+                                  to={`/collection/${item.gameInfo.tokenAddress}`}
+                                >
                                   <div className="p-3 sc-card-product">
                                     <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
                                       <div className="d-flex align-items-center">
                                         <img
                                           className="sc-card-img"
-                                          src={item.owner.profile_img_url}
+                                          src={
+                                            item.gameInfo.owner.profile_img_url
+                                          }
                                         />
                                         <div>
                                           <p className="mb-0 gilroy-normal font-13 line-height creator">
                                             Creator
                                           </p>
                                           <h5 className="gilroy-semibold font-15">
-                                            {/* {item.owner.address} */}
-                                            {item.assetContract.tokenSymbol}
+                                            {/* {item.gameInfo.owner.address} */}
+                                            {
+                                              item.gameInfo.assetContract
+                                                .tokenSymbol
+                                            }
                                           </h5>
                                         </div>
                                       </div>
                                       <div className="d-flex justify-content-end align-items-center likes">
                                         <AiOutlineHeart className="font-14 icon me-1" />
                                         <p className="font-13 m-0">
-                                          {item.likes}
+                                          {item.likes ? item.likes : 0}
                                         </p>
                                       </div>
                                     </div>
@@ -96,7 +103,9 @@ const List = (props) => {
                                           maxHeight: "300px",
                                           minHeight: "300px",
                                         }}
-                                        src={item.assetContract.imageUrl}
+                                        src={
+                                          item.gameInfo.assetContract.imageUrl
+                                        }
                                       />
                                       <div className="history-btn">
                                         <a className="my-btn my-btn-clr">
@@ -106,7 +115,7 @@ const List = (props) => {
                                     </div>
                                     <br />
                                     <h5 className="gilroy-bold">
-                                      {item.assetContract.name}
+                                      {item.gameInfo.assetContract.name}
                                     </h5>
                                     <br />
                                     {/* <div className="d-flex justify-content-between align-items-center">

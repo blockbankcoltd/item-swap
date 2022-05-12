@@ -69,7 +69,7 @@ const Item = (props) => {
     await Moralis.initPlugins();
 
     const res = await Moralis.Plugins.opensea.getAsset({
-      network: "mainnet",
+      network: "testnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
     });
@@ -80,7 +80,7 @@ const Item = (props) => {
     const options1 = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "eth",
+      chain: "rinkeby",
     };
     const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
       options1,
@@ -88,11 +88,11 @@ const Item = (props) => {
 
     setItemData(tokenIdMetadata);
     setItemMetadata(JSON.parse(tokenIdMetadata.metadata));
-    console.log("tokenIdMetadata", tokenIdMetadata);
+    console.log("tokenIdMetadata", JSON.parse(tokenIdMetadata.metadata));
     const options = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "eth",
+      chain: "rinkeby",
     };
     const tokenIdOwners = await Moralis.Web3API.token.getTokenIdOwners(options);
 
@@ -101,7 +101,7 @@ const Item = (props) => {
     const options2 = {
       address: tokenAddress,
       token_id: tokenId,
-      chain: "eth",
+      chain: "rinkeby",
     };
     const transfers = await Moralis.Web3API.token.getWalletTokenIdTransfers(
       options2,
@@ -111,7 +111,7 @@ const Item = (props) => {
     console.log("transfers", transfers);
 
     const trade = await Moralis.Plugins.opensea.getOrders({
-      network: "mainnet",
+      network: "testnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
       //   orderSide: side,
@@ -126,21 +126,21 @@ const Item = (props) => {
     console.log("Buy", price);
     if (!isAuthenticated) authenticate();
     const result = await Moralis.Plugins.opensea.createBuyOrder({
-      network: "mainnet",
+      network: "testnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
       tokenType: itemData.contract_type,
       amount: parseFloat(price),
       userAddress: account,
       //   paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //Testnet
-      paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //Mainnet
+      paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //testnet
     });
   };
 
   const handleSell = async () => {
     SetSellButtonDisabled(true);
     const result = await Moralis.Plugins.opensea.createSellOrder({
-      network: "mainnet",
+      network: "testnet",
       tokenAddress: tokenAddress,
       tokenId: tokenId,
       tokenType: itemData.contract_type,
@@ -150,6 +150,7 @@ const Item = (props) => {
 
       // expirationTime: expirationTime, Only set if you startAmount > endAmount
     });
+    console.log(result);
     SetSellButtonDisabled(false);
     setSell(false);
   };
@@ -270,7 +271,7 @@ const Item = (props) => {
                       <h4 className="mb-0 gilroy-bold">Buy for 8.50ETH</h4>
                     </div> */}
                       <button
-                        class="primary-btn text-nowrap mx-2 w-100"
+                        className="primary-btn text-nowrap mx-2 w-100"
                         onClick={() =>
                           handleBuy(
                             Moralis.Units.FromWei(orders[0].currentPrice),
@@ -295,8 +296,9 @@ const Item = (props) => {
                   <div>
                     {!sell ? (
                       <button
-                        class="primary-btn text-nowrap mx-2 w-100"
+                        className="primary-btn text-nowrap mx-2 w-100"
                         onClick={() => setSell(true)}
+                        disabled={sellButtonDisabled}
                       >
                         Sell
                       </button>
@@ -309,13 +311,16 @@ const Item = (props) => {
                           <div className="input-group mb-3">
                             <input
                               type="text"
-                              class="form-control  number-input"
+                              className="form-control  number-input"
                               placeholder="Enter Amount"
                               aria-label="Enter Amount"
                               aria-describedby="basic-addon2"
                               onChange={(e) => setPrice(e.target.value)}
                             />
-                            <span class="input-group-text" id="basic-addon2">
+                            <span
+                              className="input-group-text"
+                              id="basic-addon2"
+                            >
                               ETH
                             </span>
                           </div>
@@ -329,7 +334,7 @@ const Item = (props) => {
                             <h4 className="mb-0">Cancel</h4>
                           </div>
                           <button
-                            class="primary-btn text-nowrap mx-2 w-100"
+                            className="primary-btn text-nowrap mx-2 w-100"
                             onClick={handleSell}
                             // disabled={sellButtonDisabled}
                           >
@@ -357,8 +362,10 @@ const Item = (props) => {
                         {itemMetadata.attributes ? (
                           itemMetadata.attributes.map((trait) => (
                             <ul className="card-2-ul d-flex justify-content-between align-items-center">
-                              <li className="text-primary">{trait.type}</li>
-                              <li>{trait.description}</li>
+                              <li className="text-primary">
+                                {trait.type || trait.trait_type}
+                              </li>
+                              <li>{trait.description || trait.value}</li>
                               {/* <li className="gilroy-normal">
                                   19% have this trait
                                 </li> */}

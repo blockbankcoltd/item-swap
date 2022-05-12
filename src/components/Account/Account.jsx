@@ -225,7 +225,9 @@ function Account() {
             padding: "10px 0",
           }}
         >
-          <Link to="/user">Profile</Link>
+          <Link to="/user" style={{ color: "#000 !important" }}>
+            Profile
+          </Link>
         </div>
         <Button
           size="large"

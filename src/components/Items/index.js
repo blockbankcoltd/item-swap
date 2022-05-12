@@ -7,6 +7,7 @@ import nft5 from "../../assets/images/nft/nft5.png";
 import Item from "./Item";
 
 function Items(props) {
+  console.log("props", props);
   let data = props.data;
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();

@@ -47,13 +47,18 @@ const App = ({ isServerInfo }) => {
   // );
   // console.log(1, isAdminLoggedIn);
 
+<<<<<<< HEAD
   // Testnet
-  // const APP_ID = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
-  // const SERVER_URL = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
+  const APP_ID = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
+  const SERVER_URL = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
 
   // Mainnet
-  const APP_ID = "qECeUtEvtZpyMyfGX8eFMmbN8nIXEA45z1eqQZ2c";
-  const SERVER_URL = "https://majoemkakjml.usemoralis.com:2053/server";
+  // const APP_ID = "qECeUtEvtZpyMyfGX8eFMmbN8nIXEA45z1eqQZ2c";
+  // const SERVER_URL = "https://majoemkakjml.usemoralis.com:2053/server";
+=======
+  const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
+  const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
+>>>>>>> fa80337 (Env update)
 
   Moralis.start({ serverUrl: SERVER_URL, appId: APP_ID });
 

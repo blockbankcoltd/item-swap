@@ -11,10 +11,8 @@ function GameItems(props) {
   };
 
   let data = props.data;
-  console.log("data", props);
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();
-  console.log("asxzxz", useMoralisDapp());
   const NFTCollections = getCollectionsByChain(chainId);
   return (
     <Fragment>
@@ -27,6 +25,9 @@ function GameItems(props) {
                 <div id="sort-by" class="dropdown">
                   <a className="btn-selector nolink">Sort by</a>
                   <ul>
+                    <li onClick={() => props.setFilter("all")}>
+                      <span>All</span>
+                    </li>
                     <li onClick={() => props.setFilter("popular")}>
                       <span>Popular</span>
                     </li>

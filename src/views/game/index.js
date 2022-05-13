@@ -30,19 +30,25 @@ const Games = () => {
   const { chainId, chain } = useChain();
 
   const [games, setGames] = useState(null);
-  const [filter, setFilter] = useState("popular");
+  const [filter, setFilter] = useState("all");
 
   const { fetch } = useMoralisQuery(
     "Games",
-    (query) =>
-      filter === "hot"
-        ? query
-            .equalTo("status", "ACTIVE")
-            .equalTo("isHot", true)
-            .descending("createdAt")
-        : query
-            .equalTo("status", "ACTIVE")
-            .descending(filter === "popular" ? "likes" : "createdAt"),
+    (query) => {
+      console.log("c21als2k", filter);
+      if (filter == "hot") {
+        return query
+          .equalTo("status", "ACTIVE")
+          .equalTo("isHot", true)
+          .equalTo("isActive", true)
+          .descending("createdAt");
+      } else {
+        return query
+          .equalTo("status", "ACTIVE")
+          .equalTo("isActive", true)
+          .descending(filter === "popular" ? "likes" : "createdAt");
+      }
+    },
     [],
     { autoFetch: false },
   );
@@ -52,54 +58,42 @@ const Games = () => {
       onSuccess: (result) => console.log(result),
       onError: (error) => console.log("err1", error),
     });
-    console.log("sd12 collectionss", collections);
 
     if (collections && collections.length > 0) {
       let newAry = JSON.parse(JSON.stringify(collections));
       setGames(newAry);
-
-      // let newAry = [];
-      // for (let collection of collections) {
-      //   let tokenAddress = collection.attributes.collectionAddress;
-
-      //   const options = {
-      //     address: tokenAddress,
-      //     chain: "rinkeby",
-      //   };
-      //   const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
-
-      //   console.log("aaaaaa", tokenAddress, collection, NFTs);
-      //   const res = await Moralis.Plugins.opensea.getAsset({
-      //     network: "testnet",
-      //     tokenAddress: tokenAddress,
-      //     tokenId: NFTs.result[NFTs.result.length - 1].token_id,
-      //   });
-      //   newAry.push(res);
-      // }
-
-      // newAry.forEach((arr) => {
-      //   collections.forEach((col) => {
-      //     if (arr.tokenAddress === col.attributes.collectionAddress) {
-      //       arr["isHot"] = col.attributes.isHot;
-      //     }
-      //   });
-      // });
-
-      // console.log(
-      //   "results",
-      //   newAry[0].tokenAddress,
-      //   collections[0].attributes.collectionAddress,
-      //   newAry,
-      // );
-      // setGames(newAry);
     }
   }, []);
 
   useEffect(() => {
-    console.log("sd");
     getCollectionData().catch(console.error);
-  }, [filter]);
-  console.log("filter", filter);
+  }, []);
+
+  const filterGames = async (val) => {
+    setGames(null);
+
+    const Games = Moralis.Object.extend("Games");
+    const query = new Moralis.Query(Games);
+    query.equalTo("status", "ACTIVE");
+    query.equalTo("isActive", true);
+    if (val == "hot") {
+      query.equalTo("isHot", true);
+      query.descending("createdAt");
+    } else {
+      query.descending(filter === "popular" ? "likes" : "createdAt");
+    }
+    const results = await query.find();
+
+    let newAry = [];
+    setFilter(val);
+    if (results && results.length) {
+      newAry = JSON.parse(JSON.stringify(results));
+      setGames(newAry);
+    } else {
+      setGames(newAry);
+    }
+  };
+
   return (
     <Layout>
       <Swiper
@@ -186,18 +180,16 @@ const Games = () => {
           </div>
         </SwiperSlide>
       </Swiper>
-      {chainId === "0x4" ? (
-        games ? (
-          <GameItems
-            getCollectionData={getCollectionData}
-            setGames={setGames}
-            setFilter={setFilter}
-            title="Explore Games"
-            data={games}
-          />
-        ) : (
-          <Loader />
-        )
+      {games ? (
+        <GameItems
+          setFilter={filterGames}
+          title={
+            filter !== "all"
+              ? `Showing results for ${filter} games`
+              : "Explore Games"
+          }
+          data={games}
+        />
       ) : (
         <h1 className="tf-title">No collection found on this network</h1>
       )}

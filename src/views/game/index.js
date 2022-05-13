@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useMoralisQuery, useMoralis } from "react-moralis";
+import { useMoralisQuery, useMoralis, useChain } from "react-moralis";
 import Layout from "../../layout";
 import { Navigation, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -27,26 +27,23 @@ const Games = () => {
     isWeb3Enabled,
   } = useMoralis();
 
+  const { chainId, chain } = useChain();
+
   const [games, setGames] = useState(null);
   const [filter, setFilter] = useState("popular");
 
   const { fetch } = useMoralisQuery(
     "Games",
-    (query) => {
-      if (filter == "hot") {
-        console.log("hot", filter);
-        return query
-          .equalTo("status", "ACTIVE")
-          .equalTo("isHot", true)
-          .descending("createdAt");
-      } else {
-        console.log("!hot", filter);
-        return query
-          .equalTo("status", "ACTIVE")
-          .descending(filter === "popular" ? "likes" : "createdAt");
-      }
-    },
-    [filter],
+    (query) =>
+      filter === "hot"
+        ? query
+            .equalTo("status", "ACTIVE")
+            .equalTo("isHot", true)
+            .descending("createdAt")
+        : query
+            .equalTo("status", "ACTIVE")
+            .descending(filter === "popular" ? "likes" : "createdAt"),
+    [],
     { autoFetch: false },
   );
 
@@ -189,16 +186,20 @@ const Games = () => {
           </div>
         </SwiperSlide>
       </Swiper>
-      {games ? (
-        <GameItems
-          getCollectionData={getCollectionData}
-          setGames={setGames}
-          setFilter={setFilter}
-          title="Explore Games"
-          data={games}
-        />
+      {chainId === "0x4" ? (
+        games ? (
+          <GameItems
+            getCollectionData={getCollectionData}
+            setGames={setGames}
+            setFilter={setFilter}
+            title="Explore Games"
+            data={games}
+          />
+        ) : (
+          <Loader />
+        )
       ) : (
-        <Loader />
+        <h1 className="tf-title">No collection found on this network</h1>
       )}
     </Layout>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { useMoralisQuery, useMoralis } from "react-moralis";
+import { useMoralisQuery, useMoralis, useChain } from "react-moralis";
 import { Accordion } from "react-bootstrap-accordion";
 import Layout from "../../layout";
 import { Navigation, Scrollbar, A11y } from "swiper";
@@ -28,6 +28,8 @@ const Home = () => {
     isWeb3Enabled,
   } = useMoralis();
 
+  const { chainId, chain } = useChain();
+  console.log("chainID", chainId);
   const [newList, setNewlist] = useState(null);
   const [popularList, setPopularlist] = useState(null);
   const [hotList, setHotlist] = useState(null);
@@ -38,52 +40,74 @@ const Home = () => {
       query
         .descending("createdAt")
         .equalTo("status", "ACTIVE")
+        .equalTo("isActive", true)
         .descending("createdAt")
-        .limit(4),
+        .limit(20),
     [],
     { autoFetch: false },
   );
 
   const getCollectionData = useCallback(async () => {
-    console.log("sd12");
+    console.log("sd12", localStorage);
 
     const collections = await fetch({
       onSuccess: (result) => console.log(result),
       onError: (error) => console.log("err1", error),
     });
-    console.log("sd12 collectionss", collections);
+
+    console.log("sd12 nfts", collections);
 
     if (collections && collections.length > 0) {
-      let newAry = [];
-      for (let collection of collections) {
-        let tokenAddress = collection.attributes.collectionAddress;
-        console.log(tokenAddress, collection);
-        const res = await Moralis.Plugins.opensea.getAsset({
-          network: "testnet",
-          tokenAddress: tokenAddress,
-          tokenId: "",
-        });
-        newAry.push(res);
-      }
-
-      newAry.forEach((arr) => {
-        collections.forEach((col) => {
-          if (arr.tokenAddress === col.attributes.collectionAddress) {
-            arr["isHot"] = col.attributes.isHot;
-          }
-        });
-      });
-
+      let newAry = JSON.parse(JSON.stringify(collections));
       console.log(
-        "results",
-        newAry[0].tokenAddress,
-        collections[0].attributes.collectionAddress,
-        newAry,
+        "avavavsavavdasdasad",
+        newAry.sort((a, b) => (a.likes > b.likes ? -1 : 1)),
       );
-      setPopularlist(newAry);
+      setPopularlist(newAry.sort((a, b) => (a.likes > b.likes ? -1 : 1)));
+      // setPopularlist(collections);
       setNewlist(newAry);
       setHotlist(newAry.filter((arr) => arr.isHot === true));
     }
+
+    // if (collections && collections.length > 0) {
+    //   let newAry = [];
+    //   for (let collection of collections) {
+    //     let tokenAddress = collection.attributes.collectionAddress;
+
+    //     const options = {
+    //       address: tokenAddress,
+    //       chain: "rinkeby",
+    //     };
+    //     const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+
+    //     console.log(tokenAddress, collection);
+    //     const res = await Moralis.Plugins.opensea.getAsset({
+    //       network: "testnet",
+    //       tokenAddress: tokenAddress,
+    //       tokenId: NFTs.result[NFTs.result.length - 1].token_id,
+    //     });
+    //     newAry.push(res);
+    //   }
+
+    //   newAry.forEach((arr) => {
+    //     collections.forEach((col) => {
+    //       if (arr.tokenAddress === col.attributes.collectionAddress) {
+    //         arr["isHot"] = col.attributes.isHot;
+    //         arr["likes"] = col.attributes.likes;
+    //       }
+    //     });
+    //   });
+
+    //   console.log(
+    //     "results",
+    //     newAry[0].tokenAddress,
+    //     collections[0].attributes.collectionAddress,
+    //     newAry,
+    //   );
+    //   setPopularlist(newAry);
+    //   setNewlist(newAry);
+    //   setHotlist(newAry.filter((arr) => arr.isHot === true));
+    // }
   }, []);
 
   useEffect(() => {
@@ -103,7 +127,7 @@ const Home = () => {
         <SwiperSlide className="center">
           <div
             className="flat-title-page"
-          // style={{ backgroundImage: `url(${imgbg})` }}
+            // style={{ backgroundImage: `url(${imgbg})` }}
           >
             <img
               className="bgr-gradient gradient1"
@@ -220,15 +244,23 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {popularList ? (
-        <List title={"Popular NFTs"} data={popularList} />
+      {chainId === "0x4" ? (
+        <div>
+          {popularList ? (
+            <List title={"Popular NFTs"} data={popularList} />
+          ) : (
+            <Loader />
+          )}
+          {hotList ? (
+            <List title={"Hot Collection"} data={hotList} />
+          ) : (
+            <Loader />
+          )}
+          {newList ? <List title={"New Release"} data={newList} /> : <Loader />}
+        </div>
       ) : (
-        <Loader />
+        <h1 className="tf-title">No collection found on this network</h1>
       )}
-      {hotList ? <List title={"Hot Collection"} data={hotList} /> : <Loader />}
-      {newList ? <List title={"New Release"} data={newList} /> : <Loader />}
-
       <section className="tf-box-icon create1 style1 tf-section">
         <div className="themesflat-container">
           <div className="row">

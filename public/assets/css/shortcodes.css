@@ -8958,6 +8958,17 @@ button.accordion-button {
   color: #00A3FF;
 }
 
+.profile-cover {
+  border-radius: 15px;
+}
+
+.profile-pic {
+  width: 140px;
+  border-radius: 50%;
+  border: 6px solid var(--primary-color);
+  margin-top: -100px;
+}
+
 .chain-button{
   border: 0px !important;
   border-radius: 30px !important;
@@ -8970,4 +8981,10 @@ button.accordion-button {
   font-weight: 500 !important;
   font-size: 14px !important;
   padding: 23px 10px !important;
+}
+
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

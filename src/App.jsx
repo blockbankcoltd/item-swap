@@ -30,6 +30,7 @@ import ItemList from "views/admin/ItemList";
 import Collection from "views/collection";
 import OpenSea from "views/OpenSea";
 import Item from "views/item";
+import User from "views/user";
 
 const App = ({ isServerInfo }) => {
   const {
@@ -40,13 +41,14 @@ const App = ({ isServerInfo }) => {
     isWeb3EnableLoading,
   } = useMoralis();
   const isAdminLoggedIn = JSON.parse(localStorage.getItem("isAdminLoggedIn"));
+  console.log("isAdminLoggedIn", isAdminLoggedIn);
   // const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
   //   JSON.parse(localStorage.getItem("isAdminLoggedIn")),
   // );
   // console.log(1, isAdminLoggedIn);
 
-  const APP_ID = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
-  const SERVER_URL = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
+  const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
+  const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
 
   Moralis.start({ serverUrl: SERVER_URL, appId: APP_ID });
 
@@ -115,6 +117,9 @@ const App = ({ isServerInfo }) => {
         </Route>
         <Route exact path="/item/:tokenAddress/:tokenId">
           <Item />
+        </Route>
+        <Route exact path="/user">
+          <User />
         </Route>
         <AdminAuthRoute
           authUser={isAdminLoggedIn ? isAdminLoggedIn : null}

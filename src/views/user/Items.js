@@ -7,7 +7,6 @@ import nft5 from "../../assets/images/nft/nft5.png";
 import Item from "./Item";
 
 function Items(props) {
-  console.log("props", props);
   let data = props.data;
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();
@@ -26,9 +25,15 @@ function Items(props) {
                 </Link>
               </div>
             </div> */}
-            {data.map((nft, index) => (
-              <Item data={nft} key={index} />
-            ))}
+            {data.length > 0 ? (
+              data.map((nft, index) =>
+                nft.metadata ? <Item data={nft} key={index} /> : <></>,
+              )
+            ) : (
+              <h1 className="text-16 mb-0 text-center">
+                You have not collected any asset.
+              </h1>
+            )}
           </div>
         </div>
       </section>

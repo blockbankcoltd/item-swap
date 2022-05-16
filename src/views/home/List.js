@@ -14,6 +14,7 @@ import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 
 const List = (props) => {
+  console.log("props", props);
   const data = props.data;
   const title = props.title;
 
@@ -27,7 +28,7 @@ const List = (props) => {
             <div className="col-md-12">
               <div className="heading-live-auctions">
                 <h2 className="tf-title pb-20">{title}</h2>
-                <Link to="/games" className="exp style2">
+                <Link to="/explore-games" className="exp style2">
                   EXPLORE MORE
                 </Link>
               </div>
@@ -63,33 +64,48 @@ const List = (props) => {
                           <div className="swiper-wrapper">
                             <div className="swiper-slide">
                               <div className="slider-item">
-                                <Link to={`/collection/${item.tokenAddress}`}>
+                                <Link
+                                  to={`/collection/${item.gameInfo.tokenAddress}`}
+                                >
                                   <div className="p-3 sc-card-product">
                                     <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
                                       <div className="d-flex align-items-center">
                                         <img
                                           className="sc-card-img"
-                                          src={item.owner.profile_img_url}
+                                          src={
+                                            item.gameInfo.owner.profile_img_url
+                                          }
                                         />
                                         <div>
                                           <p className="mb-0 gilroy-normal font-13 line-height creator">
                                             Creator
                                           </p>
                                           <h5 className="gilroy-semibold font-15">
-                                            {/* {item.owner.address} */}
-                                            {item.assetContract.tokenSymbol}
+                                            {/* {item.gameInfo.owner.address} */}
+                                            {
+                                              item.gameInfo.assetContract
+                                                .tokenSymbol
+                                            }
                                           </h5>
                                         </div>
                                       </div>
                                       <div className="d-flex justify-content-end align-items-center likes">
                                         <AiOutlineHeart className="font-14 icon me-1" />
-                                        <p className="font-13 m-0">3.5k</p>
+                                        <p className="font-13 m-0">
+                                          {item.likes ? item.likes : 0}
+                                        </p>
                                       </div>
                                     </div>
                                     <div className="card img-div">
                                       <img
-                                        style={{ borderRadius: "15px" }}
-                                        src={item.assetContract.imageUrl}
+                                        style={{
+                                          borderRadius: "15px",
+                                          maxHeight: "300px",
+                                          minHeight: "300px",
+                                        }}
+                                        src={
+                                          item.gameInfo.assetContract.imageUrl
+                                        }
                                       />
                                       <div className="history-btn">
                                         <a className="my-btn my-btn-clr">
@@ -99,7 +115,7 @@ const List = (props) => {
                                     </div>
                                     <br />
                                     <h5 className="gilroy-bold">
-                                      {item.assetContract.name}
+                                      {item.gameInfo.assetContract.name}
                                     </h5>
                                     <br />
                                     {/* <div className="d-flex justify-content-between align-items-center">

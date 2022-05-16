@@ -2556,11 +2556,11 @@ header {
 }
 
 .widget-menu ul li {
-  margin-bottom: 14px;
+  margin-bottom: 0px;
 }
 
-.widget-menu ul li:last-child {
-  margin-bottom: 0px;
+.widget-menu ul li:first-child {
+  margin-top: 10px;
 }
 
 .widget-menu ul li a {

@@ -2078,18 +2078,32 @@
 .flat-title-page.inner {
   padding: 139px 0 59px;
   position: relative;
-  background: url(../images/backgroup-secsion/img_bg_page_title_inner.jpg)
+  /* background: url(../images/backgroup-secsion/img_bg_page_title_inner.jpg)
     center center no-repeat;
-  background-size: cover;
+  background-size: cover; */
+  background: rgba(231, 235, 248, 0.8);
 }
 .is_dark .flat-title-page.inner {
-  background: url(../images/backgroup-secsion/img_bg_page_title_dark.jpg) center
+  background: #0D0522;
+  /* background: url(../images/backgroup-secsion/img_bg_page_title_dark.jpg) center
     center no-repeat;
-  background-size: cover;
+  background-size: cover; */
 }
 .page-title-heading .heading {
-  line-height: 58px;
-  color: #fff;
+  color: #14141f;
+  background: linear-gradient(-45deg, #00A3FF, #0243EA, #00A3FF, #0243EA);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 4px transparent;
+  -webkit-text-fill-color: #ffffff;
+}
+.is_dark .page-title-heading .heading {
+  color: #14141f;
+  background: linear-gradient(-45deg, #00A3FF, #0243EA, #00A3FF, #0243EA);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 4px transparent;
+  -webkit-text-fill-color: #14141f;
 }
 
 /* breadcrumbs */

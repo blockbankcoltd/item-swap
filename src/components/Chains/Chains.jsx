@@ -116,7 +116,7 @@ function Chains() {
           className="chain-button"
         >
           <span
-            className="d-none d-md-inline-block color-change"
+            className="d-none d-md-inline-block"
             style={{ marginLeft: "5px" }}
           >
             {selected?.value}

@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useMoralisQuery, useMoralis } from "react-moralis";
+import {
+  useMoralisQuery,
+  useMoralis,
+  useNewMoralisObject,
+} from "react-moralis";
 import { Link, useParams } from "react-router-dom";
 import Layout from "../../layout";
 import "swiper/scss";
@@ -20,9 +24,18 @@ import Title from "components/Loader/Title";
 import ItemsLoader from "components/Loader/ItemsLoader";
 import CollectionThumbnail from "components/Loader/CollectionThumbnail";
 import { ETHLogo } from "components/Chains/Logos";
+import GameItems from "views/game/GameItems";
 
 const Collection = (props) => {
   const { innerWidth } = window;
+
+  const {
+    isSaving,
+    error: objError,
+    save: GameLikes,
+  } = useNewMoralisObject("GameLikes");
+
+  const { save: GameWatchlist } = useNewMoralisObject("GameWatchlist");
 
   //ACTIVE TAB
   const [activeTab, setActiveTab] = useState(1);
@@ -30,8 +43,38 @@ const Collection = (props) => {
   const [items, setItems] = useState(null);
   const [keyword, setKeyword] = useState("");
   const [isLiked, setIsLiked] = useState(false);
+  const [isWatchlisted, setIsWatchlisted] = useState(false);
   const { tokenAddress } = useParams();
-  const { Moralis } = useMoralis();
+  const { Moralis, account } = useMoralis();
+
+  console.log(
+    "account",
+    account,
+    tokenAddress,
+    localStorage.getItem("account"),
+  );
+
+  const { fetch: isGameLiked } = useMoralisQuery(
+    "GameLikes",
+    (query) => {
+      return query
+        .equalTo("user", localStorage.getItem("account"))
+        .equalTo("game", tokenAddress)
+        .equalTo("isActive", true);
+    },
+    [],
+  );
+
+  const { fetch: isGameWatchlisted } = useMoralisQuery(
+    "GameWatchlist",
+    (query) => {
+      return query
+        .equalTo("user", localStorage.getItem("account"))
+        .equalTo("game", tokenAddress)
+        .equalTo("isActive", true);
+    },
+    [],
+  );
 
   const { fetch } = useMoralisQuery(
     "Games",
@@ -46,6 +89,18 @@ const Collection = (props) => {
   );
 
   const getCollectionData = useCallback(async () => {
+    const isLiked = await isGameLiked({
+      onSuccess: (result) => console.log(result),
+      onError: (error) => console.log("err2", error),
+    });
+    setIsLiked(isLiked[0] ? true : false);
+
+    const isWatchlisted = await isGameWatchlisted({
+      onSuccess: (result) => console.log(result),
+      onError: (error) => console.log("err2", error),
+    });
+    setIsLiked(isWatchlisted[0] ? true : false);
+    console.log("sd12 Like", isLiked);
     const collections = await fetch({
       onSuccess: (result) => console.log(result),
       onError: (error) => console.log("err1", error),
@@ -56,14 +111,85 @@ const Collection = (props) => {
     setItems(JSON.parse(collections[0].attributes.gameItems));
   }, []);
 
+  const handleLike = async () => {
+    if (!isLiked) {
+      let options = {
+        user: account,
+        game: tokenAddress,
+        isActive: true,
+      };
+
+      await GameLikes(options);
+
+      const collection = await fetch({
+        onSuccess: (result) => console.log(result),
+        onError: (error) => console.log("err2", error),
+      });
+      console.log("collectionddddd", collection);
+      collection[0].set("likes", collection[0].attributes.likes + 1);
+      await collection[0].save();
+      setIsLiked(true);
+    } else {
+      const likeData = await isGameLiked({
+        onSuccess: (result) => console.log(result),
+        onError: (error) => console.log("err2", error),
+      });
+
+      likeData[0].set("isActive", false);
+      await likeData[0].save();
+
+      const collection = await fetch({
+        onSuccess: (result) => console.log(result),
+        onError: (error) => console.log("err2", error),
+      });
+      console.log("collectionddddd", collection);
+      collection[0].set("likes", collection[0].attributes.likes - 1);
+      await collection[0].save();
+      setIsLiked(false);
+    }
+  };
+
+  const handleWatchlisted = async () => {
+    if (!isWatchlisted) {
+      let options = {
+        user: account,
+        game: tokenAddress,
+        isActive: true,
+      };
+
+      await GameWatchlist(options);
+
+      const collection = await fetch({
+        onSuccess: (result) => console.log(result),
+        onError: (error) => console.log("err2", error),
+      });
+      console.log("collectionddddd", collection);
+      collection[0].set("watchlist", collection[0].attributes.likes + 1);
+      await collection[0].save();
+      setIsWatchlisted(true);
+    } else {
+      const watchlistData = await isGameWatchlisted({
+        onSuccess: (result) => console.log(result),
+        onError: (error) => console.log("err2", error),
+      });
+
+      watchlistData[0].set("isActive", false);
+      await watchlistData[0].save();
+
+      const collection = await fetch({
+        onSuccess: (result) => console.log(result),
+        onError: (error) => console.log("err2", error),
+      });
+      console.log("collectionddddd", collection);
+      collection[0].set("watchlist", collection[0].attributes.likes - 1);
+      await collection[0].save();
+      setIsWatchlisted(false);
+    }
+  };
+
   useEffect(() => {
     getCollectionData().catch(console.error);
   }, []);
-
-  const handleLike = () => {
-    if (!isLiked) {
-    }
-  };
 
   // return <></>;
   return (
@@ -220,19 +346,39 @@ const Collection = (props) => {
                   </div> */}
                   <br />
                   <div className="d-flex justify-content-around align-items-center">
-                    <div className="d-flex justify-content-center align-items-center watchlist-btn me-3 w-100">
+                    <div
+                      className={`d-flex justify-content-center align-items-center watchlist-btn me-3 w-100 ${
+                        isWatchlisted ? "liked" : ""
+                      }`}
+                      onClick={handleWatchlisted}
+                    >
                       <BsBookmarkDash
                         size={20}
-                        className="watchlist-icon me-2"
+                        className={`watchlist-icon me-2 ${
+                          isWatchlisted ? "liked-text" : ""
+                        }`}
                       />
-                      <h4 className="mb-0">Watchlist</h4>
+                      <h4
+                        className={`mb-0 ${isWatchlisted ? "liked-text" : ""}`}
+                      >
+                        {isWatchlisted ? "Watchlisted" : "Watchlist"}
+                      </h4>
                     </div>
                     <div
-                      className="d-flex justify-content-center align-items-center watchlist-btn me-3 w-100"
+                      className={`d-flex justify-content-center align-items-center watchlist-btn me-3 w-100 ${
+                        isLiked ? "liked" : ""
+                      }`}
                       onClick={handleLike}
                     >
-                      <FiThumbsUp size={20} className="watchlist-icon me-2" />
-                      <h4 className="mb-0">Like</h4>
+                      <FiThumbsUp
+                        size={20}
+                        className={`watchlist-icon me-2 ${
+                          isLiked ? "liked-text" : ""
+                        }`}
+                      />
+                      <h4 className={`mb-0 ${isLiked ? "liked-text" : ""}`}>
+                        {isLiked ? "Liked" : "Like"}
+                      </h4>
                     </div>
                     {/* <div>
                       <FaEllipsisV size={20} className="menu-btn" />

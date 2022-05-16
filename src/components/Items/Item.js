@@ -4,7 +4,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 const Item = ({ data }) => {
-  console.log("data", data);
+  // console.log("data", data);
   let metadata = JSON.parse(data.metadata);
   // console.log("metadata", metadata);
   if (!metadata) return <></>;

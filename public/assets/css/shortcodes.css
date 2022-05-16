@@ -8988,3 +8988,12 @@ button.accordion-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.liked {
+  background: #014CEB;
+  color: #ffffff;
+}
+
+.liked-text {
+  color: #fff !important
+}

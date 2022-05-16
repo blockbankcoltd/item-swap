@@ -66,6 +66,7 @@ function Account() {
   useEffect(() => {
     setTimeout(() => {
       if (account) {
+        localStorage.setItem("account", account);
         console.log("hello", adminWalletAddress, account);
         if (
           adminWalletAddress &&

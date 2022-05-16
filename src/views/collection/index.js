@@ -1,20 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useMoralisQuery, useMoralis } from "react-moralis";
 import { Link, useParams } from "react-router-dom";
-import { Accordion } from "react-bootstrap-accordion";
 import Layout from "../../layout";
-import { Navigation, Scrollbar, A11y } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
-import TodayPick from "../home/todayPick";
-import PopularCollection from "components/UI/PopularCollection";
-import popularCollectionData from "assets/fake-data/data-popular-collection";
-import nft1 from "../../assets/images/nft/nft1.png";
-import nft2 from "../../assets/images/nft/nft2.png";
-import nft3 from "../../assets/images/nft/nft3.png";
-import nft4 from "../../assets/images/nft/nft4.png";
 import author from "../../assets/images/avatar/author.png";
 import dotPattern from "../../assets/images/icon/dot-pattern.png";
 import { BsPatchCheckFill } from "react-icons/bs";
@@ -23,7 +13,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { BsBookmarkDash } from "react-icons/bs";
 import { FaEllipsisV } from "react-icons/fa";
 import { BiGridAlt, BiGrid, BiSliderAlt } from "react-icons/bi";
-import { FiSearch } from "react-icons/fi";
+import { FiSearch, FiThumbsUp } from "react-icons/fi";
 import Items from "components/Items";
 import GameDescription from "components/Loader/GameDescription";
 import Title from "components/Loader/Title";
@@ -33,14 +23,14 @@ import { ETHLogo } from "components/Chains/Logos";
 
 const Collection = (props) => {
   const { innerWidth } = window;
-  console.log("innerWidth", innerWidth);
 
   //ACTIVE TAB
   const [activeTab, setActiveTab] = useState(1);
   const [gameData, setGameData] = useState([]);
   const [items, setItems] = useState(null);
+  const [keyword, setKeyword] = useState("");
+  const [isLiked, setIsLiked] = useState(false);
   const { tokenAddress } = useParams();
-  console.log("tokenAddress", tokenAddress);
   const { Moralis } = useMoralis();
 
   const { fetch } = useMoralisQuery(
@@ -56,8 +46,6 @@ const Collection = (props) => {
   );
 
   const getCollectionData = useCallback(async () => {
-    console.log("sd12", Moralis);
-
     const collections = await fetch({
       onSuccess: (result) => console.log(result),
       onError: (error) => console.log("err1", error),
@@ -66,58 +54,17 @@ const Collection = (props) => {
 
     setGameData(collections[0].attributes.gameInfo);
     setItems(JSON.parse(collections[0].attributes.gameItems));
-
-    // await Moralis.initPlugins();
-
-    // const options = {
-    //   address: tokenAddress,
-    //   chain: "rinkeby",
-    // };
-    // const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
-
-    // const res = await Moralis.Plugins.opensea.getAsset({
-    //   network: "testnet",
-    //   tokenAddress: tokenAddress,
-    //   tokenId: NFTs.result[NFTs.result.length - 1].token_id,
-    // });
-
-    // setGameData(res);
-    // console.log("results", res);
-
-    // NFTs.result.length = 10;
-    // console.log("NFTs", NFTs);
-    // let arr = [];
-    // for (let nft of NFTs.result) {
-    //   const options1 = {
-    //     address: nft.token_address,
-    //     token_id: nft.token_id,
-    //     chain: "rinkeby",
-    //   };
-    //   const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
-    //     options1,
-    //   );
-    //   arr.push(tokenIdMetadata);
-
-    //   // const trade = await Moralis.Plugins.opensea.getOrders({
-    //   //   network: "testnet",
-    //   //   tokenAddress: nft.token_address,
-    //   //   tokenId: nft.token_id,
-    //   //   //   orderSide: side,
-    //   //   page: 1,
-    //   //   // pagination shows 20 orders each page
-    //   // });
-    //   // // setOrders(trade.orders);
-    //   // console.log("trade", trade);
-    // }
-
-    // console.log("tokenIdMetadata", arr);
-    // setItems(arr);
   }, []);
 
   useEffect(() => {
-    console.log("sd");
     getCollectionData().catch(console.error);
   }, []);
+
+  const handleLike = () => {
+    if (!isLiked) {
+    }
+  };
+
   // return <></>;
   return (
     <Layout>
@@ -257,7 +204,7 @@ const Collection = (props) => {
                 </div>
                 {/* Links */}
                 <div className="d-sm-flex justify-content-between align-items-center">
-                  <div className="d-flex justify-content-center align-items-center">
+                  {/* <div className="d-flex justify-content-center align-items-center">
                     <div className="social-btn me-3">
                       <FiGlobe className="icon" />
                     </div>
@@ -270,7 +217,7 @@ const Collection = (props) => {
                     <div className="social-btn me-3">
                       <FaFacebookF className="icon" />
                     </div>
-                  </div>
+                  </div> */}
                   <br />
                   <div className="d-flex justify-content-around align-items-center">
                     <div className="d-flex justify-content-center align-items-center watchlist-btn me-3 w-100">
@@ -280,9 +227,16 @@ const Collection = (props) => {
                       />
                       <h4 className="mb-0">Watchlist</h4>
                     </div>
-                    <div>
-                      <FaEllipsisV size={20} className="menu-btn" />
+                    <div
+                      className="d-flex justify-content-center align-items-center watchlist-btn me-3 w-100"
+                      onClick={handleLike}
+                    >
+                      <FiThumbsUp size={20} className="watchlist-icon me-2" />
+                      <h4 className="mb-0">Like</h4>
                     </div>
+                    {/* <div>
+                      <FaEllipsisV size={20} className="menu-btn" />
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -306,11 +260,19 @@ const Collection = (props) => {
           </div>
           <div className="d-flex justyfy-content-between align-items-center order-3">
             <div>
-              <FiSearch size={20} className="mx-2 menu-btn border-blue" />
+              <input
+                type="text"
+                placeholder="Search Item..."
+                onChange={(e) => setKeyword(e.target.value)}
+                className="form-control rounded-pill border-blue"
+              />
             </div>
             <div>
-              <BiSliderAlt size={20} className="mx-2 menu-btn border-blue" />
+              <FiSearch size={20} className="mx-2 menu-btn border-blue" />
             </div>
+            {/* <div>
+              <BiSliderAlt size={20} className="mx-2 menu-btn border-blue" />
+            </div> */}
           </div>
           <div className="d-flex justify-content-center align-items-center order-2">
             <div
@@ -417,7 +379,7 @@ const Collection = (props) => {
       </section>
       {/* FOR MOBILE ONLY */}
 
-      {items ? <Items data={items} /> : <ItemsLoader />}
+      {items ? <Items data={items} searchKeyword={keyword} /> : <ItemsLoader />}
       {/* <PopularCollection data={popularCollectionData} /> */}
     </Layout>
   );

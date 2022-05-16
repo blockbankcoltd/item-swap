@@ -8807,7 +8807,7 @@ button.accordion-button {
 }
 
 .border-blue {
-  border: 1px solid #1367F2;
+  border: 1px solid #1367F2 !important;
 }
 
 @media only screen and (max-width: 600px) {

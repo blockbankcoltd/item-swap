@@ -35,19 +35,11 @@ const Games = () => {
   const { fetch } = useMoralisQuery(
     "Games",
     (query) => {
-      console.log("c21als2k", filter);
-      if (filter == "hot") {
-        return query
-          .equalTo("status", "ACTIVE")
-          .equalTo("isHot", true)
-          .equalTo("isActive", true)
-          .descending("createdAt");
-      } else {
-        return query
-          .equalTo("status", "ACTIVE")
-          .equalTo("isActive", true)
-          .descending(filter === "popular" ? "likes" : "createdAt");
-      }
+      return query
+        .equalTo("status", "ACTIVE")
+        .equalTo("isActive", true)
+        .equalTo("chainId", chainId)
+        .descending(filter === "popular" ? "likes" : "createdAt");
     },
     [],
     { autoFetch: false },
@@ -62,6 +54,7 @@ const Games = () => {
     if (collections && collections.length > 0) {
       let newAry = JSON.parse(JSON.stringify(collections));
       setGames(newAry);
+      console.log("newAry", newAry);
     }
   }, []);
 

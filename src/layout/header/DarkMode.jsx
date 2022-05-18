@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect, useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Route, withRouter, Link, Redirect } from "react-router-dom";
@@ -7,7 +7,6 @@ import { searchGame } from "../../redux/actions";
 const DarkMode = (props) => {
     console.log('props', props);
     const [searchText, setSearchText] = useState("");
-    const dispatch = useDispatch();
     let clickedClass = "clicked"
     const body = document.body
     const lightTheme = "light"
@@ -23,6 +22,13 @@ const DarkMode = (props) => {
         body.classList.add(darkTheme)
     }
 
+    // useEffect(() => {
+    //     const firstPath = props.match.path.split('/')[1];
+    //     console.log('firstPath', firstPath);
+    //     if (firstPath === 'search') {
+    //         window.location.reload();
+    //     }
+    // }, []);
 
     const switchTheme = e => {
         if (theme === darkTheme) {
@@ -39,10 +45,19 @@ const DarkMode = (props) => {
     }
 
     const handleSearch = (e) => {
-        props.history.push({
-            pathname: `/search/${searchText}`,
-            match: { searchText, props: props }
-        });
+        const firstPath = props.match.path.split('/')[1];
+        if (firstPath === 'search') {
+            props.history.push({
+                pathname: `/search/${searchText}`,
+                match: { searchText, props: props }
+            });
+            window.location.reload();
+        } else {
+            props.history.push({
+                pathname: `/search/${searchText}`,
+                match: { searchText, props: props }
+            });
+        }
         // let callback = () => {
         //     console.log('searchKey', searchText);
         //     props.history.push(`/explore-games`);

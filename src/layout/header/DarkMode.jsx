@@ -1,8 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
-import imgsun from '../../assets/images/icon/sun.png'
+import React, { useState } from 'react';
+import { connect, useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Route, withRouter, Link, Redirect } from "react-router-dom";
+import { searchGame } from "../../redux/actions";
 
-const DarkMode = () => {
+const DarkMode = (props) => {
+    console.log('props', props);
+    const [searchText, setSearchText] = useState("");
+    const dispatch = useDispatch();
     let clickedClass = "clicked"
     const body = document.body
     const lightTheme = "light"
@@ -18,6 +23,7 @@ const DarkMode = () => {
         body.classList.add(darkTheme)
     }
 
+
     const switchTheme = e => {
         if (theme === darkTheme) {
             body.classList.replace(darkTheme, lightTheme)
@@ -31,6 +37,19 @@ const DarkMode = () => {
             theme = darkTheme
         }
     }
+
+    const handleSearch = (e) => {
+        props.history.push({
+            pathname: `/search/${searchText}`,
+            match: { searchText, props: props }
+        });
+        // let callback = () => {
+        //     console.log('searchKey', searchText);
+        //     props.history.push(`/explore-games`);
+        // }
+
+        // dispatch(searchGame({ searchText, callback }));
+    };
     return (
         <div className="mode_switcher">
             {/* <h6>Dark mode <strong>Available</strong></h6> */}
@@ -46,16 +65,18 @@ const DarkMode = () => {
                         <input
                             name="email"
                             className="email"
-                            type="email"
-                            placeholder="Search"
+                            type="text"
+                            placeholder="Search..."
                             required
+                            autoComplete='off'
+                            onChange={(e) => setSearchText(e.target.value)}
                         />
-                        <button id="submit" name="submit" type="submit">
+                        <p className='button' onClick={e => handleSearch(e)}>
                             <i
                                 className="fa fa-search"
                                 style={{ color: "#fff" }}
                             ></i>
-                        </button>
+                        </p>
                     </form>
                 </div>
             </div>
@@ -68,4 +89,10 @@ const DarkMode = () => {
     );
 }
 
-export default DarkMode;
+const mapStateToProps = (state) => {
+    return { ...state };
+};
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(DarkMode)
+);

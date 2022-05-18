@@ -129,7 +129,15 @@ const Games = () => {
           </div>
         </div>
       </section>
-      {games ? <GameItems title="Explore Games" data={games} /> : <Loader />}
+      {games ? (
+        <GameItems
+          setFilter={filterGames}
+          title={filter !== "all" ? `Showing results for ${filter} games` : "Explore Games"}
+          data={games}
+        />
+      ) : (
+        <Loader />
+      )}
     </Layout>
   );
 };

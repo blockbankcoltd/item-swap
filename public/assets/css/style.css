@@ -2646,9 +2646,9 @@ header {
   overflow: hidden;
 }
 
-.widget-subcribe .form-subcribe button {
-  /* border-top-right-radius: 10px; */
-  /* border-bottom-right-radius: 10px; */
+.widget-subcribe .form-subcribe button, .widget-subcribe .form-subcribe p.button {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border: 0;
@@ -2657,7 +2657,7 @@ header {
   right: 0;
   background: linear-gradient(216.56deg, #00A3FF 5.32%, #0243EA 94.32%);
   font-size: 21px;
-  padding: 6px 16px 6px 14px;
+  padding: 8px 16px 9px 14px;
   color: var(--primary-color);
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;

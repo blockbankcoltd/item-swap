@@ -4,9 +4,9 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 const Item = ({ data }) => {
-  console.log("data", data);
+  // console.log("data", data);
   let metadata = JSON.parse(data.metadata);
-  console.log("metadata", metadata);
+  // console.log("metadata", metadata);
   if (!metadata) return <></>;
   return (
     <div className="col-md-3 px-3 my-4">
@@ -22,10 +22,10 @@ const Item = ({ data }) => {
                 <h5 className="gilroy-semibold font-15">{data && data.name}</h5>
               </div>
             </div>
-            <div className="d-flex justify-content-end align-items-center likes">
+            {/* <div className="d-flex justify-content-end align-items-center likes">
               <AiOutlineHeart className="font-14 icon me-1" />
               <p className="font-13 m-0">3.5k</p>
-            </div>
+            </div> */}
           </div>
           <div className="card img-div">
             <img

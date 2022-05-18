@@ -8821,7 +8821,7 @@ button.accordion-button {
 }
 
 .border-blue {
-  border: 1px solid #1367F2;
+  border: 1px solid #1367F2 !important;
 }
 
 @media only screen and (max-width: 600px) {
@@ -8987,4 +8987,13 @@ button.accordion-button {
 .number-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.liked {
+  background: #014CEB;
+  color: #ffffff;
+}
+
+.liked-text {
+  color: #fff !important
 }

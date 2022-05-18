@@ -30,9 +30,9 @@ const Home = () => {
 
   const { chainId, chain } = useChain();
   console.log("chainID", chainId);
-  const [newList, setNewlist] = useState(null);
-  const [popularList, setPopularlist] = useState(null);
-  const [hotList, setHotlist] = useState(null);
+  const [newList, setNewlist] = useState([]);
+  const [popularList, setPopularlist] = useState([]);
+  const [hotList, setHotlist] = useState([]);
 
   const { fetch } = useMoralisQuery(
     "Games",
@@ -41,6 +41,7 @@ const Home = () => {
         .descending("createdAt")
         .equalTo("status", "ACTIVE")
         .equalTo("isActive", true)
+        .equalTo("chainId", "0x1")
         .descending("createdAt")
         .limit(20),
     [],
@@ -244,23 +245,19 @@ const Home = () => {
           </div>
         </div>
       </section>
-      {chainId === "0x4" ? (
-        <div>
-          {popularList ? (
-            <List title={"Popular NFTs"} data={popularList} />
-          ) : (
-            <Loader />
-          )}
-          {hotList ? (
-            <List title={"Hot Collection"} data={hotList} />
-          ) : (
-            <Loader />
-          )}
-          {newList ? <List title={"New Release"} data={newList} /> : <Loader />}
-        </div>
-      ) : (
-        <h1 className="tf-title">No collection found on this network</h1>
-      )}
+      <div>
+        {popularList ? (
+          <List title={"Popular NFTs"} data={popularList} />
+        ) : (
+          <Loader />
+        )}
+        {hotList ? (
+          <List title={"Hot Collection"} data={hotList} />
+        ) : (
+          <Loader />
+        )}
+        {newList ? <List title={"New Release"} data={newList} /> : <Loader />}
+      </div>
       <section className="tf-box-icon create1 style1 tf-section">
         <div className="themesflat-container">
           <div className="row">

@@ -20,13 +20,13 @@ const menus = [
   {
     id: 2,
     name: "Game",
-    links: "explore-games",
+    links: "/explore-games",
   },
-  // {
-  //   id: 3,
-  //   name: "Trade",
-  //   links: "/1inch",
-  // },
+  {
+    id: 3,
+    name: "Trade",
+    links: "/1inch",
+  },
   // {
   //   id: 4,
   //   name: "Lottery",
@@ -113,8 +113,9 @@ const Header = () => {
                       <li
                         key={index}
                         onClick={() => handleOnClick(index)}
-                        className={`menu-item ${data.namesub ? "menu-item-has-children" : ""
-                          } ${activeIndex === index ? "active" : ""} `}
+                        className={`menu-item ${
+                          data.namesub ? "menu-item-has-children" : ""
+                        } ${activeIndex === index ? "active" : ""} `}
                       >
                         <Link to={data.links}>{data.name}</Link>
                         {data.namesub && (
@@ -139,8 +140,6 @@ const Header = () => {
                 </nav>
 
                 <div className="flat-search-btn flex">
-
-
                   {/* <div className="header-search flat-show-search" id="s1">
                     <Link
                       to="#"

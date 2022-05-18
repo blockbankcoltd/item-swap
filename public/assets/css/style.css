@@ -1725,9 +1725,9 @@ header {
   color: var(--primary-color3);
 }
 
-/* .main-nav > ul > li > a:hover {
-  color: #fff !important;
-} */
+.main-nav > ul > li > a:hover {
+  color: #0243EA !important;
+}
 
 .main-nav > ul > li .sub-menu li {
   position: relative;

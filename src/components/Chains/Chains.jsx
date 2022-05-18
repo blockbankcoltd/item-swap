@@ -88,11 +88,13 @@ function Chains() {
     if (!chainId) return null;
     const newSelected = menuItems.find((item) => item.key === chainId);
     setSelected(newSelected);
+    localStorage.setItem("chainId", chainId);
   }, [chainId]);
 
   const handleMenuClick = (e) => {
     console.log("switch to: ", e.key);
     switchNetwork(e.key);
+    localStorage.setItem("chainId", e.key);
   };
 
   const menu = (

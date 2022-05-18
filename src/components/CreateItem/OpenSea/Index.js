@@ -19,6 +19,7 @@ const AddOpenSeaCollection = () => {
   const chain = process.env.chain;
 
   const [nftAddress, setNftAddress] = useState("");
+  const [chainInput, setChainInput] = useState(null);
   const [nftAddressError, setNftAddressError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [collections, setCollections] = useState([]);
@@ -151,6 +152,7 @@ const AddOpenSeaCollection = () => {
       status: "ACTIVE",
       isActive: true,
       gameInfo: res,
+      chainId: chainInput,
       gameItems: JSON.stringify(NFTs.result),
     };
 
@@ -185,14 +187,29 @@ const AddOpenSeaCollection = () => {
                       <h4 className="title-create-item tf-title">
                         Add New Collection
                       </h4>
-                      <input
-                        type="text"
-                        placeholder="Collection Address"
-                        required
-                        onChange={(e) => handleAddressInput(e)}
-                        className="mb-0"
-                        value={nftAddress}
-                      />
+                      <div className="row">
+                        <div className="col-md-6">
+                          <select
+                            className="form-control"
+                            style={{ height: "44px" }}
+                            onChange={(e) => setChainInput(e.target.value)}
+                          >
+                            <option>Select Chain</option>
+                            <option value="0x1">ETH</option>
+                            <option value="0x4">Rinkeby</option>
+                          </select>
+                        </div>
+                        <div className="col-md-6">
+                          <input
+                            type="text"
+                            placeholder="Collection Address"
+                            required
+                            onChange={(e) => handleAddressInput(e)}
+                            className="mb-0"
+                            value={nftAddress}
+                          />
+                        </div>
+                      </div>
                       <small style={{ color: "red" }}>{nftAddressError}</small>
                       <small style={{ color: "green" }}>{successMsg}</small>
                       <div className="row-form style-12 mt-3">

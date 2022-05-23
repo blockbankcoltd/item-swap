@@ -26,6 +26,7 @@ import GameDescription from "components/Loader/GameDescription";
 import Title from "components/Loader/Title";
 import ItemsLoader from "components/Loader/ItemsLoader";
 import CollectionThumbnail from "components/Loader/CollectionThumbnail";
+import Watchlist from "./Watchlist";
 
 const User = (props) => {
   const { innerWidth } = window;
@@ -35,6 +36,7 @@ const User = (props) => {
   const [activeTab, setActiveTab] = useState(1);
   const [gameData, setGameData] = useState([]);
   const [items, setItems] = useState(null);
+  const [watchlistItems, setWatchlistItems] = useState(null);
   const { tokenAddress, tokenId } = useParams();
   console.log("tokenAddress", tokenAddress);
   const { Moralis, account } = useMoralis();
@@ -44,7 +46,7 @@ const User = (props) => {
 
     await Moralis.initPlugins();
 
-    const options5 = { chain: "rinkeby", address: account };
+    const options5 = { chain: "eth", address: account };
     const myNfts = await Moralis.Web3API.account.getNFTs(options5);
 
     console.log("myNfts", myNfts);
@@ -81,6 +83,17 @@ const User = (props) => {
 
     console.log("tokenIdMetadata", arr);
     setItems(arr);
+
+    //Watchlist Items
+    const watchlistObj = new Moralis.Query("GameWatchlist");
+    const gamesObj = new Moralis.Query("Games");
+    watchlistObj.equalTo("user", account || localStorage.getItem("account"));
+    watchlistObj.include("game");
+    // comments now contains the comments for myPost
+    const games = await watchlistObj.find();
+    console.log("games", JSON.parse(JSON.stringify(games)));
+
+    setWatchlistItems(JSON.parse(JSON.stringify(games)));
   }, []);
 
   useEffect(() => {
@@ -186,7 +199,7 @@ const User = (props) => {
                     : "mb-0 gilroy-bold muted cursor-pointer mx-5"
                 }
               >
-                Activity
+                Watchlist
               </h4>
             </div>
           </div>
@@ -256,8 +269,11 @@ const User = (props) => {
         </div>
       </section>
       {/* FOR MOBILE ONLY */}
-
-      {items ? <Items data={items} /> : <ItemsLoader />}
+      {activeTab === 1 ? (
+        <div>{items ? <Items data={items} /> : <ItemsLoader />}</div>
+      ) : (
+        <Watchlist data={watchlistItems} />
+      )}
       {/* <PopularCollection data={popularCollectionData} /> */}
     </Layout>
   );

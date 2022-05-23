@@ -244,6 +244,7 @@ function Account() {
             await logout();
             window.localStorage.removeItem("connectorId");
             localStorage.setItem("isAdminLoggedIn", false);
+            localStorage.setItem("account", null);
             setIsModalVisible(false);
           }}
         >

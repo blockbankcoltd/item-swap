@@ -7,9 +7,17 @@ import nft5 from "../../assets/images/nft/nft5.png";
 import Item from "./Item";
 
 function Items(props) {
-  console.log("propss", props.data[0].metadata);
-  let data = props.data;
   let keyword = props.searchKeyword;
+  let data =
+    keyword != ""
+      ? props.data.filter((d) =>
+          d.metadata
+            ? JSON.parse(d.metadata)
+                .name.toLowerCase()
+                .includes(keyword.toLowerCase())
+            : null,
+        )
+      : props.data;
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();
   // console.log("asxzxz", useMoralisDapp());
@@ -27,11 +35,11 @@ function Items(props) {
                 </Link>
               </div>
             </div> */}
-            {keyword != ""
-              ? data
-                  .filter((d) => d.metadata.name.includes(keyword))
-                  .map((nft, index) => <Item data={nft} key={index} />)
-              : data.map((nft, index) => <Item data={nft} key={index} />)}
+            {data ? (
+              data.map((nft, index) => <Item data={nft} key={index} />)
+            ) : (
+              <h1>No data found</h1>
+            )}
           </div>
         </div>
       </section>

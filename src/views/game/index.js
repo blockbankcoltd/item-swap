@@ -174,17 +174,21 @@ const Games = () => {
         </SwiperSlide>
       </Swiper>
       {games ? (
-        <GameItems
-          setFilter={filterGames}
-          title={
-            filter !== "all"
-              ? `Showing results for ${filter} games`
-              : "Explore Games"
-          }
-          data={games}
-        />
+        games.length === 0 ? (
+          <h1 className="tf-title">No collection found on this network</h1>
+        ) : (
+          <GameItems
+            setFilter={filterGames}
+            title={
+              filter !== "all"
+                ? `Showing results for ${filter} games`
+                : "Explore Games"
+            }
+            data={games}
+          />
+        )
       ) : (
-        <h1 className="tf-title">No collection found on this network</h1>
+        <Loader />
       )}
     </Layout>
   );

@@ -8997,3 +8997,28 @@ button.accordion-button {
 .liked-text {
   color: #fff !important
 }
+
+.activity-container {
+  background-color: #F8F8FD;
+  border-radius: 10px;
+}
+
+.is_dark .activity-container {
+  background-color: #1f1a2e !important;
+}
+
+.activity-table {
+  background-color: var(--today-pick);
+  border: none;
+  /* display: block; */
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.activity-table th, .activity-table td {
+  border: none;
+}
+
+.activity-content {
+  color: var(--primary-color2)
+}

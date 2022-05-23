@@ -17,6 +17,7 @@ import NFTBalance from "components/NFTBalance";
 import Wallet from "components/Wallet";
 import Home from "./views/home";
 import Game from "./views/game";
+import SearchGame from "./views/game/searchGame";
 import Items from "./views/items";
 
 import CreateItem from "views/admin/CreateItem";
@@ -31,6 +32,11 @@ import Collection from "views/collection";
 import OpenSea from "views/OpenSea";
 import Item from "views/item";
 import User from "views/user";
+
+const serverUrl = "https://majoemkakjml.usemoralis.com:2053/server";
+const appId = "qECeUtEvtZpyMyfGX8eFMmbN8nIXEA45z1eqQZ2c";
+
+Moralis.start({ serverUrl, appId });
 
 const App = ({ isServerInfo }) => {
   const {
@@ -158,6 +164,9 @@ const App = ({ isServerInfo }) => {
         />
         <Route path="/explore-games">
           <Game />
+        </Route>
+        <Route path="/search/:keyword">
+          <SearchGame />
         </Route>
         <Route path="/wallet">
           <Wallet />

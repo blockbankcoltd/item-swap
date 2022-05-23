@@ -100,7 +100,7 @@ const Games = () => {
           <div
             className="flat-title-page"
             style={{ paddingBottom: "20px" }}
-            // style={{ backgroundImage: `url(${imgbg})` }}
+          // style={{ backgroundImage: `url(${imgbg})` }}
           >
             <img
               className="bgr-gradient gradient1"

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Card, Table } from "react-bootstrap";
 import Header from "../../../layout/header";
 import Footer from "../../../layout/footer";
+import SuccessModal from "components/SuccessModal";
 import "react-tabs/style/react-tabs.css";
 import "../../../customStyle.css";
 import {
@@ -12,10 +13,14 @@ import {
   useMoralisQuery,
   useWeb3ExecuteFunction,
 } from "react-moralis";
-import SuccessModal from "components/SuccessModal";
+import axios from "axios";
 
 const CollectionAddress = () => {
+  const network = process.env.network;
+  const chain = process.env.chain;
+
   const [nftAddress, setNftAddress] = useState("");
+  const [chainInput, setChainInput] = useState(null);
   const [nftAddressError, setNftAddressError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [collections, setCollections] = useState([]);
@@ -30,6 +35,11 @@ const CollectionAddress = () => {
   } = useMoralis();
   const { error, isUploading, moralisFile, saveFile } = useMoralisFile();
   const { isSaving, error: objError, save } = useNewMoralisObject("Games");
+  const {
+    isSaving: gameItemsIsSaving,
+    error: gameItemsError,
+    save: gameItemsSave,
+  } = useNewMoralisObject("GameItems");
 
   const {
     data,
@@ -61,15 +71,25 @@ const CollectionAddress = () => {
     collectionObj[0].set("isActive", action);
     await collectionObj[0].save();
 
-    await Moralis.Plugins.rarible.lazyMint({
-      chain: "rinkeby",
-      userAddress: "0xaF2d6E51f39B9fF9862f5b991b2F1440513a26f9",
-      tokenType: "ERC1155",
-      tokenUri: "/ipfs/QmWLsBu6nS4ovaHbGAXprD1qEssJu4r5taQfB74sCG51tp",
-      supply: 100,
-      royaltiesAmount: 5,
-      // 0.05% royalty. Optional
-    });
+    // await Moralis.Plugins.rarible.lazyMint({
+    //   chain: "eth",
+    //   userAddress: "0xaF2d6E51f39B9fF9862f5b991b2F1440513a26f9",
+    //   tokenType: "ERC1155",
+    //   tokenUri: "/ipfs/QmWLsBu6nS4ovaHbGAXprD1qEssJu4r5taQfB74sCG51tp",
+    //   supply: 100,
+    //   royaltiesAmount: 5,
+    //   // 0.05% royalty. Optional
+    // });
+  };
+
+  const handleIsHot = async (collection) => {
+    let collectionObj = queryResult.filter(
+      (result) => result.attributes.collectionAddress == collection,
+    );
+    let action = !collectionObj[0].attributes.isHot;
+    collectionObj[0].set("isHot", action);
+    let result = await collectionObj[0].save();
+    console.log("result", result);
   };
 
   const handleDelete = async (collection) => {
@@ -110,23 +130,50 @@ const CollectionAddress = () => {
       }, 5000);
       return;
     }
-    let collectionData = {
-      collectionAddress: nftAddress,
-      market: "rarible",
-      status: "ACTIVE",
-      isActive: true,
-    };
-    await save(collectionData);
-    setNftAddress("");
-    setSuccessMsg("Collection added successfully.");
-    setTimeout(() => {
-      setSuccessMsg("");
-    }, 5000);
-    setFetchCollection(fetchCollection + 1);
-    console.log("Success", queryResult);
-  };
 
-  // if (successMsg) alert("Hi");
+    const options = {
+      address: nftAddress,
+      chain: "eth",
+    };
+    const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+
+    console.log("NFT ADDRESS", NFTs);
+
+    // const res = await Moralis.Plugins.opensea.getAsset({
+    //   network: "mainnet",
+    //   tokenAddress: nftAddress,
+    //   tokenId: NFTs.result[NFTs.result.length - 1].token_id,
+    // });
+
+    // console.log("result", res);
+
+    axios
+      .get(
+        "https://api.rarible.org/v0.1/collections/ETHEREUM:0x60e4d786628fea6478f785a6d7e704777c86a7c6",
+      )
+      .then(async (res) => {
+        let collectionData = {
+          collectionAddress: nftAddress,
+          market: "rarible",
+          status: "ACTIVE",
+          isActive: true,
+          likes: 0,
+          watchlist: 0,
+          gameInfo: res.data,
+          chainId: chainInput,
+          gameItems: JSON.stringify(NFTs.result),
+        };
+
+        await save(collectionData);
+        setNftAddress("");
+        setSuccessMsg("Collection added successfully.");
+        setTimeout(() => {
+          setSuccessMsg("");
+        }, 5000);
+        setFetchCollection(fetchCollection + 1);
+        console.log("Success", queryResult);
+      });
+  };
 
   return (
     <div>
@@ -134,7 +181,7 @@ const CollectionAddress = () => {
         <SuccessModal
           show={true}
           title="Collection added successfully"
-          description="Rarible collection address added successfully"
+          description="Opensea collection address added successfully"
         />
       )}
       <div className="tf-create-item tf-section">
@@ -149,14 +196,29 @@ const CollectionAddress = () => {
                       <h4 className="title-create-item tf-title">
                         Add New Collection
                       </h4>
-                      <input
-                        type="text"
-                        placeholder="Collection Address"
-                        required
-                        onChange={(e) => handleAddressInput(e)}
-                        className="mb-0"
-                        value={nftAddress}
-                      />
+                      <div className="row">
+                        <div className="col-md-6">
+                          <select
+                            className="form-control"
+                            style={{ height: "44px" }}
+                            onChange={(e) => setChainInput(e.target.value)}
+                          >
+                            <option>Select Chain</option>
+                            <option value="0x1">ETH</option>
+                            <option value="0x4">Rinkeby</option>
+                          </select>
+                        </div>
+                        <div className="col-md-6">
+                          <input
+                            type="text"
+                            placeholder="Collection Address"
+                            required
+                            onChange={(e) => handleAddressInput(e)}
+                            className="mb-0"
+                            value={nftAddress}
+                          />
+                        </div>
+                      </div>
                       <small style={{ color: "red" }}>{nftAddressError}</small>
                       <small style={{ color: "green" }}>{successMsg}</small>
                       <div className="row-form style-12 mt-3">
@@ -187,6 +249,7 @@ const CollectionAddress = () => {
                         Collection
                       </th>
                       <th className="tf-title">Status</th>
+                      <th className="tf-title">Is Hot</th>
                       <th className="tf-title">Is Active</th>
                       <th className="tf-title">Action</th>
                     </tr>
@@ -200,6 +263,21 @@ const CollectionAddress = () => {
                           </td>
                           <td className="tf-title text-left">
                             {result.attributes.status}
+                          </td>
+                          <td className="text-center">
+                            <label className="switch">
+                              <input
+                                type="checkbox"
+                                value={result.attributes.isHot}
+                                defaultChecked={result.attributes.isHot}
+                                onChange={() =>
+                                  handleIsHot(
+                                    result.attributes.collectionAddress,
+                                  )
+                                }
+                              />
+                              <span className="slider round"></span>
+                            </label>
                           </td>
                           <td className="text-center">
                             <label className="switch">

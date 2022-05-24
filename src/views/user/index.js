@@ -88,6 +88,7 @@ const User = (props) => {
     const watchlistObj = new Moralis.Query("GameWatchlist");
     const gamesObj = new Moralis.Query("Games");
     watchlistObj.equalTo("user", account || localStorage.getItem("account"));
+    watchlistObj.equalTo("isActive", true);
     watchlistObj.include("game");
     // comments now contains the comments for myPost
     const games = await watchlistObj.find();

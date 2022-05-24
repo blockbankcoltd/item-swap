@@ -8820,6 +8820,14 @@ button.accordion-button {
   background: #1f1a2e;
 }
 
+.display-type-btn-active-opensea {
+  background: #2081e2;
+}
+
+.display-type-btn-active-rarible {
+  background: #fbda18;
+}
+
 .border-blue {
   border: 1px solid #1367F2 !important;
 }

@@ -42,7 +42,7 @@ function GameItems(props) {
               </div>
             </div>
             {data?.slice(0, visible).map((nft, index) => (
-              <Game data={nft} key={index} />
+              <Game data={nft} key={index} market={props.market} />
             ))}
             {visible < data.length && (
               <div className="col-md-12 wrap-inner load-more text-center">

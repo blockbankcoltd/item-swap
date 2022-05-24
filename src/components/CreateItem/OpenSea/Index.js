@@ -151,6 +151,8 @@ const AddOpenSeaCollection = () => {
       market: "opensea",
       status: "ACTIVE",
       isActive: true,
+      likes: 0,
+      watchlist: 0,
       gameInfo: res,
       chainId: chainInput,
       gameItems: JSON.stringify(NFTs.result),

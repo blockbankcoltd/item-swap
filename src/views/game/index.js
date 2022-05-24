@@ -7,30 +7,25 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
-import img1 from "../../assets/images/slider/slide_1.png";
-import imgbg1 from "../../assets/images/slider/bg_slide_1.png";
+import { BiGridAlt, BiGrid, BiSliderAlt } from "react-icons/bi";
 import GameItems from "./GameItems";
 import Line_Background from "../../assets/images/item-background/Line_Background.png";
 import Dot_right from "../../assets/images/item-background/Dot_Right.png";
 import Dot_left from "../../assets/images/item-background/Dot_Left.png";
 import Loader from "views/home/Loader";
+import openseaLogo from "../../assets/images/logo/opensea.png";
+import raribleLogo from "../../assets/images/logo/rarible.png";
 
 const Games = () => {
-  const {
-    Moralis,
-    user,
-    logout,
-    authenticate,
-    enableWeb3,
-    isInitialized,
-    isAuthenticated,
-    isWeb3Enabled,
-  } = useMoralis();
+  const { Moralis } = useMoralis();
 
   const { chainId, chain } = useChain();
 
   const [games, setGames] = useState(null);
   const [filter, setFilter] = useState("all");
+  const [activeMarket, setActiveMarket] = useState(
+    localStorage.getItem("activeMarket"),
+  );
 
   const { fetch } = useMoralisQuery(
     "Games",
@@ -38,10 +33,11 @@ const Games = () => {
       return query
         .equalTo("status", "ACTIVE")
         .equalTo("isActive", true)
+        .equalTo("market", activeMarket)
         .equalTo("chainId", localStorage.getItem("chainId"))
         .descending(filter === "popular" ? "likes" : "createdAt");
     },
-    [],
+    [activeMarket],
     { autoFetch: false },
   );
 
@@ -59,8 +55,30 @@ const Games = () => {
   }, []);
 
   useEffect(() => {
+    setActiveMarket(localStorage.getItem("activeMarket"));
     getCollectionData().catch(console.error);
   }, []);
+
+  const switchMarket = async (market) => {
+    setGames(null);
+    const Games = Moralis.Object.extend("Games");
+    const query = new Moralis.Query(Games);
+    query.equalTo("status", "ACTIVE");
+    query.equalTo("isActive", true);
+    query.equalTo("market", market);
+    query.equalTo("chainId", localStorage.getItem("chainId"));
+    query.descending("createdAt");
+
+    const results = await query.find();
+
+    let newAry = [];
+    if (results && results.length) {
+      newAry = JSON.parse(JSON.stringify(results));
+      setGames(newAry);
+    } else {
+      setGames(newAry);
+    }
+  };
 
   const filterGames = async (val) => {
     setGames(null);
@@ -100,7 +118,7 @@ const Games = () => {
           <div
             className="flat-title-page"
             style={{ paddingBottom: "20px" }}
-          // style={{ backgroundImage: `url(${imgbg})` }}
+            // style={{ backgroundImage: `url(${imgbg})` }}
           >
             <img
               className="bgr-gradient gradient1"
@@ -141,7 +159,72 @@ const Games = () => {
                             Marketplace for monster character cllections non
                             fungible token NFTs
                           </p> */}
-                          <div
+                          <div className="d-flex justyfy-content-between align-items-center order-1">
+                            <div
+                              className="d-flex justyfy-content-between align-items-center display-type-section"
+                              style={{ margin: "auto" }}
+                            >
+                              <div
+                                className={`display-type-btn-left d-flex align-items-center ${
+                                  activeMarket === "opensea"
+                                    ? "display-type-btn-active-opensea"
+                                    : ""
+                                }`}
+                                onClick={() => {
+                                  setActiveMarket("opensea");
+                                  switchMarket("opensea");
+                                  localStorage.setItem(
+                                    "activeMarket",
+                                    "opensea",
+                                  );
+                                }}
+                              >
+                                <img
+                                  src={openseaLogo}
+                                  style={{ width: "24px" }}
+                                />
+                                <p
+                                  className={`m-0 ms-2 ${
+                                    activeMarket === "opensea"
+                                      ? "text-white"
+                                      : ""
+                                  }`}
+                                >
+                                  OpenSea
+                                </p>
+                              </div>
+                              <div
+                                className={`display-type-btn-right d-flex align-items-center ${
+                                  activeMarket === "rarible"
+                                    ? "display-type-btn-active-rarible"
+                                    : ""
+                                }`}
+                                onClick={() => {
+                                  setActiveMarket("rarible");
+                                  switchMarket("rarible");
+                                  localStorage.setItem(
+                                    "activeMarket",
+                                    "rarible",
+                                  );
+                                }}
+                              >
+                                <img
+                                  src={raribleLogo}
+                                  style={{ width: "24px" }}
+                                />
+                                <p
+                                  className={`m-0 ms-2 ${
+                                    activeMarket === "rarible"
+                                      ? "text-white"
+                                      : ""
+                                  }`}
+                                >
+                                  Rarible
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div
                             className="flex"
                             style={{ justifyContent: "center" }}
                           >
@@ -158,7 +241,7 @@ const Games = () => {
                               />
                               <span> OpenSea</span>
                             </Link>
-                          </div>
+                          </div> */}
                         </div>
                         {/* <div className="image">
                           <img className="img-bg" src={imgbg1} alt="axies" />
@@ -179,6 +262,7 @@ const Games = () => {
         ) : (
           <GameItems
             setFilter={filterGames}
+            market={activeMarket}
             title={
               filter !== "all"
                 ? `Showing results for ${filter} games`

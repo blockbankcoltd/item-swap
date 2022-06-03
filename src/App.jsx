@@ -22,7 +22,7 @@ import Items from "./views/items";
 
 import CreateItem from "views/admin/CreateItem";
 import Lottery from "views/lottery";
-import Test from "views/Test";
+import Test from "views/Test.tsx";
 import BulkUpload from "views/admin/BulkUpload";
 import StoreNftAddress from "views/admin/StoreNftAddress";
 import CreateRaribleMarket from "views/admin/CreateRaribleMarket";
@@ -33,8 +33,8 @@ import OpenSea from "views/OpenSea";
 import Item from "views/item";
 import User from "views/user";
 
-const serverUrl = "https://majoemkakjml.usemoralis.com:2053/server";
-const appId = "qECeUtEvtZpyMyfGX8eFMmbN8nIXEA45z1eqQZ2c";
+const serverUrl = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
+const appId = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
 
 Moralis.start({ serverUrl, appId });
 
@@ -51,7 +51,7 @@ const App = ({ isServerInfo }) => {
   // const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
   //   JSON.parse(localStorage.getItem("isAdminLoggedIn")),
   // );
-  // console.log(1, isAdminLoggedIn);
+  console.log(1, isAdminLoggedIn);
 
   const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
   const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;

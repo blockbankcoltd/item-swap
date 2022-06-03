@@ -245,7 +245,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <div>
+      {/* <div>
         {popularList ? (
           <List title={"Popular NFTs"} data={popularList} />
         ) : (
@@ -257,7 +257,7 @@ const Home = () => {
           <Loader />
         )}
         {newList ? <List title={"New Release"} data={newList} /> : <Loader />}
-      </div>
+      </div> */}
       <section className="tf-box-icon create1 style1 tf-section">
         <div className="themesflat-container">
           <div className="row">

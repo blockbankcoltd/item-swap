@@ -4,6 +4,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@openzeppelin/contracts": "^4.5.0",
+    "@rarible/protocol-ethereum-sdk": "^0.12.72",
+    "@rarible/web3-ethereum": "^0.12.71",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -79,6 +81,7 @@
     ]
   },
   "devDependencies": {
+    "@rarible/sdk": "^0.9.5",
     "eslint": "^7.5",
     "gh-pages": "^3.2.3",
     "husky": "^7.0.0"

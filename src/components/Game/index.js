@@ -5,7 +5,6 @@ import userIcon from "../../assets/images/avatar/userIcon.png";
 
 const Game = ({ data, market }) => {
   console.log(data);
-  let activeMarket = localStorage.getItem("activeMarket");
   return (
     <div className="col-md-3 px-3 my-4">
       <Link to={`/collection/${data.collectionAddress}`}>
@@ -45,7 +44,19 @@ const Game = ({ data, market }) => {
               }}
               src={
                 market === "opensea"
-                  ? data.gameInfo.assetContract.imageUrl
+                  ? data.gameInfo.assetContract.imageUrl.substring(0, 7) ===
+                    "ipfs://"
+                    ? `https://ipfs.io/ipfs/${data.gameInfo.assetContract.imageUrl.substring(
+                        7,
+                        data.gameInfo.assetContract.imageUrl.length,
+                      )}`
+                    : data.gameInfo.assetContract.imageUrl
+                  : data.gameInfo.meta?.content[0].url.substring(0, 7) ===
+                    "ipfs://"
+                  ? `https://ipfs.io/ipfs/${data.gameInfo.meta?.content[0].url.substring(
+                      7,
+                      data.gameInfo.meta?.content[0].url.length,
+                    )}`
                   : data.gameInfo.meta?.content[0].url
               }
             />

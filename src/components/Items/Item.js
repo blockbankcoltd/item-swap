@@ -3,18 +3,34 @@ import React from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-const Item = ({ data }) => {
+const Item = ({ data, gridSize }) => {
   // console.log("data", data);
   let metadata = JSON.parse(data.metadata);
   // console.log("metadata", metadata);
   if (!metadata) return <></>;
+  let currentUrl = "";
+  if (localStorage.getItem("activeMarket") === "rarible") {
+    currentUrl = `/RaribleFunctions/${data.token_address}/${data.token_id}`;
+  } else {
+    currentUrl = `/item/${data.token_address}/${data.token_id}`;
+  }
   return (
-    <div className="col-md-3 px-3 my-4">
-      <Link to={`/item/${data.token_address}/${data.token_id}`}>
+    <div className={`col-md-${gridSize} px-3 my-4`}>
+      <Link to={currentUrl}>
         <div className="p-3 sc-card-product">
           <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
             <div className="d-flex align-items-center">
-              <img className="sc-card-img" src={metadata && metadata.image} />
+              <img
+                className="sc-card-img"
+                src={
+                  metadata && metadata.image.substring(0, 7) === "ipfs://"
+                    ? `https://ipfs.io/ipfs/${metadata.image.substring(
+                        7,
+                        metadata.image.length,
+                      )}`
+                    : metadata.image
+                }
+              />
               <div>
                 <p className="mb-0 gilroy-normal font-13 line-height creator">
                   Collection
@@ -34,7 +50,14 @@ const Item = ({ data }) => {
                 minHeight: "300px",
                 maxHeight: "300px",
               }}
-              src={metadata && metadata.image}
+              src={
+                metadata && metadata.image.substring(0, 7) === "ipfs://"
+                  ? `https://ipfs.io/ipfs/${metadata.image.substring(
+                      7,
+                      metadata.image.length,
+                    )}`
+                  : metadata.image
+              }
             />
             <div className="history-btn">
               <button className="my-btn">View</button>

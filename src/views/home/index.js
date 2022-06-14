@@ -42,6 +42,7 @@ const Home = () => {
         .equalTo("status", "ACTIVE")
         .equalTo("isActive", true)
         .equalTo("chainId", "0x1")
+        .equalTo("market", localStorage.getItem("activeMarket"))
         .descending("createdAt")
         .limit(20),
     [],
@@ -245,19 +246,35 @@ const Home = () => {
           </div>
         </div>
       </section>
-      {/* <div>
+      <div>
         {popularList ? (
-          <List title={"Popular NFTs"} data={popularList} />
+          <List
+            title={"Popular NFTs"}
+            market={localStorage.getItem("activeMarket")}
+            data={popularList}
+          />
         ) : (
           <Loader />
         )}
         {hotList ? (
-          <List title={"Hot Collection"} data={hotList} />
+          <List
+            title={"Hot Collection"}
+            market={localStorage.getItem("activeMarket")}
+            data={hotList}
+          />
         ) : (
           <Loader />
         )}
-        {newList ? <List title={"New Release"} data={newList} /> : <Loader />}
-      </div> */}
+        {newList ? (
+          <List
+            title={"New Release"}
+            market={localStorage.getItem("activeMarket")}
+            data={newList}
+          />
+        ) : (
+          <Loader />
+        )}
+      </div>
       <section className="tf-box-icon create1 style1 tf-section">
         <div className="themesflat-container">
           <div className="row">

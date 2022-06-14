@@ -8,6 +8,7 @@ import CardModal from "./CardModal";
 import { AiOutlineHeart } from "react-icons/ai";
 import CollectionLoader from "components/Loader/CollectionLoader";
 import nft5 from "../../assets/images/nft/nft5.png";
+import userIcon from "../../assets/images/avatar/userIcon.png";
 
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -17,6 +18,7 @@ const List = (props) => {
   console.log("props", props);
   const data = props.data;
   const title = props.title;
+  const market = props.market;
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -57,7 +59,7 @@ const List = (props) => {
               >
                 {data && data.length > 0 ? (
                   data.map((item, index) => {
-                    console.log("uer", item);
+                    console.log("uer", item, data.gameInfo);
                     return (
                       <SwiperSlide key={index}>
                         <div className="swiper-container show-shadow carousel auctions">
@@ -73,7 +75,10 @@ const List = (props) => {
                                         <img
                                           className="sc-card-img"
                                           src={
-                                            item.gameInfo.owner.profile_img_url
+                                            market === "opensea"
+                                              ? item.gameInfo?.owner
+                                                  .profile_img_url
+                                              : userIcon
                                           }
                                         />
                                         <div>
@@ -82,10 +87,10 @@ const List = (props) => {
                                           </p>
                                           <h5 className="gilroy-semibold font-15">
                                             {/* {item.gameInfo.owner.address} */}
-                                            {
-                                              item.gameInfo.assetContract
-                                                .tokenSymbol
-                                            }
+                                            {market === "opensea"
+                                              ? item.gameInfo.assetContract
+                                                  .tokenSymbol
+                                              : "Uknown"}
                                           </h5>
                                         </div>
                                       </div>
@@ -104,7 +109,28 @@ const List = (props) => {
                                           minHeight: "300px",
                                         }}
                                         src={
-                                          item.gameInfo.assetContract.imageUrl
+                                          market === "opensea"
+                                            ? item.gameInfo.assetContract.imageUrl.substring(
+                                                0,
+                                                7,
+                                              ) === "ipfs://"
+                                              ? `https://ipfs.io/ipfs/${item.gameInfo.assetContract.imageUrl.substring(
+                                                  7,
+                                                  item.gameInfo.assetContract
+                                                    .imageUrl.length,
+                                                )}`
+                                              : item.gameInfo.assetContract
+                                                  .imageUrl
+                                            : item.gameInfo.meta?.content[0].url.substring(
+                                                0,
+                                                7,
+                                              ) === "ipfs://"
+                                            ? `https://ipfs.io/ipfs/${item.gameInfo.meta?.content[0].url.substring(
+                                                7,
+                                                item.gameInfo.meta?.content[0]
+                                                  .url.length,
+                                              )}`
+                                            : item.gameInfo.meta?.content[0].url
                                         }
                                       />
                                       <div className="history-btn">
@@ -115,7 +141,9 @@ const List = (props) => {
                                     </div>
                                     <br />
                                     <h5 className="gilroy-bold">
-                                      {item.gameInfo.assetContract.name}
+                                      {market === "opensea"
+                                        ? item.gameInfo.assetContract.name
+                                        : item.gameInfo?.meta.name}
                                     </h5>
                                     <br />
                                     {/* <div className="d-flex justify-content-between align-items-center">

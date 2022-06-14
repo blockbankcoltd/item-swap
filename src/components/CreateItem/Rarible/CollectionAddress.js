@@ -148,9 +148,7 @@ const CollectionAddress = () => {
     // console.log("result", res);
 
     axios
-      .get(
-        "https://api.rarible.org/v0.1/collections/ETHEREUM:0x60e4d786628fea6478f785a6d7e704777c86a7c6",
-      )
+      .get(`https://api.rarible.org/v0.1/collections/ETHEREUM:${nftAddress}`)
       .then(async (res) => {
         let collectionData = {
           collectionAddress: nftAddress,

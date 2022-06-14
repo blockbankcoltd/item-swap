@@ -36,7 +36,9 @@ function Items(props) {
               </div>
             </div> */}
             {data ? (
-              data.map((nft, index) => <Item data={nft} key={index} />)
+              data.map((nft, index) => (
+                <Item data={nft} gridSize={props.gridSize} key={index} />
+              ))
             ) : (
               <h1>No data found</h1>
             )}

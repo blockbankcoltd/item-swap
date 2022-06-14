@@ -31,10 +31,11 @@ import ItemList from "views/admin/ItemList";
 import Collection from "views/collection";
 import OpenSea from "views/OpenSea";
 import Item from "views/item";
+import RaribleFunctions from "views/item/RaribleFunctions.tsx";
 import User from "views/user";
 
-const serverUrl = "https://y6tqolkxe9bh.usemoralis.com:2053/server";
-const appId = "k4GVITLUsGexx9lCKJcO1ioJaXwdCIUKuQCb57sp";
+const serverUrl = "https://gjinuwy9crz4.usemoralis.com:2053/server";
+const appId = "JvWSn8QHKCWQDgBuxXj5KmpqwEAbUqdEreZXR4FI";
 
 Moralis.start({ serverUrl, appId });
 
@@ -123,6 +124,9 @@ const App = ({ isServerInfo }) => {
         </Route>
         <Route exact path="/item/:tokenAddress/:tokenId">
           <Item />
+        </Route>
+        <Route exact path="/RaribleFunctions/:tokenAddress/:tokenId">
+          <RaribleFunctions />
         </Route>
         <Route exact path="/user">
           <User />

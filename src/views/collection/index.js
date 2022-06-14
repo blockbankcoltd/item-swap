@@ -22,6 +22,7 @@ import GameDescription from "components/Loader/GameDescription";
 import Title from "components/Loader/Title";
 import ItemsLoader from "components/Loader/ItemsLoader";
 import CollectionThumbnail from "components/Loader/CollectionThumbnail";
+import ItemThumbnail from "components/Loader/ItemThumbnail";
 import { ETHLogo } from "components/Chains/Logos";
 import GameItems from "views/game/GameItems";
 import nft1 from "../../assets/images/nft/nft1.png";
@@ -50,6 +51,7 @@ const Collection = (props) => {
   const [isWatchlisted, setIsWatchlisted] = useState(false);
   const [toggleSearchBox, setToggleSearchBox] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [gridSize, setGridSize] = useState(4);
 
   const { tokenAddress } = useParams();
   const { Moralis, account, authenticate, isAuthenticated } = useMoralis();
@@ -105,6 +107,7 @@ const Collection = (props) => {
 
     setGameData(collections[0].attributes.gameInfo);
     setItems(JSON.parse(collections[0].attributes.gameItems));
+    console.log(JSON.parse(collections[0].attributes.gameItems));
     setGameInfo(collections[0]);
 
     // const { fetch: isGameWatchlisted } = useMoralisQuery(
@@ -151,7 +154,7 @@ const Collection = (props) => {
     const options6 = {
       address: tokenAddress,
       chain: "eth",
-      offset: 0,
+      // offset: 0,
       limit: 5,
     };
     const nftTransferss = await Moralis.Web3API.token.getContractNFTTransfers(
@@ -182,7 +185,7 @@ const Collection = (props) => {
     const options6 = {
       address: tokenAddress,
       chain: "eth",
-      offset,
+      // offset,
       limit: 5,
     };
     const nftTransferss = await Moralis.Web3API.token.getContractNFTTransfers(
@@ -320,13 +323,16 @@ const Collection = (props) => {
               style={{ zIndex: "999" }}
             >
               <div className="content-right">
-                {gameData.collection ? (
+                {gameData.collection || gameData.meta ? (
                   <div className="row">
                     <div className="col-6 px-3 ps-5 w-100">
                       <div className="media" style={{ position: "relative" }}>
-                        {gameData.imagePreviewUrl ? (
+                        {gameData.imagePreviewUrl || gameData.meta ? (
                           <img
-                            src={gameData.imagePreviewUrl}
+                            src={
+                              gameData.imagePreviewUrl ||
+                              gameData.meta?.content[0]?.url
+                            }
                             className="border-radius-30 w-100"
                             alt="Axies"
                           />
@@ -346,7 +352,7 @@ const Collection = (props) => {
             <div className="col-lg-7 col-md-12 pe-md-5 mb-sm-4 order-1">
               <div className="content-left ml-5 d-flex flex-column justify-content-between h-100">
                 {/* Author */}
-                {gameData.collection ? (
+                {gameData.collection || gameData.meta ? (
                   <div className="d-flex justify-content-start align-items-center game-header">
                     <div>
                       <img className="game-image" src={author} />
@@ -354,22 +360,29 @@ const Collection = (props) => {
                     <div>
                       <div className="d-flex align-items-center">
                         <h2 className="tf-title pad-l-15 mb-0 pb-1 gilroy-bold game-heading">
-                          {gameData.collection.name}
+                          {console.log(gameData)}
+                          {gameData.collection
+                            ? gameData.collection.name
+                            : gameData.meta.name}
                         </h2>
                         <BsPatchCheckFill
                           className="text-golden mg-l-8"
                           size={32}
                         />
                       </div>
-                      <div className="d-flex align-items-center">
-                        <p className="content pad-l-15 mb-0 gilroy-normal">
-                          Created by @{gameData.owner?.user?.username}
-                        </p>
-                        <BsPatchCheckFill
-                          className="text-info mg-l-8"
-                          size={18}
-                        />
-                      </div>
+                      {gameData.owner.user ? (
+                        <div className="d-flex align-items-center">
+                          <p className="content pad-l-15 mb-0 gilroy-normal">
+                            Created by @{gameData.owner?.user?.username}
+                          </p>
+                          <BsPatchCheckFill
+                            className="text-info mg-l-8"
+                            size={18}
+                          />
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 ) : (
@@ -438,8 +451,9 @@ const Collection = (props) => {
                   ></div>
                   <div className="collection-desc gilroy-normal">
                     <p className=" font-15">
-                      {gameData.collection ? (
-                        gameData.collection.description
+                      {gameData.collection || gameData.meta ? (
+                        gameData?.collection?.description ||
+                        gameData?.meta?.description
                       ) : (
                         <GameDescription />
                       )}
@@ -516,11 +530,27 @@ const Collection = (props) => {
         <div className="themesflat-container d-flex justify-content-between align-items-center">
           <div className="d-flex justyfy-content-between align-items-center order-1">
             <div className="d-flex justyfy-content-between align-items-center display-type-section">
-              <div className="display-type-btn-left display-type-btn-active">
-                <BiGridAlt className="tile-icon active" size={24} />
+              <div
+                className={`display-type-btn-left ${
+                  gridSize === 4 ? "display-type-btn-active" : ""
+                }`}
+              >
+                <BiGridAlt
+                  className={`tile-icon  ${gridSize === 4 ? "active" : ""}`}
+                  size={24}
+                  onClick={() => setGridSize(4)}
+                />
               </div>
-              <div className="display-type-btn-right">
-                <BiGrid className="tile-icon" size={24} />
+              <div
+                className={`display-type-btn-right  ${
+                  gridSize === 3 ? "display-type-btn-active" : ""
+                }`}
+              >
+                <BiGrid
+                  className={`tile-icon  ${gridSize === 3 ? "active" : ""}`}
+                  size={24}
+                  onClick={() => setGridSize(3)}
+                />
               </div>
             </div>
           </div>
@@ -665,7 +695,7 @@ const Collection = (props) => {
       {activeTab === 1 ? (
         <div>
           {items ? (
-            <Items data={items} searchKeyword={keyword} />
+            <Items data={items} searchKeyword={keyword} gridSize={gridSize} />
           ) : (
             <ItemsLoader />
           )}

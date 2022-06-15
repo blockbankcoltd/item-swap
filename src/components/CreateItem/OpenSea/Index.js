@@ -19,12 +19,18 @@ const AddOpenSeaCollection = () => {
   const chain = process.env.chain;
 
   const [nftAddress, setNftAddress] = useState("");
+  const [tokenId, setTokenId] = useState("");
   const [chainInput, setChainInput] = useState(null);
   const [nftAddressError, setNftAddressError] = useState("");
+  const [tokenIdError, setTokenIdError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [collections, setCollections] = useState([]);
   const [fetchCollection, setFetchCollection] = useState(0);
   //   console.log(Moralis.Plugins);
+
+  const CHAIN = process.env.REACT_APP_CHAIN;
+  const NETWORK = process.env.REACT_APP_NETWORK;
+
   const {
     Moralis,
     isWeb3Enabled,
@@ -55,7 +61,10 @@ const AddOpenSeaCollection = () => {
   } = useMoralisQuery(
     "Games",
     (query) => {
-      return query.descending("createdAt").equalTo("status", "ACTIVE");
+      return query
+        .descending("createdAt")
+        .equalTo("status", "ACTIVE")
+        .equalTo("market", "opensea");
     },
 
     [fetchCollection],
@@ -112,11 +121,18 @@ const AddOpenSeaCollection = () => {
     setNftAddress(e.target.value);
   };
 
+  const handleTokenIdInput = (e) => {
+    if (e.target.value) setTokenIdError("");
+    setTokenId(e.target.value);
+  };
+
   const handleCreateItem = async () => {
     setSuccessMsg("");
     // console.log(itemFile);
     if (!nftAddress)
       return setNftAddressError("Collection address is required!");
+
+    if (!tokenId) return setTokenIdError("Token ID is required!");
 
     let isAlreadyExist = queryResult.filter(
       (result) => result.attributes.collectionAddress == nftAddress,
@@ -132,7 +148,7 @@ const AddOpenSeaCollection = () => {
 
     const options = {
       address: nftAddress,
-      chain: "eth",
+      chain: CHAIN,
     };
     const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
 
@@ -141,7 +157,8 @@ const AddOpenSeaCollection = () => {
     const res = await Moralis.Plugins.opensea.getAsset({
       network: "mainnet",
       tokenAddress: nftAddress,
-      tokenId: NFTs.result[NFTs.result.length - 1].token_id,
+      // tokenId: NFTs.result[NFTs.result.length - 1].token_id,
+      tokenId: tokenId,
     });
 
     console.log("result", res);
@@ -160,6 +177,7 @@ const AddOpenSeaCollection = () => {
 
     await save(collectionData);
     setNftAddress("");
+    setTokenId("");
     setSuccessMsg("Collection added successfully.");
     setTimeout(() => {
       setSuccessMsg("");
@@ -180,8 +198,8 @@ const AddOpenSeaCollection = () => {
       <div className="tf-create-item tf-section">
         <div className="themesflat-container">
           <div className="row">
-            <div className="col-xl-3 col-lg-3 col-md-12 col-12"></div>
-            <div className="col-xl-6 col-lg-6 col-md-12 col-12">
+            <div className="col-xl-2 col-lg-3 col-md-12 col-12"></div>
+            <div className="col-xl-8 col-lg-6 col-md-12 col-12">
               <div className="sc-card-product">
                 <div className="form-create-item">
                   <div className="flat-tabs tab-create-item">
@@ -190,7 +208,7 @@ const AddOpenSeaCollection = () => {
                         Add New Collection
                       </h4>
                       <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <select
                             className="form-control"
                             style={{ height: "44px" }}
@@ -201,7 +219,7 @@ const AddOpenSeaCollection = () => {
                             <option value="0x4">Rinkeby</option>
                           </select>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <input
                             type="text"
                             placeholder="Collection Address"
@@ -211,7 +229,18 @@ const AddOpenSeaCollection = () => {
                             value={nftAddress}
                           />
                         </div>
+                        <div className="col-md-4">
+                          <input
+                            type="text"
+                            placeholder="Token ID"
+                            required
+                            onChange={(e) => handleTokenIdInput(e)}
+                            className="mb-0"
+                            value={tokenId}
+                          />
+                        </div>
                       </div>
+                      <small style={{ color: "red" }}>{tokenIdError}</small>
                       <small style={{ color: "red" }}>{nftAddressError}</small>
                       <small style={{ color: "green" }}>{successMsg}</small>
                       <div className="row-form style-12 mt-3">

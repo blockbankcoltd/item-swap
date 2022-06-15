@@ -94,7 +94,7 @@ function Chains() {
   const handleMenuClick = (e) => {
     console.log("switch to: ", e.key);
     switchNetwork(e.key);
-    localStorage.setItem("chainId", e.key);
+    localStorage.setItem("chainId", chainId);
   };
 
   const menu = (

@@ -36,6 +36,9 @@ const Collection = (props) => {
     save: GameLikes,
   } = useNewMoralisObject("GameLikes");
 
+  const CHAIN = process.env.REACT_APP_CHAIN;
+  const NETWORK = process.env.REACT_APP_NETWORK;
+
   const { save: GameWatchlist } = useNewMoralisObject("GameWatchlist");
 
   //ACTIVE TAB
@@ -51,40 +54,10 @@ const Collection = (props) => {
   const [isWatchlisted, setIsWatchlisted] = useState(false);
   const [toggleSearchBox, setToggleSearchBox] = useState(false);
   const [offset, setOffset] = useState(0);
-  const [gridSize, setGridSize] = useState(4);
+  const [gridSize, setGridSize] = useState(3);
 
   const { tokenAddress } = useParams();
   const { Moralis, account, authenticate, isAuthenticated } = useMoralis();
-
-  // console.log(
-  //   "account",
-  //   account,
-  //   tokenAddress,
-  //   localStorage.getItem("account"),
-  //   isAuthenticated,
-  // );
-
-  // const { fetch: isGameLiked } = useMoralisQuery(
-  //   "GameLikes",
-  //   (query) => {
-  //     return query
-  //       .equalTo("user", localStorage.getItem("account"))
-  //       .equalTo("game", tokenAddress)
-  //       .equalTo("isActive", true);
-  //   },
-  //   [],
-  // );
-
-  // const { fetch: isGameWatchlisted } = useMoralisQuery(
-  //   "GameWatchlist",
-  //   (query) => {
-  //     return query
-  //       .equalTo("user", localStorage.getItem("account"))
-  //       .equalTo("game", gameInfo.id)
-  //       .equalTo("isActive", true);
-  //   },
-  //   [],
-  // );
 
   const { fetch } = useMoralisQuery(
     "Games",
@@ -107,7 +80,7 @@ const Collection = (props) => {
 
     setGameData(collections[0].attributes.gameInfo);
     setItems(JSON.parse(collections[0].attributes.gameItems));
-    console.log(JSON.parse(collections[0].attributes.gameItems));
+    console.log("Itemssssss", JSON.parse(collections[0].attributes.gameItems));
     setGameInfo(collections[0]);
 
     // const { fetch: isGameWatchlisted } = useMoralisQuery(
@@ -153,7 +126,7 @@ const Collection = (props) => {
 
     const options6 = {
       address: tokenAddress,
-      chain: "eth",
+      chain: CHAIN,
       // offset: 0,
       limit: 5,
     };
@@ -165,7 +138,7 @@ const Collection = (props) => {
       const options7 = {
         address: tokenAddress,
         token_id: nftTransfer.token_id,
-        chain: "eth",
+        chain: CHAIN,
       };
       const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
         options7,
@@ -184,7 +157,7 @@ const Collection = (props) => {
     setOffset(offset + 5);
     const options6 = {
       address: tokenAddress,
-      chain: "eth",
+      chain: CHAIN,
       // offset,
       limit: 5,
     };
@@ -196,7 +169,7 @@ const Collection = (props) => {
       const options7 = {
         address: tokenAddress,
         token_id: nftTransfer.token_id,
-        chain: "eth",
+        chain: CHAIN,
       };
       const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
         options7,
@@ -392,59 +365,63 @@ const Collection = (props) => {
                 {/* Content */}
 
                 <div className="sc-card-product-1">
-                  <div className="d-flex">
-                    <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
-                      <div className="border-right">
-                        <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData && gameData.collection
-                            ? gameData.collection.stats.total_supply
-                            : ""}
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          ITEMS
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex-fill py-4 card-gredient-2">
-                      <div className="border-right">
-                        <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection?.stats.num_owners}
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          OWNER
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex-fill py-4 card-gredient-3">
-                      <div className="border-right">
-                        <div className="d-flex justify-content-center align-items-center">
-                          <ETHLogo />
-                          <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height ms-2">
-                            {gameData.collection?.stats.average_price.toFixed(
-                              2,
-                            )}
+                  {localStorage.activeMarket === "opensea" ? (
+                    <div className="d-flex">
+                      <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
+                        <div className="border-right">
+                          <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
+                            {gameData && gameData.collection
+                              ? gameData.collection.stats.total_supply
+                              : ""}
                           </h3>
+                          <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
+                            ITEMS
+                          </p>
                         </div>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          AVERAGE PRICE
-                        </p>
+                      </div>
+                      <div className="flex-fill py-4 card-gredient-2">
+                        <div className="border-right">
+                          <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
+                            {gameData.collection?.stats.num_owners}
+                          </h3>
+                          <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
+                            OWNER
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex-fill py-4 card-gredient-3">
+                        <div className="border-right">
+                          <div className="d-flex justify-content-center align-items-center">
+                            <ETHLogo />
+                            <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height ms-2">
+                              {gameData.collection?.stats.average_price.toFixed(
+                                2,
+                              )}
+                            </h3>
+                          </div>
+                          <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
+                            AVERAGE PRICE
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex-fill py-4 card-gredient-4 border-top-right-radius">
+                        <div>
+                          <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
+                            {gameData.collection
+                              ? Math.round(
+                                  gameData.collection.stats.total_volume * 10,
+                                ) / 10
+                              : ""}
+                          </h3>
+                          <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
+                            VOLUME TRADED
+                          </p>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex-fill py-4 card-gredient-4 border-top-right-radius">
-                      <div>
-                        <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
-                          {gameData.collection
-                            ? Math.round(
-                                gameData.collection.stats.total_volume * 10,
-                              ) / 10
-                            : ""}
-                        </h3>
-                        <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
-                          VOLUME TRADED
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  ) : (
+                    <></>
+                  )}
                   <div
                     className="sc-card-product-2"
                     style={{ height: "3px" }}
@@ -773,7 +750,20 @@ const Collection = (props) => {
                               </td>
                               <td>
                                 <img
-                                  src={JSON.parse(nftTransfer.metadata).image}
+                                  src={
+                                    JSON.parse(
+                                      nftTransfer.metadata,
+                                    ).image.substring(0, 7) === "ipfs://"
+                                      ? `https://ipfs.io/ipfs/${JSON.parse(
+                                          nftTransfer.metadata,
+                                        ).image.substring(
+                                          7,
+                                          JSON.parse(nftTransfer.metadata).image
+                                            .length,
+                                        )}`
+                                      : JSON.parse(nftTransfer.metadata).image
+                                  }
+                                  // src={JSON.parse(nftTransfer.metadata).image}
                                   style={{
                                     width: "30px",
                                     borderRadius: "10px",

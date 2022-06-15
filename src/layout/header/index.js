@@ -25,7 +25,7 @@ const menus = [
   {
     id: 3,
     name: "Trade",
-    links: "/1inch",
+    links: "/swap",
   },
   // {
   //   id: 4,
@@ -179,7 +179,7 @@ const Header = () => {
                     chain="eth"
                     image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
                   /> */}
-                  {/* <Chains /> */}
+                  <Chains />
                   <Account />
 
                   <div className="admin_active" id="header_admin">

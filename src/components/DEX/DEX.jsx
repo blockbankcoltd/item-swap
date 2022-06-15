@@ -13,12 +13,13 @@ import { getWrappedNative } from "helpers/networks";
 
 const styles = {
   card: {
-    width: "430px",
+    // width: "430px",
     boxShadow: "0 0.5rem 1.2rem rgb(189 197 209 / 20%)",
     border: "1px solid #e7eaf3",
     borderRadius: "1rem",
     fontSize: "16px",
     fontWeight: "500",
+    background: "var(--primary-color11)",
   },
   input: {
     padding: "0",
@@ -183,11 +184,15 @@ function DEX({ chain, customTokens = {} }) {
     <>
       <Card style={styles.card} bodyStyle={{ padding: "18px" }}>
         <Card
-          style={{ borderRadius: "1rem" }}
+          style={{ borderRadius: "1rem", background: "var(--primary-color11)" }}
           bodyStyle={{ padding: "0.8rem" }}
         >
           <div
-            style={{ marginBottom: "5px", fontSize: "14px", color: "#434343" }}
+            style={{
+              marginBottom: "5px",
+              fontSize: "14px",
+              color: "var(--primary-color2)",
+            }}
           >
             From
           </div>
@@ -249,11 +254,15 @@ function DEX({ chain, customTokens = {} }) {
           <ArrowDownOutlined />
         </div>
         <Card
-          style={{ borderRadius: "1rem" }}
+          style={{ borderRadius: "1rem", background: "var(--primary-color11)" }}
           bodyStyle={{ padding: "0.8rem" }}
         >
           <div
-            style={{ marginBottom: "5px", fontSize: "14px", color: "#434343" }}
+            style={{
+              marginBottom: "5px",
+              fontSize: "14px",
+              color: "var(--primary-color2)",
+            }}
           >
             To
           </div>
@@ -344,6 +353,8 @@ function DEX({ chain, customTokens = {} }) {
             marginTop: "15px",
             borderRadius: "0.6rem",
             height: "50px",
+            background: "var(--primary-color11)",
+            color: "var(--primary-color2)",
           }}
           onClick={() => trySwap(currentTrade)}
           disabled={!ButtonState.isActive}

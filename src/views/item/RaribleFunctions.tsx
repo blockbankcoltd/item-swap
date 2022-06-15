@@ -61,7 +61,9 @@ const mintFormInitial: MintForm = {
 
 function Dashboard({ provider, sdk, accounts }) {
 // return 2;
-    console.log('sdk', provider)
+  const CHAIN = process.env.REACT_APP_CHAIN;
+  const NETWORK = process.env.REACT_APP_NETWORK;
+
     const [collection, setCollection] = useState<MintForm>(mintFormInitial)
     const [ownedItems, setOwnedItems] = useState<NftItem[]>()
     const [createOrderForm, setCreateOrderForm] = useState<CreateOrderFormState>({

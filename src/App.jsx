@@ -178,7 +178,7 @@ const App = ({ isServerInfo }) => {
         <Route path="/openSea">
           <OpenSea />
         </Route>
-        <Route path="/1inch">
+        <Route path="/swap">
           <Trade chain="eth" />
         </Route>
         <Route path="/test">

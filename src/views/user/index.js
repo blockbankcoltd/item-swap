@@ -42,11 +42,12 @@ const User = (props) => {
   const { Moralis, account } = useMoralis();
 
   const getCollectionData = useCallback(async () => {
-    console.log("sd12", Moralis);
+    const CHAIN = process.env.REACT_APP_CHAIN;
+    const NETWORK = process.env.REACT_APP_NETWORK;
 
     await Moralis.initPlugins();
 
-    const options5 = { chain: "eth", address: account };
+    const options5 = { chain: CHAIN, address: account };
     const myNfts = await Moralis.Web3API.account.getNFTs(options5);
 
     console.log("myNfts", myNfts);

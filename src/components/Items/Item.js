@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Item = ({ data, gridSize }) => {
   // console.log("data", data);
   let metadata = JSON.parse(data.metadata);
-  // console.log("metadata", metadata);
+  console.log("metadata", metadata);
   if (!metadata) return <></>;
   let currentUrl = "";
   if (localStorage.getItem("activeMarket") === "rarible") {
@@ -20,17 +20,21 @@ const Item = ({ data, gridSize }) => {
         <div className="p-3 sc-card-product">
           <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
             <div className="d-flex align-items-center">
-              <img
-                className="sc-card-img"
-                src={
-                  metadata && metadata.image.substring(0, 7) === "ipfs://"
-                    ? `https://ipfs.io/ipfs/${metadata.image.substring(
-                        7,
-                        metadata.image.length,
-                      )}`
-                    : metadata.image
-                }
-              />
+              {metadata && metadata.image ? (
+                <img
+                  className="sc-card-img"
+                  src={
+                    metadata && metadata.image.substring(0, 7) === "ipfs://"
+                      ? `https://ipfs.io/ipfs/${metadata.image.substring(
+                          7,
+                          metadata.image.length,
+                        )}`
+                      : metadata.image
+                  }
+                />
+              ) : (
+                <></>
+              )}
               <div>
                 <p className="mb-0 gilroy-normal font-13 line-height creator">
                   Collection
@@ -44,21 +48,25 @@ const Item = ({ data, gridSize }) => {
             </div> */}
           </div>
           <div className="card img-div">
-            <img
-              style={{
-                borderRadius: "15px",
-                minHeight: "300px",
-                maxHeight: "300px",
-              }}
-              src={
-                metadata && metadata.image.substring(0, 7) === "ipfs://"
-                  ? `https://ipfs.io/ipfs/${metadata.image.substring(
-                      7,
-                      metadata.image.length,
-                    )}`
-                  : metadata.image
-              }
-            />
+            {metadata && metadata.image ? (
+              <img
+                style={{
+                  borderRadius: "15px",
+                  minHeight: "300px",
+                  maxHeight: "300px",
+                }}
+                src={
+                  metadata && metadata.image.substring(0, 7) === "ipfs://"
+                    ? `https://ipfs.io/ipfs/${metadata.image.substring(
+                        7,
+                        metadata.image.length,
+                      )}`
+                    : metadata.image
+                }
+              />
+            ) : (
+              <></>
+            )}
             <div className="history-btn">
               <button className="my-btn">View</button>
             </div>

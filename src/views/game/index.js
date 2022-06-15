@@ -55,6 +55,10 @@ const Games = () => {
   }, []);
 
   useEffect(() => {
+    getCollectionData().catch(console.error);
+  }, [localStorage.getItem("chainId")]);
+
+  useEffect(() => {
     setActiveMarket(localStorage.getItem("activeMarket"));
     getCollectionData().catch(console.error);
   }, []);
@@ -86,6 +90,8 @@ const Games = () => {
     const Games = Moralis.Object.extend("Games");
     const query = new Moralis.Query(Games);
     query.equalTo("status", "ACTIVE");
+    query.equalTo("market", activeMarket);
+    query.equalTo("chainId", localStorage.getItem("chainId"));
     query.equalTo("isActive", true);
     if (val == "hot") {
       query.equalTo("isHot", true);

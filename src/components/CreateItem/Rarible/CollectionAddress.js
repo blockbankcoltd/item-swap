@@ -56,7 +56,10 @@ const CollectionAddress = () => {
   } = useMoralisQuery(
     "Games",
     (query) => {
-      return query.descending("createdAt").equalTo("status", "ACTIVE");
+      return query
+        .descending("createdAt")
+        .equalTo("status", "ACTIVE")
+        .equalTo("market", "rarible");
     },
 
     [fetchCollection],

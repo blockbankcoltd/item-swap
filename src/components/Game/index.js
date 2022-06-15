@@ -24,9 +24,10 @@ const Game = ({ data, market }) => {
                   Creator
                 </p>
                 <h5 className="gilroy-semibold font-15">
-                  {market === "opensea"
+                  {/* {market === "opensea"
                     ? data.gameInfo.assetContract.tokenSymbol
-                    : "Uknown"}
+                    : "Uknown"} */}
+                  Uknown
                 </h5>
               </div>
             </div>

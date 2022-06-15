@@ -86,33 +86,35 @@ const Trade = ({ chain }) => {
         </SwiperSlide>
       </Swiper>
       {/* <section></section> */}
-      <div className="row">
-        <div className="col-md-8 p-5">
-          <TokenChart />
-        </div>
-        <div className="col-md-4 p-5">
-          <div className="sc-card-product">
-            <section
-              className="tf-section today-pick"
-              style={{ borderRadius: "20px" }}
-            >
-              <div
-                className="themesflat-container"
-                style={{ paddingTop: "5rem" }}
-              >
-                <Tabs defaultActiveKey="1" style={{ alignItems: "center" }}>
-                  <Tabs.TabPane tab={<span>Ethereum</span>} key="1">
-                    <DEX chain={"eth"} />
-                  </Tabs.TabPane>
-                  <Tabs.TabPane tab={<span>Binance Smart Chain</span>} key="2">
-                    <DEX chain="bsc" />
-                  </Tabs.TabPane>
-                </Tabs>
+      <section className="tf-section today-pick">
+        <div className="themesflat-container">
+          <div className="row">
+            <div className="col-md-8">
+              <TokenChart />
+            </div>
+            <div className="col-md-4">
+              <div className="sc-card-product">
+                <div
+                  className="themesflat-container"
+                  style={{ paddingTop: "5rem" }}
+                >
+                  <Tabs defaultActiveKey="1" style={{ alignItems: "center" }}>
+                    <Tabs.TabPane tab={<span>Ethereum</span>} key="1">
+                      <DEX chain={"eth"} />
+                    </Tabs.TabPane>
+                    <Tabs.TabPane
+                      tab={<span>Binance Smart Chain</span>}
+                      key="2"
+                    >
+                      <DEX chain="bsc" />
+                    </Tabs.TabPane>
+                  </Tabs>
+                </div>
               </div>
-            </section>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
       ;
     </Layout>
   );

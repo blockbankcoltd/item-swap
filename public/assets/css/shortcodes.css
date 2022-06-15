@@ -9030,3 +9030,34 @@ button.accordion-button {
 .activity-content {
   color: var(--primary-color2)
 }
+
+.ant-tabs > .ant-tabs-nav {
+  border: 1px solid;
+  padding: 5px;
+  border-radius: 30px;
+  background-color: var(--today-pick);
+  border: 1px solid var(--primary-color9);
+  margin-top: -75px !important
+}
+
+.ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab {
+  padding: 0;
+}
+
+.ant-tabs-tab-btn {
+  color: var(--primary-color6);
+}
+
+.ant-tabs-nav>.ant-tabs-nav-wrap>.ant-tabs-nav-list>.ant-tabs-tab-active {
+  background: var(--primary-color2);
+  border-radius: 30px;
+  padding: 5px 10px;
+}
+
+.ant-tabs-top>.ant-tabs-nav::before {
+  border: 0 !important;
+}
+
+.ant-tabs-tab+.ant-tabs-tab {
+  margin: 0 0 0 16px !important;
+}

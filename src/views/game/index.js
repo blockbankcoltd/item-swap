@@ -51,6 +51,8 @@ const Games = () => {
       let newAry = JSON.parse(JSON.stringify(collections));
       setGames(newAry);
       console.log("newAry", newAry);
+    } else {
+      setGames([]);
     }
   }, []);
 

@@ -30,9 +30,9 @@ const Home = () => {
 
   const { chainId, chain } = useChain();
   console.log("chainID", chainId);
-  const [newList, setNewlist] = useState([]);
-  const [popularList, setPopularlist] = useState([]);
-  const [hotList, setHotlist] = useState([]);
+  const [newList, setNewlist] = useState(null);
+  const [popularList, setPopularlist] = useState(null);
+  const [hotList, setHotlist] = useState(null);
 
   const { fetch } = useMoralisQuery(
     "Games",
@@ -42,7 +42,12 @@ const Home = () => {
         .equalTo("status", "ACTIVE")
         .equalTo("isActive", true)
         .equalTo("chainId", "0x1")
-        .equalTo("market", localStorage.getItem("activeMarket"))
+        .equalTo(
+          "market",
+          localStorage.getItem("activeMarket")
+            ? localStorage.getItem("activeMarket")
+            : "opensea",
+        )
         .descending("createdAt")
         .limit(20),
     [],
@@ -69,6 +74,10 @@ const Home = () => {
       // setPopularlist(collections);
       setNewlist(newAry);
       setHotlist(newAry.filter((arr) => arr.isHot === true));
+    } else {
+      setPopularlist([]);
+      setNewlist([]);
+      setHotlist([]);
     }
 
     // if (collections && collections.length > 0) {
@@ -247,6 +256,7 @@ const Home = () => {
         </div>
       </section>
       <div>
+        {console.log("popular List", popularList)}
         {popularList ? (
           <List
             title={"Popular NFTs"}

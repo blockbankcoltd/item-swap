@@ -54,12 +54,22 @@ const App = ({ isServerInfo }) => {
   // );
   console.log(1, isAdminLoggedIn);
 
+  const CHAIN = process.env.REACT_APP_CHAIN;
+  const NETWORK = process.env.REACT_APP_NETWORK;
   const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
   const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
 
   Moralis.start({ serverUrl: SERVER_URL, appId: APP_ID });
 
   useEffect(() => {
+    if (!localStorage.getItem("activeMarket")) {
+      localStorage.setItem("activeMarket", "opensea");
+    }
+    if (NETWORK === "mainnet") {
+      localStorage.setItem("chainId", "0x1");
+    } else if (NETWORK === "testnet") {
+      localStorage.setItem("chainId", "0x4");
+    }
     // setIsAdminLoggedIn(JSON.parse(localStorage.getItem("isAdminLoggedIn")));
     // console.log(2, isAdminLoggedIn);
     const connectorId = window.localStorage.getItem("connectorId");

@@ -52,13 +52,13 @@ const Game = ({ data, market }) => {
                         data.gameInfo.assetContract.imageUrl.length,
                       )}`
                     : data.gameInfo.assetContract.imageUrl
-                  : data.gameInfo.meta?.content[0].url.substring(0, 7) ===
+                  : data.gameInfo.meta?.content[0]?.url.substring(0, 7) ===
                     "ipfs://"
-                  ? `https://ipfs.io/ipfs/${data.gameInfo.meta?.content[0].url.substring(
+                  ? `https://ipfs.io/ipfs/${data.gameInfo.meta?.content[0]?.url.substring(
                       7,
-                      data.gameInfo.meta?.content[0].url.length,
+                      data.gameInfo.meta?.content[0]?.url.length,
                     )}`
-                  : data.gameInfo.meta?.content[0].url
+                  : data.gameInfo.meta?.content[0]?.url
               }
             />
             <div className="history-btn">

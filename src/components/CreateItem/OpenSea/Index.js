@@ -155,10 +155,10 @@ const AddOpenSeaCollection = () => {
     console.log("NFT ADDRESS", NFTs);
 
     const res = await Moralis.Plugins.opensea.getAsset({
-      network: "mainnet",
-      tokenAddress: nftAddress,
+      network: "testnet",
+      tokenAddress: "0xdbe8143c3996c87ecd639ebba5d13b84f56855c2",
       // tokenId: NFTs.result[NFTs.result.length - 1].token_id,
-      tokenId: tokenId,
+      tokenId: "0",
     });
 
     console.log("result", res);

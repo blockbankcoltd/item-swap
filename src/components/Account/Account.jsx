@@ -194,11 +194,12 @@ function Account() {
         style={{ fontSize: "16px", fontWeight: "500" }}
         width="400px"
       >
-        Account
+        <h5 style={{ color: "var(--primary-color2)" }}>Account</h5>
         <Card
           style={{
             marginTop: "10px",
             borderRadius: "1rem",
+            background: "var(--primary-color)",
           }}
           bodyStyle={{ padding: "15px" }}
         >
@@ -213,6 +214,7 @@ function Account() {
               href={`${getExplorer(chainId)}/address/${account}`}
               target="_blank"
               rel="noreferrer"
+              style={{ color: "var(--primary-color2)" }}
             >
               <SelectOutlined style={{ marginRight: "5px" }} />
               View on Explorer
@@ -221,8 +223,6 @@ function Account() {
         </Card>
         <div
           style={{
-            borderTop: "1px solid #ccc",
-            borderBottom: "1px solid #ccc",
             padding: "10px 0",
           }}
         >

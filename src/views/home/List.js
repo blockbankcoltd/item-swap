@@ -121,16 +121,17 @@ const List = (props) => {
                                                 )}`
                                               : item.gameInfo.assetContract
                                                   .imageUrl
-                                            : item.gameInfo.meta?.content[0].url.substring(
+                                            : item.gameInfo.meta?.content[0]?.url.substring(
                                                 0,
                                                 7,
                                               ) === "ipfs://"
-                                            ? `https://ipfs.io/ipfs/${item.gameInfo.meta?.content[0].url.substring(
+                                            ? `https://ipfs.io/ipfs/${item.gameInfo.meta?.content[0]?.url.substring(
                                                 7,
                                                 item.gameInfo.meta?.content[0]
-                                                  .url.length,
+                                                  ?.url.length,
                                               )}`
-                                            : item.gameInfo.meta?.content[0].url
+                                            : item.gameInfo.meta?.content[0]
+                                                ?.url
                                         }
                                       />
                                       <div className="history-btn">

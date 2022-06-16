@@ -4566,7 +4566,7 @@ section.today-picks {
 }
 
 .mode_switcher a {
-  background: linear-gradient(216.56deg, #e250e5 5.32%, #4b50e6 94.32%);
+  background: linear-gradient(216.56deg, #00A3FF 5.32%, #0243EA 94.32%);
   border-radius: 10px;
   width: 40px;
   height: 40px;
@@ -9060,4 +9060,12 @@ button.accordion-button {
 
 .ant-tabs-tab+.ant-tabs-tab {
   margin: 0 0 0 16px !important;
+}
+
+.ant-modal-content {
+  background-color: var(--primary-color) !important;
+}
+
+.ant-modal-close-x {
+  color: var(--primary-color2) !important;
 }

@@ -821,7 +821,7 @@ const Collection = (props) => {
                 </div>
               </div>
               <br />
-              <div className="col-md-12 wrap-inner load-more text-center">
+              {/* <div className="col-md-12 wrap-inner load-more text-center">
                 <Link
                   to="#"
                   id="load-more"
@@ -830,7 +830,7 @@ const Collection = (props) => {
                 >
                   <span>Load More</span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

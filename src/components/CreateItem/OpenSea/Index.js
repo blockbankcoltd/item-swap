@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { Button, Card, Table } from "react-bootstrap";
 import Header from "../../../layout/header";
 import Footer from "../../../layout/footer";
@@ -146,19 +147,60 @@ const AddOpenSeaCollection = () => {
       return;
     }
 
-    const options = {
-      address: nftAddress,
-      chain: CHAIN,
-    };
-    const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
+    // const options = {
+    //   address: nftAddress,
+    //   chain: CHAIN,
+    // };
+    // const NFTs = await Moralis.Web3API.token.getAllTokenIds(options);
 
-    console.log("NFT ADDRESS", NFTs);
+    // console.log("NFT ADDRESS", NFTs);
 
+    //api.opensea.io/api/v1/collection/{collection_slug}/stats
+
+    axios
+      .get(`https://api.opensea.io/api/v1/collection/${nftAddress}`)
+      .then((res) => {
+        console.log("ressssssssssss", res);
+        // return;
+        let collectionStats = res.data.collection;
+        axios
+          .get(`https://api.opensea.io/api/v1/assets?collection=${nftAddress}`)
+          .then(async (res1) => {
+            let collectionItems = JSON.stringify(res1.data.assets);
+            let nextPageCursor = res1.data.next;
+            let previousPageCursor = res1.data.previous;
+            let collectionData = {
+              collectionAddress: nftAddress,
+              market: "opensea",
+              status: "ACTIVE",
+              isActive: true,
+              likes: 0,
+              watchlist: 0,
+              gameInfo: collectionStats,
+              chainId: chainInput,
+              gameItems: collectionItems,
+              nextPageCursor,
+              previousPageCursor,
+            };
+
+            await save(collectionData);
+            setNftAddress("");
+            setTokenId("");
+            setSuccessMsg("Collection added successfully.");
+            setTimeout(() => {
+              setSuccessMsg("");
+            }, 5000);
+            setFetchCollection(fetchCollection + 1);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+    return;
     const res = await Moralis.Plugins.opensea.getAsset({
-      network: "testnet",
-      tokenAddress: "0xdbe8143c3996c87ecd639ebba5d13b84f56855c2",
+      network: NETWORK,
+      tokenAddress: nftAddress,
       // tokenId: NFTs.result[NFTs.result.length - 1].token_id,
-      tokenId: "0",
+      tokenId: tokenId,
     });
 
     console.log("result", res);

@@ -35,6 +35,7 @@ import { BsFillFileTextFill } from "react-icons/bs";
 import { AiFillTag } from "react-icons/ai";
 import ItemThumbnail from "components/Loader/ItemThumbnail";
 import { ETHLogo } from "components/Chains/Logos";
+import { useIPFS } from "hooks/useIPFS";
 
 const Item = (props) => {
   //ACTIVE TAB
@@ -51,6 +52,7 @@ const Item = (props) => {
   const [transfers, setTransfers] = useState([]);
   const [orders, setOrders] = useState([]);
   const { tokenAddress, tokenId } = useParams();
+  const { resolveLink } = useIPFS();
   console.log("tokenAddress", tokenAddress);
   const {
     Moralis,
@@ -73,14 +75,23 @@ const Item = (props) => {
   const getCollectionData = useCallback(async () => {
     await Moralis.initPlugins();
 
-    const res = await Moralis.Plugins.opensea.getAsset({
-      network: NETWORK,
-      tokenAddress: tokenAddress,
-      tokenId: tokenId,
-    });
+    // const res = await Moralis.Plugins.opensea.getAsset({
+    //   network: NETWORK,
+    //   tokenAddress: tokenAddress,
+    //   tokenId: tokenId,
+    // });
 
-    setGameData(res);
-    console.log("results", res);
+    // setGameData(res);
+    // console.log("results", res);
+
+    axios
+      .get(`https://api.opensea.io/api/v1/asset/${tokenAddress}/${tokenId}/`)
+      .then((res) => {
+        console.log("Resssss", res);
+        setGameData(res.data);
+        setItemData(res.data);
+      })
+      .catch((err) => console.log(err));
 
     const options1 = {
       address: tokenAddress,
@@ -91,9 +102,9 @@ const Item = (props) => {
       options1,
     );
 
-    setItemData(tokenIdMetadata);
-    setItemMetadata(JSON.parse(tokenIdMetadata.metadata));
-    console.log("tokenIdMetadata", JSON.parse(tokenIdMetadata.metadata));
+    // setItemData(tokenIdMetadata);
+    // setItemMetadata(JSON.parse(tokenIdMetadata.metadata));
+    // console.log("tokenIdMetadata", JSON.parse(tokenIdMetadata.metadata));
     const options = {
       address: tokenAddress,
       token_id: tokenId,
@@ -187,20 +198,25 @@ const Item = (props) => {
             <div className="col-lg-6 col-md-12 pe-md-5 mb-sm-4">
               <div className="content-left ml-5 d-flex flex-column justify-content-between">
                 {/* Author */}
-                {itemData.metadata ? (
+                {itemData ? (
                   <div>
                     <div className="d-flex justify-content-start align-items-center mb-4">
                       <div>
                         <img
                           style={{ width: "30px", borderRadius: "50%" }}
-                          src={gameData.collection.imageUrl}
+                          src={resolveLink(
+                            itemData?.collection?.primary_asset_contracts?.[0]
+                              ?.image_url,
+                          )}
                         />
                       </div>
                       <div>
                         <div className="d-flex align-items-center">
                           <p className="content pad-l-15 mb-0 gilroy-normal">
-                            {gameData.collection.name &&
-                              gameData.collection.name}
+                            {
+                              itemData?.collection?.primary_asset_contracts?.[0]
+                                ?.name
+                            }
                           </p>
                           <BsPatchCheckFill
                             className="text-golden mg-l-8"
@@ -211,8 +227,8 @@ const Item = (props) => {
                     </div>
                     <div className="d-flex align-items-center">
                       <h2 className="tf-title mb-0 pb-1 gilroy-bold">
-                        {itemMetadata.name
-                          ? itemMetadata.name
+                        {itemData.name
+                          ? itemData?.name
                           : "#" + tokenId.length < 5
                           ? tokenId
                           : tokenId.substring(0, 3).toUpperCase() + "..."}
@@ -222,23 +238,19 @@ const Item = (props) => {
                       <p className="content mb-0 gilroy-normal font-15">
                         Owned by{" "}
                         <span>
-                          @{itemData.owner_of.substring(2, 8).toUpperCase()}
+                          @
+                          {itemData?.owner?.address
+                            .substring(2, 8)
+                            .toUpperCase()}
                         </span>
                       </p>
                     </div>
                     <div className="row d-md-block d-lg-none">
                       <div className="col-6 px-3 w-100">
                         <div className="media" style={{ position: "relative" }}>
-                          {itemMetadata && itemMetadata.image ? (
+                          {itemData && itemData?.image_url ? (
                             <img
-                              src={
-                                itemMetadata.image.substring(0, 7) === "ipfs://"
-                                  ? `https://ipfs.io/ipfs/${itemMetadata.image.substring(
-                                      7,
-                                      itemMetadata.image.length,
-                                    )}`
-                                  : itemMetadata.image
-                              }
+                              src={resolveLink(itemData?.image_url)}
                               className="border-radius-30 w-100"
                               alt="Axies"
                             />
@@ -276,7 +288,7 @@ const Item = (props) => {
                       />
                     </div> */}
                     <div className="collection-desc gilroy-normal">
-                      <p className=" font-15">{itemMetadata.description}</p>
+                      <p className=" font-15">{itemData?.description}</p>
                     </div>
                   </div>
                 ) : (
@@ -472,20 +484,13 @@ const Item = (props) => {
             </div>
             <div className="col-lg-6 col-md-12" style={{ zIndex: "999" }}>
               <div className="content-right">
-                {itemMetadata ? (
+                {itemData ? (
                   <div className="row d-none d-lg-block">
                     <div className="col-6 px-3 ps-5 w-100">
                       <div className="media" style={{ position: "relative" }}>
-                        {itemMetadata && itemMetadata.image ? (
+                        {itemData && itemData.image_url ? (
                           <img
-                            src={
-                              itemMetadata.image.substring(0, 7) === "ipfs://"
-                                ? `https://ipfs.io/ipfs/${itemMetadata.image.substring(
-                                    7,
-                                    itemMetadata.image.length,
-                                  )}`
-                                : itemMetadata.image
-                            }
+                            src={resolveLink(itemData.image_url)}
                             className="border-radius-30 w-100"
                             alt="Axies"
                           />

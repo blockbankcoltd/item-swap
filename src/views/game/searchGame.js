@@ -20,75 +20,67 @@ import { searchGame } from "../../redux/actions";
 import Game from "components/Game";
 
 function Games(props) {
-    const dispatch = useDispatch();
-    const location = useLocation();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const activeMarket = localStorage.getItem("activeMarket");
 
-    console.log('location', props);
-    let searchText = props.match.params.keyword;
-    let callback = () => {
-        console.log('searchKey', props);
-        // props.history.push(`/explore-games`);
+  console.log("location", props);
+  let searchText = props.match.params.keyword;
+  let callback = () => {
+    console.log("searchKey", props);
+    // props.history.push(`/explore-games`);
+  };
+
+  useEffect(() => {
+    dispatch(searchGame({ searchText, callback }));
+  }, []);
+
+  const gameList = () => {
+    const { searchedGame, loading } = props.gameUser;
+    if (loading) {
+      return <Loader />;
+    } else if (searchedGame && searchedGame.length > 0) {
+      console.log("searchedGame", searchedGame);
+      return searchedGame.map((nft, index) => (
+        <Game data={nft} market={activeMarket} key={index} />
+      ));
+    } else {
+      return <p>No Game found</p>;
     }
-
-    useEffect(() => {
-        dispatch(searchGame({ searchText, callback }));
-    }, []);
-
-
-    const gameList = () => {
-        const { searchedGame, loading } = props.gameUser;
-        if (loading) {
-            return (
-                <Loader />
-            )
-        } else if (searchedGame && searchedGame.length > 0) {
-            return (
-                searchedGame.map((nft, index) => (
-                    <Game data={nft} key={index} />
-                ))
-            )
-        } else {
-            return (
-                <p>No Game found</p>
-            )
-        }
-    }
-    return (
-        <Layout>
-            <section className="flat-title-page inner">
-                <div className="themesflat-container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="page-title-heading mg-bt-12">
-                                <h1 className="heading text-center">GAME MARKETPLACE</h1>
-                            </div>
-                            <div
-                                className="flex"
-                                style={{ justifyContent: "center" }}
-                            >
-                                <Link
-                                    to="/explore-games"
-                                    className="header-slider style style-1 fl-button pri-1"
-                                >
-                                    <span>Powered by </span>
-                                    <img
-                                        src={
-                                            "https://seeklogo.com/images/O/opensea-logo-7DE9D85D62-seeklogo.com.png"
-                                        }
-                                        width={20}
-                                    />
-                                    <span> OpenSea</span>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section className="tf-section today-pick">
-                <div className="themesflat-container">
-                    <div className="row p-md-10">
-                        {gameList()}
-                        {/* {data.map((data, index) => (
+  };
+  return (
+    <Layout>
+      <section className="flat-title-page inner">
+        <div className="themesflat-container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="page-title-heading mg-bt-12">
+                <h1 className="heading text-center">GAME MARKETPLACE</h1>
+              </div>
+              <div className="flex" style={{ justifyContent: "center" }}>
+                <Link
+                  to="/explore-games"
+                  className="header-slider style style-1 fl-button pri-1"
+                >
+                  <span>Powered by </span>
+                  <img
+                    src={
+                      "https://seeklogo.com/images/O/opensea-logo-7DE9D85D62-seeklogo.com.png"
+                    }
+                    width={20}
+                  />
+                  <span> OpenSea</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="tf-section today-pick">
+        <div className="themesflat-container">
+          <div className="row p-md-10">
+            {gameList()}
+            {/* {data.map((data, index) => (
                             <div className="col-md-3 px-3 my-4">
                                 <Link to={`/collection/${data.gameInfo.tokenAddress}`}>
                                     <div className="p-3 sc-card-product">
@@ -132,19 +124,15 @@ function Games(props) {
                                 </Link>
                             </div>
                         ))} */}
-
-                    </div>
-                </div>
-            </section>
-        </Layout>
-    );
-};
-
+          </div>
+        </div>
+      </section>
+    </Layout>
+  );
+}
 
 const mapStateToProps = (state) => {
-    return { ...state };
+  return { ...state };
 };
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
-export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(Games)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Games));

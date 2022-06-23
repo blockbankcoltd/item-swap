@@ -126,6 +126,7 @@ const Home = () => {
     getCollectionData().catch(console.error);
   }, []);
 
+  // return <></>;
   return (
     <Layout>
       <Swiper
@@ -225,11 +226,10 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">Excrypted Security</Link>
+                  <Link to="/wallet-connect">Encrypted Security</Link>
                 </h3>
                 <p className="content">
-                  We have well encypted and safe security system from the name
-                  theft:
+                  We have well encrypted and safe security system
                 </p>
               </div>
             </div>

@@ -30,7 +30,7 @@ const useInchDex = (chain) => {
       fromToken.decimals,
     ).toString();
     if (fromToken.address !== "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee") {
-      await Moralis.Plugins.oneInch
+      return await Moralis.Plugins.oneInch
         .hasAllowance({
           chain, // The blockchain you want to use (eth/bsc/polygon)
           fromTokenAddress: fromToken.address, // The token you want to swap
@@ -47,17 +47,23 @@ const useInchDex = (chain) => {
             });
           }
         })
-        .catch((e) => alert(e.message));
+        .catch((e) => ({
+          type: "error",
+          msg: JSON.parse(e.message.data.data).message,
+        }));
     }
 
-    await doSwap(params)
+    return await doSwap(params)
       .then((receipt) => {
         if (receipt.statusCode !== 400) {
-          alert("Swap Complete");
+          return { type: "success", msg: "Swap completed" };
         }
         console.log(receipt);
       })
-      .catch((e) => alert(e.message));
+      .catch((e) => ({
+        type: "error",
+        msg: JSON.parse(e.message.data.data).message,
+      }));
   }
 
   async function doSwap(params) {

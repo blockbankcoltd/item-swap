@@ -60,7 +60,7 @@ const Footer = () => {
   const socialList = [
     {
       icon: "fab fa-twitter",
-      link: "#",
+      link: "https://twitter.com/exnomy",
     },
     {
       icon: "fab fa-facebook",
@@ -68,7 +68,7 @@ const Footer = () => {
     },
     {
       icon: "fab fa-telegram-plane",
-      link: "#",
+      link: "https://t.me/exnomy",
     },
     {
       icon: "fab fa-youtube",
@@ -135,13 +135,16 @@ const Footer = () => {
               </div>
               <p className="h4" style={{ lineHeight: 2 }}>
                 © 2018 - 2022 <br />
-                Non Fungible Corporation,<br />
+                Non Fungible Corporation,
+                <br />
                 All rights reserved.
               </p>
             </div>
             <div className="col-lg-6 col-md-12 col-12">
               <p className="h4" style={{ lineHeight: 1.5 }}>
-                The world’s first and largest digital marketplace for crypto collectibles and non-fungible tokens (NFTs). Buy, sell, and discover exclusive digital items.
+                The world’s first and largest digital marketplace for crypto
+                collectibles and non-fungible tokens (NFTs). Buy, sell, and
+                discover exclusive digital items.
               </p>
 
               <div className="row">
@@ -185,8 +188,13 @@ const Footer = () => {
             </div>
             <div className="col-lg-3 col-md-12 col-12">
               <div className="widget widget-subcribe">
-                <h5 className="title-widget fw-bold">Subscribe for the ItemSwap newsletter</h5>
-                <p className="my-4">Subscribe to receive fresh update, exclusive offers, latest news, and Arts</p>
+                <h5 className="title-widget fw-bold">
+                  Subscribe for the ItemSwap newsletter
+                </h5>
+                <p className="my-4">
+                  Subscribe to receive fresh update, exclusive offers, latest
+                  news, and Arts
+                </p>
                 <div className="form-subcribe">
                   <form
                     id="subscribe-form"
@@ -211,7 +219,7 @@ const Footer = () => {
                   <ul>
                     {socialList.map((item, index) => (
                       <li key={index}>
-                        <Link to={item.link}>
+                        <Link target="_blank" to={item.link}>
                           <i className={item.icon}></i>
                         </Link>
                       </li>

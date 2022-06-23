@@ -11,17 +11,14 @@ function Items(props) {
   let data =
     keyword != ""
       ? props.data.filter((d) =>
-          d.metadata
-            ? JSON.parse(d.metadata)
-                .name.toLowerCase()
-                .includes(keyword.toLowerCase())
-            : null,
+          d.name.toLowerCase().includes(keyword.toLowerCase()),
         )
       : props.data;
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();
-  // console.log("asxzxz", useMoralisDapp());
+  // console.log("asxzxz", props);
   const NFTCollections = getCollectionsByChain(chainId);
+  // return <></>;
   return (
     <Fragment>
       <section className="tf-section today-pick">

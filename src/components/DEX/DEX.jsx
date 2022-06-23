@@ -68,6 +68,8 @@ function DEX({ chain, customTokens = {} }) {
   const [currentTrade, setCurrentTrade] = useState();
   const { fetchTokenPrice } = useTokenPrice();
   const [tokenPricesUSD, setTokenPricesUSD] = useState({});
+  const [swapErrorMsg, setSwapErrorMsg] = useState("");
+  const [swapSuccessMsg, setSwapSuccessMsg] = useState("");
 
   const tokens = useMemo(() => {
     return { ...customTokens, ...tokenList };
@@ -178,6 +180,16 @@ function DEX({ chain, customTokens = {} }) {
         ].toFixed(6)})`}</Text>
       </Text>
     );
+  };
+
+  const handleSwap = async () => {
+    setSwapErrorMsg("");
+    setSwapSuccessMsg("");
+    let result = await trySwap(currentTrade);
+    result.type === "error"
+      ? setSwapErrorMsg(result.msg)
+      : setSwapSuccessMsg(result.msg);
+    console.log("SwapResult", result);
   };
 
   return (
@@ -340,7 +352,7 @@ function DEX({ chain, customTokens = {} }) {
                 padding: "0 10px",
               }}
             >
-              Estimated Gas: <Text>{quote?.estimatedGas}</Text>
+              {/* Estimated Gas: <Text>{quote?.estimatedGas}</Text> */}
             </Text>
             <PriceSwap />
           </div>
@@ -356,11 +368,19 @@ function DEX({ chain, customTokens = {} }) {
             background: "var(--primary-color11)",
             color: "var(--primary-color2)",
           }}
-          onClick={() => trySwap(currentTrade)}
+          onClick={() => handleSwap()}
           disabled={!ButtonState.isActive}
         >
           {ButtonState.text}
         </Button>
+        <span class="ant-typography">
+          <span class="ant-typography" style={{ color: "red !important" }}>
+            <small>{swapErrorMsg}</small>
+          </span>
+          <span class="ant-typography" style={{ color: "green !important" }}>
+            <small>{swapSuccessMsg}</small>
+          </span>
+        </span>
       </Card>
       <Modal
         title="Select a token"

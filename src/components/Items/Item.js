@@ -2,34 +2,35 @@ import { ETHLogo } from "components/Chains/Logos";
 import React from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { useIPFS } from "hooks/useIPFS";
 
 const Item = ({ data, gridSize }) => {
-  // console.log("data", data);
-  let metadata = JSON.parse(data.metadata);
-  console.log("metadata", metadata);
-  if (!metadata) return <></>;
+  const { resolveLink } = useIPFS();
+  console.log("data", data);
+  // let metadata = JSON.parse(data.metadata);
+  // console.log("metadata", metadata);
+  // if (!metadata) return <></>;
   let currentUrl = "";
-  if (localStorage.getItem("activeMarket") === "rarible") {
+  let activeMarket = localStorage.getItem("activeMarket");
+  if (activeMarket === "rarible") {
     currentUrl = `/RaribleFunctions/${data.token_address}/${data.token_id}`;
   } else {
-    currentUrl = `/item/${data.token_address}/${data.token_id}`;
+    currentUrl = `/item/${data.asset_contract.address}/${data.token_id}`;
   }
+  // return <></>;
   return (
     <div className={`col-md-${gridSize} px-3 my-4`}>
       <Link to={currentUrl}>
         <div className="p-3 sc-card-product">
           <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
             <div className="d-flex align-items-center">
-              {metadata && metadata.image ? (
+              {(data && data?.collection?.image_url) ||
+              JSON.parse(data?.metadata) ? (
                 <img
                   className="sc-card-img"
                   src={
-                    metadata && metadata.image.substring(0, 7) === "ipfs://"
-                      ? `https://ipfs.io/ipfs/${metadata.image.substring(
-                          7,
-                          metadata.image.length,
-                        )}`
-                      : metadata.image
+                    resolveLink(data?.collection?.image_url) ||
+                    resolveLink(JSON.parse(data?.metadata)?.image)
                   }
                 />
               ) : (
@@ -39,7 +40,9 @@ const Item = ({ data, gridSize }) => {
                 <p className="mb-0 gilroy-normal font-13 line-height creator">
                   Collection
                 </p>
-                <h5 className="gilroy-semibold font-15">{data && data.name}</h5>
+                <h5 className="gilroy-semibold font-15">
+                  {data?.collection?.name || data?.name}
+                </h5>
               </div>
             </div>
             {/* <div className="d-flex justify-content-end align-items-center likes">
@@ -48,7 +51,7 @@ const Item = ({ data, gridSize }) => {
             </div> */}
           </div>
           <div className="card img-div">
-            {metadata && metadata.image ? (
+            {(data && data?.image_preview_url) || JSON.parse(data?.metadata) ? (
               <img
                 style={{
                   borderRadius: "15px",
@@ -56,12 +59,8 @@ const Item = ({ data, gridSize }) => {
                   maxHeight: "300px",
                 }}
                 src={
-                  metadata && metadata.image.substring(0, 7) === "ipfs://"
-                    ? `https://ipfs.io/ipfs/${metadata.image.substring(
-                        7,
-                        metadata.image.length,
-                      )}`
-                    : metadata.image
+                  resolveLink(data?.image_preview_url) ||
+                  resolveLink(JSON.parse(data?.metadata)?.image)
                 }
               />
             ) : (
@@ -72,7 +71,7 @@ const Item = ({ data, gridSize }) => {
             </div>
           </div>
           <br />
-          <h5 className="gilroy-bold">{metadata && metadata.name}</h5>
+          <h5 className="gilroy-bold">{data && data?.name}</h5>
           <br />
           <div className="d-flex justify-content-between align-items-center">
             {/* <div>

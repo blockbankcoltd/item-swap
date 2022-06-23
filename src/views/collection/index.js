@@ -6,6 +6,7 @@ import {
 } from "react-moralis";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
+import axios from "axios";
 import Layout from "../../layout";
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -24,6 +25,7 @@ import ItemsLoader from "components/Loader/ItemsLoader";
 import CollectionThumbnail from "components/Loader/CollectionThumbnail";
 import ItemThumbnail from "components/Loader/ItemThumbnail";
 import { ETHLogo } from "components/Chains/Logos";
+import { useIPFS } from "hooks/useIPFS";
 import GameItems from "views/game/GameItems";
 import nft1 from "../../assets/images/nft/nft1.png";
 
@@ -45,6 +47,9 @@ const Collection = (props) => {
   const [activeTab, setActiveTab] = useState(1);
   const [gameData, setGameData] = useState([]);
   const [gameInfo, setGameInfo] = useState(null);
+  const [nextPageCursor, setNextPageCursor] = useState(null);
+  const [activityNextPageCursor, setActivityNextPageCursor] = useState(null);
+  const [previousPageCursor, setPreviousPageCursor] = useState(null);
   const [items, setItems] = useState(null);
   const [nftTransfers, setNftTransfers] = useState(null);
   const [keyword, setKeyword] = useState("");
@@ -57,6 +62,7 @@ const Collection = (props) => {
   const [gridSize, setGridSize] = useState(3);
 
   const { tokenAddress } = useParams();
+  const { resolveLink } = useIPFS();
   const { Moralis, account, authenticate, isAuthenticated } = useMoralis();
 
   const { fetch } = useMoralisQuery(
@@ -82,6 +88,17 @@ const Collection = (props) => {
     setItems(JSON.parse(collections[0].attributes.gameItems));
     console.log("Itemssssss", JSON.parse(collections[0].attributes.gameItems));
     setGameInfo(collections[0]);
+    setNextPageCursor(collections[0].attributes.nextPageCursor);
+    setPreviousPageCursor(collections[0].attributes.previousPageCursor);
+
+    // const options = {
+    //   address: tokenAddress,
+    //   chain: CHAIN,
+    //   limit: 2,
+    // };
+    // let result = await Moralis.Web3API.token.getAllTokenIds(options);
+    // result = await result.next();
+    // console.log("gameItems", result);
 
     // const { fetch: isGameWatchlisted } = useMoralisQuery(
     //   "GameWatchlist",
@@ -124,63 +141,81 @@ const Collection = (props) => {
     // setIsWatchlisted(isWatchlisted[0] ? true : false);
     // console.log("sd12 Like", isLiked);
 
-    const options6 = {
-      address: tokenAddress,
-      chain: CHAIN,
-      // offset: 0,
-      limit: 5,
-    };
-    const nftTransferss = await Moralis.Web3API.token.getContractNFTTransfers(
-      options6,
-    );
-    let activityData = [];
-    for (let nftTransfer of nftTransferss.result) {
-      const options7 = {
-        address: tokenAddress,
-        token_id: nftTransfer.token_id,
-        chain: CHAIN,
-      };
-      const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
-        options7,
-      );
-      nftTransfer["metadata"] = tokenIdMetadata.metadata;
-      activityData.push(nftTransfer);
-      console.log("nftData", nftTransfer);
-    }
+    axios
+      .get(
+        `https://api.opensea.io/api/v1/events?collection_slug=${tokenAddress}`,
+        {
+          headers: {
+            "X-API-KEY": "764ee874d0d346dfb45e6f2b85fef883",
+          },
+        },
+      )
+      .then((res) => {
+        console.log("Activity", res);
+        setNftTransfers(res.data.asset_events);
+        setActivityNextPageCursor(res.data.next);
+      })
+      .catch((e) => console.log(e));
 
-    setNftTransfers(activityData);
+    //ACTIVITY SECTION
+    // const options6 = {
+    //   address: tokenAddress,
+    //   chain: CHAIN,
+    //   // offset: 0,
+    //   limit: 5,
+    // };
+    // const nftTransferss = await Moralis.Web3API.token.getContractNFTTransfers(
+    //   options6,
+    // );
+    // let activityData = [];
+    // for (let nftTransfer of nftTransferss.result) {
+    //   const options7 = {
+    //     address: tokenAddress,
+    //     token_id: nftTransfer.token_id,
+    //     chain: CHAIN,
+    //   };
+    //   const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
+    //     options7,
+    //   );
+    //   nftTransfer["metadata"] = tokenIdMetadata.metadata;
+    //   activityData.push(nftTransfer);
+    //   console.log("nftData", nftTransfer);
+    // }
+
+    // setNftTransfers(activityData);
 
     // console.log("nftTransfers", nftTransfers);
   }, []);
 
-  const loadMore = async () => {
-    setOffset(offset + 5);
-    const options6 = {
-      address: tokenAddress,
-      chain: CHAIN,
-      // offset,
-      limit: 5,
-    };
-    const nftTransferss = await Moralis.Web3API.token.getContractNFTTransfers(
-      options6,
-    );
-    let activityData = [];
-    for (let nftTransfer of nftTransferss.result) {
-      const options7 = {
-        address: tokenAddress,
-        token_id: nftTransfer.token_id,
-        chain: CHAIN,
-      };
-      const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
-        options7,
-      );
-      nftTransfer["metadata"] = tokenIdMetadata.metadata;
-      activityData.push(nftTransfer);
-      console.log("nftData", nftTransfer);
-    }
+  const loadMoreItems = () => {
+    axios
+      .get(
+        `https://api.opensea.io/api/v1/assets?collection=${tokenAddress}&cursor=${nextPageCursor}`,
+      )
+      .then((res) => {
+        console.log("Resssss", res);
+        setNextPageCursor(res.data.next);
+        setItems([...items, ...res.data.assets]);
+      })
+      .catch((err) => console.log(err));
+  };
 
-    setNftTransfers([...nftTransfers, ...activityData]);
-    console.log("nftTransferssssssssssss", nftTransfers);
+  const loadMoreActivity = async () => {
+    axios
+      .get(
+        `https://api.opensea.io/api/v1/events?collection_slug=${tokenAddress}&cursor=${activityNextPageCursor}`,
+        {
+          headers: {
+            "X-API-KEY": "764ee874d0d346dfb45e6f2b85fef883",
+          },
+        },
+      )
+      .then((res) => {
+        console.log("Activity", res);
+        setNftTransfers([...nftTransfers, ...res.data.asset_events]);
+        setActivityNextPageCursor(res.data.next);
+      })
+      .catch((e) => console.log(e));
   };
 
   const handleLike = async () => {
@@ -296,15 +331,20 @@ const Collection = (props) => {
               style={{ zIndex: "999" }}
             >
               <div className="content-right">
-                {gameData.collection || gameData.meta ? (
+                {gameData || gameData.meta ? (
                   <div className="row">
                     <div className="col-6 px-3 ps-5 w-100">
                       <div className="media" style={{ position: "relative" }}>
-                        {gameData.imagePreviewUrl || gameData.meta ? (
+                        {gameData?.primary_asset_contracts?.[0] ||
+                        gameData.meta ? (
                           <img
                             src={
-                              gameData.imagePreviewUrl ||
-                              gameData.meta?.content[0]?.url
+                              resolveLink(
+                                gameData?.primary_asset_contracts?.[0]?.image_url.replace(
+                                  "=s120",
+                                  "",
+                                ),
+                              ) || resolveLink(gameData.meta?.content?.[0]?.url)
                             }
                             className="border-radius-30 w-100"
                             alt="Axies"
@@ -325,7 +365,7 @@ const Collection = (props) => {
             <div className="col-lg-7 col-md-12 pe-md-5 mb-sm-4 order-1">
               <div className="content-left ml-5 d-flex flex-column justify-content-between h-100">
                 {/* Author */}
-                {gameData.collection || gameData.meta ? (
+                {gameData || gameData.meta ? (
                   <div className="d-flex justify-content-start align-items-center game-header">
                     <div>
                       <img className="game-image" src={author} />
@@ -334,19 +374,19 @@ const Collection = (props) => {
                       <div className="d-flex align-items-center">
                         <h2 className="tf-title pad-l-15 mb-0 pb-1 gilroy-bold game-heading">
                           {console.log(gameData)}
-                          {gameData.collection
-                            ? gameData.collection.name
-                            : gameData.meta.name}
+                          {gameData ? gameData?.name : gameData?.meta?.name}
                         </h2>
                         <BsPatchCheckFill
                           className="text-golden mg-l-8"
                           size={32}
                         />
                       </div>
-                      {gameData.owner.user ? (
+                      {gameData ? (
                         <div className="d-flex align-items-center">
                           <p className="content pad-l-15 mb-0 gilroy-normal">
-                            Created by @{gameData.owner?.user?.username}
+                            Created by
+                            {/* @{gameData.owner?.user?.username} */}
+                            Uknown
                           </p>
                           <BsPatchCheckFill
                             className="text-info mg-l-8"
@@ -370,9 +410,7 @@ const Collection = (props) => {
                       <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
                         <div className="border-right">
                           <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
-                            {gameData && gameData.collection
-                              ? gameData.collection.stats.total_supply
-                              : ""}
+                            {gameData ? gameData?.stats?.total_supply : ""}
                           </h3>
                           <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                             ITEMS
@@ -382,7 +420,7 @@ const Collection = (props) => {
                       <div className="flex-fill py-4 card-gredient-2">
                         <div className="border-right">
                           <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
-                            {gameData.collection?.stats.num_owners}
+                            {gameData?.stats?.num_owners}
                           </h3>
                           <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
                             OWNER
@@ -394,9 +432,7 @@ const Collection = (props) => {
                           <div className="d-flex justify-content-center align-items-center">
                             <ETHLogo />
                             <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height ms-2">
-                              {gameData.collection?.stats.average_price.toFixed(
-                                2,
-                              )}
+                              {gameData?.stats?.average_price.toFixed(2)}
                             </h3>
                           </div>
                           <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
@@ -407,10 +443,9 @@ const Collection = (props) => {
                       <div className="flex-fill py-4 card-gredient-4 border-top-right-radius">
                         <div>
                           <h3 className="game-text-des cd-stats gilroy-bold mb-0 pb-0 line-height">
-                            {gameData.collection
-                              ? Math.round(
-                                  gameData.collection.stats.total_volume * 10,
-                                ) / 10
+                            {gameData
+                              ? Math.round(gameData?.stats?.total_volume * 10) /
+                                10
                               : ""}
                           </h3>
                           <p className="content text-center gilroy-semibold font-12 mb-0 pb-0">
@@ -428,9 +463,8 @@ const Collection = (props) => {
                   ></div>
                   <div className="collection-desc gilroy-normal">
                     <p className=" font-15">
-                      {gameData.collection || gameData.meta ? (
-                        gameData?.collection?.description ||
-                        gameData?.meta?.description
+                      {gameData || gameData.meta ? (
+                        gameData?.description || gameData?.meta?.description
                       ) : (
                         <GameDescription />
                       )}
@@ -676,6 +710,23 @@ const Collection = (props) => {
           ) : (
             <ItemsLoader />
           )}
+          {nextPageCursor ? (
+            <div
+              className="col-md-12 wrap-inner load-more text-center"
+              style={{ background: "var(--today-pick)" }}
+            >
+              <Link
+                to="#"
+                id="load-more"
+                className="sc-button loadmore fl-button pri-3"
+                onClick={loadMoreItems}
+              >
+                <span>Load More</span>
+              </Link>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       ) : (
         <section className="tf-section today-pick pt-0">
@@ -733,10 +784,11 @@ const Collection = (props) => {
                       </tr>
                     </thead>
                     <tbody>
+                      {console.log("nftTransfers", nftTransfers)}
                       {nftTransfers &&
-                        nftTransfers.map((nftTransfer) =>
-                          nftTransfer.metadata ? (
-                            <tr>
+                        nftTransfers.map((nftTransfer, index) =>
+                          nftTransfer ? (
+                            <tr key={index}>
                               <td>
                                 <HiShoppingCart
                                   className="d-inline"
@@ -745,25 +797,14 @@ const Collection = (props) => {
                                 />
                                 &nbsp;
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16 d-inline">
-                                  Transfer
+                                  {nftTransfer?.event_type}
                                 </p>
                               </td>
                               <td>
                                 <img
-                                  src={
-                                    JSON.parse(
-                                      nftTransfer.metadata,
-                                    ).image.substring(0, 7) === "ipfs://"
-                                      ? `https://ipfs.io/ipfs/${JSON.parse(
-                                          nftTransfer.metadata,
-                                        ).image.substring(
-                                          7,
-                                          JSON.parse(nftTransfer.metadata).image
-                                            .length,
-                                        )}`
-                                      : JSON.parse(nftTransfer.metadata).image
-                                  }
-                                  // src={JSON.parse(nftTransfer.metadata).image}
+                                  src={resolveLink(
+                                    nftTransfer?.asset?.image_thumbnail_url,
+                                  )}
                                   style={{
                                     width: "30px",
                                     borderRadius: "10px",
@@ -772,42 +813,58 @@ const Collection = (props) => {
                                 />
                                 &nbsp;
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16 d-inline">
-                                  {JSON.parse(nftTransfer.metadata).name}
+                                  {nftTransfer?.asset?.name}
                                 </p>
                               </td>
                               <td>
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16">
-                                  1
+                                  {nftTransfer?.quantity}
                                 </p>
                               </td>
                               <td>
                                 <ETHLogo className="d-inline" />{" "}
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16 d-inline">
-                                  9.85
+                                  {nftTransfer.event_type != "transfer"
+                                    ? Moralis.Units.FromWei(
+                                        nftTransfer.bid_amount ||
+                                          nftTransfer.starting_price ||
+                                          nftTransfer.total_price,
+                                      )
+                                    : ""}
                                 </p>
                               </td>
                               <td>
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16">
-                                  {`${nftTransfer.from_address
-                                    .substring(2, 8)
-                                    .toUpperCase()}...${nftTransfer.from_address
-                                    .substring(39, 42)
-                                    .toUpperCase()}`}
+                                  {nftTransfer?.from_account?.user?.username
+                                    ? `${nftTransfer?.from_account?.user?.username
+                                        .substring(0, 6)
+                                        .toUpperCase()}...`
+                                    : `${nftTransfer?.from_account?.address
+                                        .substring(2, 8)
+                                        .toUpperCase()}...${nftTransfer?.from_account?.address
+                                        .substring(39, 42)
+                                        .toUpperCase()}`}
                                 </p>
                               </td>
                               <td>
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16">
-                                  {`${nftTransfer.to_address
-                                    .substring(2, 8)
-                                    .toUpperCase()}...${nftTransfer.to_address
-                                    .substring(39, 42)
-                                    .toUpperCase()}`}
+                                  {nftTransfer?.to_account
+                                    ? nftTransfer?.to_account?.user?.username
+                                      ? `${nftTransfer?.to_account?.user?.username
+                                          .substring(0, 6)
+                                          .toUpperCase()}...`
+                                      : `${nftTransfer?.to_account?.address
+                                          .substring(2, 8)
+                                          .toUpperCase()}...${nftTransfer?.to_account?.address
+                                          .substring(39, 42)
+                                          .toUpperCase()}`
+                                    : ""}
                                 </p>
                               </td>
                               <td>
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16 text-primary">
                                   {moment(
-                                    nftTransfer.block_timestamp,
+                                    nftTransfer.event_timestamp,
                                   ).fromNow()}
                                 </p>
                               </td>
@@ -821,16 +878,16 @@ const Collection = (props) => {
                 </div>
               </div>
               <br />
-              {/* <div className="col-md-12 wrap-inner load-more text-center">
+              <div className="col-md-12 wrap-inner load-more text-center">
                 <Link
                   to="#"
                   id="load-more"
                   className="sc-button loadmore fl-button pri-3"
-                  onClick={loadMore}
+                  onClick={loadMoreActivity}
                 >
                   <span>Load More</span>
                 </Link>
-              </div> */}
+              </div>
             </div>
           </div>
         </section>

@@ -8704,6 +8704,7 @@ button.accordion-button {
   border-radius: 30px;
   cursor: pointer;
   transition: 0.4s;
+  color: var(--primary-color2);
 }
 
 .watchlist-btn .watchlist-icon{
@@ -9048,6 +9049,10 @@ button.accordion-button {
   color: var(--primary-color6);
 }
 
+.ant-tabs-nav>.ant-tabs-nav-wrap>.ant-tabs-nav-list>.ant-tabs-tab-active>.ant-tabs-tab-btn>span {
+  color: var(--primary-color);
+}
+
 .ant-tabs-nav>.ant-tabs-nav-wrap>.ant-tabs-nav-list>.ant-tabs-tab-active {
   background: var(--primary-color2);
   border-radius: 30px;
@@ -9067,5 +9072,25 @@ button.accordion-button {
 }
 
 .ant-modal-close-x {
+  color: var(--primary-color2) !important;
+}
+
+.ant-input-number-input-wrap > input {
+  color: var(--primary-color2) !important;
+}
+
+.ant-typography > span {
+  color: var(--primary-color2) !important;
+}
+
+.ant-typography {
+  color: var(--primary-color9) !important;
+}
+
+.ant-modal-header {
+  background: var(--primary-color) !important;
+}
+
+.ant-modal-header > .ant-modal-title {
   color: var(--primary-color2) !important;
 }

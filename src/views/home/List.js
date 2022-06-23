@@ -9,19 +9,21 @@ import { AiOutlineHeart } from "react-icons/ai";
 import CollectionLoader from "components/Loader/CollectionLoader";
 import nft5 from "../../assets/images/nft/nft5.png";
 import userIcon from "../../assets/images/avatar/userIcon.png";
+import { useIPFS } from "hooks/useIPFS";
 
 import "swiper/scss";
 import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 
 const List = (props) => {
+  const { resolveLink } = useIPFS();
   console.log("props", props);
   const data = props.data;
   const title = props.title;
   const market = props.market;
 
   const [modalShow, setModalShow] = useState(false);
-
+  // return <></>;
   return (
     <Fragment>
       <section className="tf-section live-auctions pt-2">
@@ -67,29 +69,24 @@ const List = (props) => {
                             <div className="swiper-slide">
                               <div className="slider-item">
                                 <Link
-                                  to={`/collection/${item.gameInfo.tokenAddress}`}
+                                  to={`/collection/${item.collectionAddress}`}
                                 >
                                   <div className="p-3 sc-card-product">
                                     <div className="d-flex justify-content-between mb-2 ms-3 mb-4">
                                       <div className="d-flex align-items-center">
                                         <img
                                           className="sc-card-img"
-                                          src={
-                                            market === "opensea"
-                                              ? item.gameInfo?.owner
-                                                  .profile_img_url
-                                              : userIcon
-                                          }
+                                          src={userIcon}
                                         />
                                         <div>
                                           <p className="mb-0 gilroy-normal font-13 line-height creator">
                                             Creator
                                           </p>
                                           <h5 className="gilroy-semibold font-15">
-                                            {/* {item.gameInfo.owner.address} */}
                                             {market === "opensea"
-                                              ? item.gameInfo.assetContract
-                                                  .tokenSymbol
+                                              ? item?.gameInfo
+                                                  ?.primary_asset_contracts?.[0]
+                                                  ?.symbol
                                               : "Uknown"}
                                           </h5>
                                         </div>
@@ -102,38 +99,34 @@ const List = (props) => {
                                       </div>
                                     </div>
                                     <div className="card img-div">
-                                      <img
-                                        style={{
-                                          borderRadius: "15px",
-                                          maxHeight: "300px",
-                                          minHeight: "300px",
-                                        }}
-                                        src={
-                                          market === "opensea"
-                                            ? item.gameInfo.assetContract.imageUrl.substring(
-                                                0,
-                                                7,
-                                              ) === "ipfs://"
-                                              ? `https://ipfs.io/ipfs/${item.gameInfo.assetContract.imageUrl.substring(
-                                                  7,
-                                                  item.gameInfo.assetContract
-                                                    .imageUrl.length,
-                                                )}`
-                                              : item.gameInfo.assetContract
-                                                  .imageUrl
-                                            : item.gameInfo.meta?.content[0]?.url.substring(
-                                                0,
-                                                7,
-                                              ) === "ipfs://"
-                                            ? `https://ipfs.io/ipfs/${item.gameInfo.meta?.content[0]?.url.substring(
-                                                7,
-                                                item.gameInfo.meta?.content[0]
-                                                  ?.url.length,
-                                              )}`
-                                            : item.gameInfo.meta?.content[0]
-                                                ?.url
-                                        }
-                                      />
+                                      {console.log(
+                                        item?.gameInfo
+                                          ?.primary_asset_contracts[0]
+                                          ?.image_url,
+                                      )}
+                                      {item?.gameInfo ? (
+                                        <img
+                                          style={{
+                                            borderRadius: "15px",
+                                            maxHeight: "300px",
+                                            minHeight: "300px",
+                                          }}
+                                          src={
+                                            market === "opensea"
+                                              ? resolveLink(
+                                                  item.gameInfo
+                                                    ?.primary_asset_contracts[0]
+                                                    ?.image_url,
+                                                )
+                                              : resolveLink(
+                                                  item.gameInfo.meta?.content[0]
+                                                    ?.url,
+                                                )
+                                          }
+                                        />
+                                      ) : (
+                                        <></>
+                                      )}
                                       <div className="history-btn">
                                         <a className="my-btn my-btn-clr">
                                           View details
@@ -143,7 +136,7 @@ const List = (props) => {
                                     <br />
                                     <h5 className="gilroy-bold">
                                       {market === "opensea"
-                                        ? item.gameInfo.assetContract.name
+                                        ? item?.gameInfo?.name
                                         : item.gameInfo?.meta.name}
                                     </h5>
                                     <br />

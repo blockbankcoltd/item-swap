@@ -143,6 +143,9 @@ const Footer = () => {
                       alt="nft-gaming"
                     />
                   </Link>
+                  <p style={{ marginLeft: "65px", marginTop: "-11px" }}>
+                    Buy • Sell • Swap • Repeat
+                  </p>
                 </div>
               </div>
               <p className="h4" style={{ lineHeight: 2 }}>

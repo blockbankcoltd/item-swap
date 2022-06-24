@@ -230,7 +230,7 @@ const Home = () => {
                   <Link to="/wallet-connect">Encrypted Security</Link>
                 </h3>
                 <p className="content">
-                  We have well encrypted and safe security system
+                  Security system that is both safe and well-encrypted.
                 </p>
               </div>
             </div>
@@ -248,8 +248,8 @@ const Home = () => {
                   <Link to="/wallet-connect">Rapid Transactions</Link>
                 </h3>
                 <p className="content">
-                  We have flow of purchase transaction that are no complicated,
-                  It’s rapid
+                  The transactions are straightforward. They occur in rapid
+                  succession.
                 </p>
               </div>
             </div>
@@ -312,7 +312,7 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">Browse Game NFTs </Link>
+                  <Link to="/wallet-connect">BROWSE GAME NFTs </Link>
                 </h3>
                 <p className="content">
                   Browse the collection. Decide on what you prefer. The NFTs can
@@ -328,7 +328,7 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">TRADE THE NFTs</Link>
+                  <Link to="/wallet-connect">TRADE GAME NFTs</Link>
                 </h3>
                 <p className="content">
                   NFTs may be purchased or sold as often as desired
@@ -343,12 +343,12 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">SWAP YOUR TOKENS INSTANTLY</Link>
+                  <Link to="/wallet-connect">SWAP TOKENS INSTANTLY</Link>
                 </h3>
                 <p className="content">
-                  Choose between auctions, fixed-price listings, and
-                  declining-price listings. You choose how you want to sell your
-                  NFTs!
+                  Easily exchange your tokens for others on the list. Itemswap
+                  currently supports two major networks, namely Ethereum and
+                  Binance Smart Chain.
                 </p>
               </div>
             </div>

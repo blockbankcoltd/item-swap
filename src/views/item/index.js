@@ -155,7 +155,7 @@ const Item = (props) => {
     await Moralis.Plugins.opensea.fulfillOrder({
       network: NETWORK,
       userAddress: account,
-      order: orders[0],
+      order: orders[orders.length - 1],
     });
   };
 
@@ -300,9 +300,13 @@ const Item = (props) => {
                     <div className="">
                       <p className="text-16 mb-0">Current Price</p>
                       <h2 className="tf-title text-start mb-0 pb-1 gilroy-bold font-26">
-                        {Moralis.Units.FromWei(orders[0].currentPrice)}{" "}
+                        {Moralis.Units.FromWei(
+                          orders[orders.length - 1].currentPrice,
+                        )}{" "}
                         <span>
-                          {orders[0] && orders[0].paymentTokenContract.symbol}
+                          {orders[0] &&
+                            orders[orders.length - 1].paymentTokenContract
+                              .symbol}
                         </span>
                       </h2>
                     </div>
@@ -316,11 +320,16 @@ const Item = (props) => {
                         className="primary-btn text-nowrap mx-2 w-100"
                         onClick={() =>
                           handleBuy(
-                            Moralis.Units.FromWei(orders[0].currentPrice),
+                            Moralis.Units.FromWei(
+                              orders[orders.length - 1].currentPrice,
+                            ),
                           )
                         }
                       >
-                        Buy for {Moralis.Units.FromWei(orders[0].currentPrice)}{" "}
+                        Buy for{" "}
+                        {Moralis.Units.FromWei(
+                          orders[orders.length - 1].currentPrice,
+                        )}{" "}
                         {orders[0] && orders[0].paymentTokenContract.symbol}
                       </button>
                       {/* Place a bid section */}

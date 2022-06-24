@@ -80,7 +80,7 @@ const List = (props) => {
                                         />
                                         <div>
                                           <p className="mb-0 gilroy-normal font-13 line-height creator">
-                                            Creator
+                                            Symbol
                                           </p>
                                           <h5 className="gilroy-semibold font-15">
                                             {market === "opensea"
@@ -99,34 +99,25 @@ const List = (props) => {
                                       </div>
                                     </div>
                                     <div className="card img-div">
-                                      {console.log(
-                                        item?.gameInfo
-                                          ?.primary_asset_contracts[0]
-                                          ?.image_url,
-                                      )}
-                                      {item?.gameInfo ? (
-                                        <img
-                                          style={{
-                                            borderRadius: "15px",
-                                            maxHeight: "300px",
-                                            minHeight: "300px",
-                                          }}
-                                          src={
-                                            market === "opensea"
-                                              ? resolveLink(
-                                                  item.gameInfo
-                                                    ?.primary_asset_contracts[0]
-                                                    ?.image_url,
-                                                )
-                                              : resolveLink(
-                                                  item.gameInfo.meta?.content[0]
-                                                    ?.url,
-                                                )
-                                          }
-                                        />
-                                      ) : (
-                                        <></>
-                                      )}
+                                      <img
+                                        style={{
+                                          borderRadius: "15px",
+                                          maxHeight: "300px",
+                                          minHeight: "300px",
+                                        }}
+                                        src={
+                                          market === "opensea"
+                                            ? resolveLink(
+                                                item?.gameInfo
+                                                  ?.primary_asset_contracts?.[0]
+                                                  ?.image_url,
+                                              )
+                                            : resolveLink(
+                                                item?.gameInfo?.meta?.content[0]
+                                                  ?.url,
+                                              )
+                                        }
+                                      />
                                       <div className="history-btn">
                                         <a className="my-btn my-btn-clr">
                                           View details
@@ -137,7 +128,7 @@ const List = (props) => {
                                     <h5 className="gilroy-bold">
                                       {market === "opensea"
                                         ? item?.gameInfo?.name
-                                        : item.gameInfo?.meta.name}
+                                        : item?.gameInfo?.meta?.name}
                                     </h5>
                                     <br />
                                     {/* <div className="d-flex justify-content-between align-items-center">

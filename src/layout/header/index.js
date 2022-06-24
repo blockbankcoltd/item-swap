@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, NavLink } from "react-router-dom";
 import TokenPrice from "../../components/TokenPrice";
 import Account from "components/Account/Account";
 import Chains from "../../components/Chains";
@@ -117,7 +117,9 @@ const Header = () => {
                           data.namesub ? "menu-item-has-children" : ""
                         } ${activeIndex === index ? "active" : ""} `}
                       >
-                        <Link to={data.links}>{data.name}</Link>
+                        <NavLink exact to={data.links}>
+                          {data.name}
+                        </NavLink>
                         {data.namesub && (
                           <ul className="sub-menu">
                             {data.namesub.map((submenu) => (

@@ -10,7 +10,6 @@ function Watchlist(props) {
     setVisible((prevValue) => prevValue + 4);
   };
 
-  console.log("313123213132141", props.data);
   let data = props.data || [];
   let navigate = useHistory();
   const { chainId, contractABI } = useMoralisDapp();
@@ -20,8 +19,8 @@ function Watchlist(props) {
     <Fragment>
       <section className="tf-section today-pick">
         <div className="themesflat-container">
-          <div className="row p-md-10">
-            <div className="col-md-12">
+          <div className="row">
+            {/* <div className="col-md-12">
               <div className="heading-live-auctions mg-bt-21">
                 <h2 className="tf-title pad-l-7">{props.title}</h2>
                 <div id="sort-by" className="dropdown">
@@ -42,7 +41,7 @@ function Watchlist(props) {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
             {data?.slice(0, visible).map((nft, index) => (
               <Game
                 data={nft.game}

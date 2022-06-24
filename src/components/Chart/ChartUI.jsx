@@ -60,43 +60,49 @@ const ChartUI = () => {
           backgroundColor: "var(--primary-color11)",
         }}
       >
-        <div className="themesflat-container">
-          <Flex
-            container
-            justifyContent="space-between"
-            alignItems="center"
-            flexBasis={0}
-          >
-            <PriceDisplay
-              value={tokenCData?.length > 0 && valueToDisplay}
-              inputSymbol={nativeTokenSymbol}
-              isChangePositive={isChangePositive}
-              changeValue={changeValue}
-              changePercentage={changePercentage}
-              displayDate={hoverDate || currentDate}
-              // outputSymbol={outputCurrency?.symbol}
-            ></PriceDisplay>
-            <ButtonGroup
-              activeIndex={chartType}
-              onClick={handleClick}
-              size="lg"
-              style={styles.btnGroup}
+        {tokenCData.length > 0 ? (
+          <div className="themesflat-container">
+            <Flex
+              container
+              justifyContent="space-between"
+              alignItems="center"
+              flexBasis={0}
             >
-              <Button value="DAY">{"24H"}</Button>
-              {/* <Button value="WEEK">{"1W"}</Button>
+              <PriceDisplay
+                value={tokenCData?.length > 0 && valueToDisplay}
+                inputSymbol={nativeTokenSymbol}
+                isChangePositive={isChangePositive}
+                changeValue={changeValue}
+                changePercentage={changePercentage}
+                displayDate={hoverDate || currentDate}
+                // outputSymbol={outputCurrency?.symbol}
+              ></PriceDisplay>
+              <ButtonGroup
+                activeIndex={chartType}
+                onClick={handleClick}
+                size="lg"
+                style={styles.btnGroup}
+              >
+                <Button value="DAY">{"24H"}</Button>
+                {/* <Button value="WEEK">{"1W"}</Button>
               <Button value="MONTH">{"1M"}</Button>
               <Button value="YEAR">{"1Y"}</Button> */}
-            </ButtonGroup>
-            {/* <div style={{ width: "25%" }}>&nbsp;</div> */}
-          </Flex>
-          <TokenChart
-            tokenData={tokenCData}
-            setHoverValue={setHoverValue}
-            setHoverDate={setHoverDate}
-            isChangePositive={isChangePositive}
-            chartType={chartType}
-          />
-        </div>
+              </ButtonGroup>
+              {/* <div style={{ width: "25%" }}>&nbsp;</div> */}
+            </Flex>
+            <TokenChart
+              tokenData={tokenCData}
+              setHoverValue={setHoverValue}
+              setHoverDate={setHoverDate}
+              isChangePositive={isChangePositive}
+              chartType={chartType}
+            />
+          </div>
+        ) : (
+          <div className="themesflat-container">
+            <p style={{ textAlign: "center" }}>No data</p>
+          </div>
+        )}
       </section>
     </div>
   );

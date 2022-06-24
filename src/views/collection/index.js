@@ -190,7 +190,7 @@ const Collection = (props) => {
   const loadMoreItems = () => {
     axios
       .get(
-        `https://api.opensea.io/api/v1/assets?collection=${tokenAddress}&cursor=${nextPageCursor}`,
+        `https://api.opensea.io/api/v1/assets?collection=${tokenAddress}&cursor=${nextPageCursor}&limit=200`,
       )
       .then((res) => {
         console.log("Resssss", res);
@@ -384,9 +384,8 @@ const Collection = (props) => {
                       {gameData ? (
                         <div className="d-flex align-items-center">
                           <p className="content pad-l-15 mb-0 gilroy-normal">
-                            Created by
-                            {/* @{gameData.owner?.user?.username} */}
-                            Uknown
+                            Symbol @
+                            {gameData?.primary_asset_contracts?.[0]?.symbol}
                           </p>
                           <BsPatchCheckFill
                             className="text-info mg-l-8"
@@ -824,24 +823,27 @@ const Collection = (props) => {
                               <td>
                                 <ETHLogo className="d-inline" />{" "}
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16 d-inline">
-                                  {nftTransfer.event_type != "transfer"
+                                  {nftTransfer.event_type != "transfer" ||
+                                  nftTransfer.event_type != "cancelled"
                                     ? Moralis.Units.FromWei(
                                         nftTransfer.bid_amount ||
                                           nftTransfer.starting_price ||
-                                          nftTransfer.total_price,
+                                          nftTransfer.total_price ||
+                                          0,
                                       )
                                     : ""}
                                 </p>
                               </td>
                               <td>
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16">
-                                  {nftTransfer?.from_account?.user?.username
-                                    ? `${nftTransfer?.from_account?.user?.username
+                                  {nftTransfer?.transaction?.from_account?.user
+                                    ?.username
+                                    ? `${nftTransfer?.transaction?.from_account?.user?.username
                                         .substring(0, 6)
                                         .toUpperCase()}...`
-                                    : `${nftTransfer?.from_account?.address
+                                    : `${nftTransfer?.transaction?.from_account?.address
                                         .substring(2, 8)
-                                        .toUpperCase()}...${nftTransfer?.from_account?.address
+                                        .toUpperCase()}...${nftTransfer?.transaction?.from_account?.address
                                         .substring(39, 42)
                                         .toUpperCase()}`}
                                 </p>

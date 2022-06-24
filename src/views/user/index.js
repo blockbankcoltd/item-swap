@@ -37,6 +37,7 @@ const User = (props) => {
   const [gameData, setGameData] = useState([]);
   const [items, setItems] = useState(null);
   const [watchlistItems, setWatchlistItems] = useState(null);
+  const [gridSize, setGridSize] = useState(3);
   const { tokenAddress, tokenId } = useParams();
   console.log("tokenAddress", tokenAddress);
   const { Moralis, account } = useMoralis();
@@ -150,22 +151,38 @@ const User = (props) => {
       <section className="tf-box-icon1 create style1 tf-section d-none d-md-block">
         <div className="themesflat-container d-flex justify-content-between align-items-center">
           <div className="d-flex justyfy-content-between align-items-center order-1">
-            <div className="d-flex justyfy-content-between align-items-center display-type-section">
-              <div className="display-type-btn-left display-type-btn-active">
-                <BiGridAlt className="tile-icon active" size={24} />
+            {/* <div className="d-flex justyfy-content-between align-items-center display-type-section">
+              <div
+                className={`display-type-btn-left ${
+                  gridSize === 4 ? "display-type-btn-active" : ""
+                }`}
+              >
+                <BiGridAlt
+                  className={`tile-icon  ${gridSize === 4 ? "active" : ""}`}
+                  size={24}
+                  onClick={() => setGridSize(4)}
+                />
               </div>
-              <div className="display-type-btn-right">
-                <BiGrid className="tile-icon" size={24} />
+              <div
+                className={`display-type-btn-right  ${
+                  gridSize === 3 ? "display-type-btn-active" : ""
+                }`}
+              >
+                <BiGrid
+                  className={`tile-icon  ${gridSize === 3 ? "active" : ""}`}
+                  size={24}
+                  onClick={() => setGridSize(3)}
+                />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="d-flex justyfy-content-between align-items-center order-3">
-            <div>
+            {/* <div>
               <FiSearch size={20} className="mx-2 menu-btn border-blue" />
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <BiSliderAlt size={20} className="mx-2 menu-btn border-blue" />
-            </div>
+            </div> */}
           </div>
           <div className="d-flex justify-content-center align-items-center order-2">
             <div
@@ -212,22 +229,22 @@ const User = (props) => {
       <section className="tf-box-icon1 create style1 tf-section d-md-none">
         <div className="themesflat-container d-flex justify-content-between align-items-center">
           <div className="d-flex justyfy-content-between align-items-center order-1">
-            <div className="d-flex justyfy-content-between align-items-center display-type-section">
+            {/* <div className="d-flex justyfy-content-between align-items-center display-type-section">
               <div className="display-type-btn-left display-type-btn-active">
                 <BiGridAlt className="tile-icon active" size={24} />
               </div>
               <div className="display-type-btn-right">
                 <BiGrid className="tile-icon" size={24} />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="d-flex justyfy-content-between align-items-center order-3">
-            <div>
+            {/* <div>
               <FiSearch size={20} className="mx-2 menu-btn border-blue" />
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
               <BiSliderAlt size={20} className="mx-2 menu-btn border-blue" />
-            </div>
+            </div> */}
           </div>
         </div>
         <br />
@@ -274,7 +291,7 @@ const User = (props) => {
       {activeTab === 1 ? (
         <div>{items ? <Items data={items} /> : <ItemsLoader />}</div>
       ) : (
-        <Watchlist data={watchlistItems} />
+        <Watchlist data={watchlistItems} gridSize={gridSize} />
       )}
       {/* <PopularCollection data={popularCollectionData} /> */}
     </Layout>

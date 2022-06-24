@@ -26,17 +26,21 @@ const Footer = () => {
       title: "Help & Support",
       link: "/help-center",
     },
+    // {
+    //   title: "Live Auctions",
+    //   link: "/live-auctions",
+    // },
+    // {
+    //   title: "Item Details",
+    //   link: "/item-details-01",
+    // },
+    // {
+    //   title: "Activity",
+    //   link: "/activity-01",
+    // },
     {
-      title: "Live Auctions",
-      link: "/live-auctions",
-    },
-    {
-      title: "Item Details",
-      link: "/item-details-01",
-    },
-    {
-      title: "Activity",
-      link: "/activity-01",
+      title: "FAQ",
+      link: "/FAQ",
     },
   ];
   const companyList = [
@@ -63,25 +67,33 @@ const Footer = () => {
       link: "https://twitter.com/exnomy",
     },
     {
-      icon: "fab fa-facebook",
-      link: "#",
-    },
-    {
       icon: "fab fa-telegram-plane",
       link: "https://t.me/exnomy",
+    },
+    {
+      icon: "fab fa-facebook",
+      link: "#",
     },
     {
       icon: "fab fa-youtube",
       link: "#",
     },
     {
-      icon: "icon-fl-tik-tok-2",
+      icon: "fab fa-medium",
       link: "#",
     },
     {
-      icon: "icon-fl-vt",
+      icon: "fab fa-instagram",
       link: "#",
     },
+    // {
+    //   icon: "icon-fl-tik-tok-2",
+    //   link: "#",
+    // },
+    // {
+    //   icon: "icon-fl-vt",
+    //   link: "#",
+    // },
   ];
 
   const [isVisible, setIsVisible] = useState(false);
@@ -134,21 +146,17 @@ const Footer = () => {
                 </div>
               </div>
               <p className="h4" style={{ lineHeight: 2 }}>
-                © 2018 - 2022 <br />
-                Non Fungible Corporation,
-                <br />
+                © Copyright {new Date().getFullYear()} <br />
                 All rights reserved.
               </p>
             </div>
-            <div className="col-lg-6 col-md-12 col-12">
+            <div className="col-lg-5 col-md-12 col-12">
               <p className="h4" style={{ lineHeight: 1.5 }}>
-                The world’s first and largest digital marketplace for crypto
-                collectibles and non-fungible tokens (NFTs). Buy, sell, and
-                discover exclusive digital items.
+                The world's new and finest digital marketplace for game NFTs
               </p>
 
               <div className="row">
-                <div className="col-md-4 col-sm-12">
+                {/* <div className="col-md-4 col-sm-12">
                   <div className="widget widget-menu style-1">
                     <h5 className="title-widget fw-bold">My Account</h5>
                     <ul>
@@ -159,7 +167,7 @@ const Footer = () => {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </div> */}
                 <div className="col-md-4 col-sm-12">
                   <div className="widget widget-menu style-2">
                     <h5 className="title-widget fw-bold">Resources</h5>
@@ -172,7 +180,7 @@ const Footer = () => {
                     </ul>
                   </div>
                 </div>
-                <div className="col-md-4 col-sm-12">
+                {/* <div className="col-md-4 col-sm-12">
                   <div className="widget widget-menu fl-st-3">
                     <h5 className="title-widget fw-bold">Company</h5>
                     <ul>
@@ -183,19 +191,17 @@ const Footer = () => {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-lg-3 col-md-12 col-12">
               <div className="widget widget-subcribe">
-                <h5 className="title-widget fw-bold">
-                  Subscribe for the ItemSwap newsletter
-                </h5>
-                <p className="my-4">
+                <h5 className="title-widget fw-bold">Follow us on</h5>
+                {/* <p className="my-4">
                   Subscribe to receive fresh update, exclusive offers, latest
                   news, and Arts
-                </p>
-                <div className="form-subcribe">
+                </p> */}
+                {/* <div className="form-subcribe">
                   <form
                     id="subscribe-form"
                     action="#"
@@ -214,14 +220,14 @@ const Footer = () => {
                       <i className="icon-fl-send"></i>
                     </button>
                   </form>
-                </div>
+                </div> */}
                 <div className="widget-social style-1 mg-t32">
                   <ul>
                     {socialList.map((item, index) => (
                       <li key={index}>
-                        <Link target="_blank" to={item.link}>
+                        <a target="_blank" href={item.link}>
                           <i className={item.icon}></i>
-                        </Link>
+                        </a>
                       </li>
                     ))}
                   </ul>

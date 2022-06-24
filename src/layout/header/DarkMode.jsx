@@ -65,6 +65,12 @@ const DarkMode = (props) => {
 
     // dispatch(searchGame({ searchText, callback }));
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("you have searched for - ");
+    // or you can send to backend
+  };
   return (
     <div className="mode_switcher">
       {/* <h6>Dark mode <strong>Available</strong></h6> */}
@@ -72,7 +78,7 @@ const DarkMode = (props) => {
         <div className="form-subcribe">
           <form
             id="subscribe-form"
-            action="#"
+            // action="#"
             method="GET"
             acceptCharset="utf-8"
             className="form-submit"

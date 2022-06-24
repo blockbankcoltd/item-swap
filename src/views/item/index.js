@@ -98,9 +98,9 @@ const Item = (props) => {
       token_id: tokenId,
       chain: CHAIN,
     };
-    const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
-      options1,
-    );
+    // const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
+    //   options1,
+    // );
 
     // setItemData(tokenIdMetadata);
     // setItemMetadata(JSON.parse(tokenIdMetadata.metadata));

@@ -172,15 +172,16 @@ const Home = () => {
                     <div className="themesflat-container ">
                       <div className="wrap-heading flat-slider flex">
                         <div className="content">
-                          <h2 className="heading">EXPLORE & STUNNING</h2>
+                          <h2 className="heading">EXPLORE, COLLECT & FLIP</h2>
                           <h1 className="heading mb-style">
-                            <span className="tf-text s1">P2E NFT GAMES</span>
+                            <span className="tf-text s1">P2E GAME NFTs</span>
                           </h1>
-                          <h1 className="heading">MARKETPLACE</h1>
+                          {/* <h1 className="heading">MARKETPLACE</h1> */}
                           {/* <p className="sub-heading">
                             Marketplace for monster character cllections non
                             fungible token NFTs
                           </p> */}
+                          <br />
                           <div className="flat-bt-slider flex style2">
                             <Link
                               to="/explore-games"
@@ -210,7 +211,7 @@ const Home = () => {
             <div className="col-lg-6 col-md-6 col-12 d-flex align-items-center">
               <div className="sc-box-icon">
                 <h3 className="heading">
-                  Get all the amazing art of the world in itemswap
+                  Discover all the finest game NFT's on the blockchain
                 </h3>
                 {/* <p className="content">{props.item.description}</p> */}
               </div>
@@ -244,7 +245,7 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">Rapid Trasactions</Link>
+                  <Link to="/wallet-connect">Rapid Transactions</Link>
                 </h3>
                 <p className="content">
                   We have flow of purchase transaction that are no complicated,
@@ -296,12 +297,10 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">SET-UP YOUR WALLET</Link>
+                  <Link to="/wallet-connect">CONNECT YOUR WALLET</Link>
                 </h3>
                 <p className="content">
-                  Wallet that is functional for NFT purchasing. You may have a
-                  Coinbase account at this point, but very few are actually set
-                  up to buy an NFT.
+                  Connect your DeFi wallet to gain genuine experience.
                 </p>
               </div>
             </div>
@@ -313,11 +312,11 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">CREATE YOUR COLLECTION</Link>
+                  <Link to="/wallet-connect">Browse Game NFTs </Link>
                 </h3>
                 <p className="content">
-                  Setting up your NFT collection and creating NFTs on NFTs is
-                  easy! This guide explains how to set up your first collection
+                  Browse the collection. Decide on what you prefer. The NFTs can
+                  also be liked and added to your watchlist.
                 </p>
               </div>
             </div>
@@ -329,11 +328,10 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">ADD YOUR NFTs</Link>
+                  <Link to="/wallet-connect">TRADE THE NFTs</Link>
                 </h3>
                 <p className="content">
-                  Sed ut perspiciatis un de omnis iste natus error sit
-                  voluptatem accusantium doloremque laudantium, totam rem.
+                  NFTs may be purchased or sold as often as desired
                 </p>
               </div>
             </div>
@@ -345,7 +343,7 @@ const Home = () => {
                   </div>
                 </div>
                 <h3 className="heading">
-                  <Link to="/wallet-connect">LIST THEM FOR SALE</Link>
+                  <Link to="/wallet-connect">SWAP YOUR TOKENS INSTANTLY</Link>
                 </h3>
                 <p className="content">
                   Choose between auctions, fixed-price listings, and

@@ -407,6 +407,7 @@
 
 .sc-button.style.wallet span::before {
   content: "\e917";
+  margin-top: 5px;
 }
 
 .sc-button.style.bag span::before {
@@ -9080,11 +9081,11 @@ button.accordion-button {
 }
 
 .ant-typography > span {
-  color: var(--primary-color2) !important;
+  color: var(--primary-color2);
 }
 
 .ant-typography {
-  color: var(--primary-color9) !important;
+  color: var(--primary-color9);
 }
 
 .ant-modal-header {
@@ -9093,4 +9094,12 @@ button.accordion-button {
 
 .ant-modal-header > .ant-modal-title {
   color: var(--primary-color2) !important;
+}
+
+.ant-tabs-ink-bar {
+  background: transparent !important;
+}
+
+.menu > .menu-item > .active {
+  color: #1890ff !important
 }

@@ -2613,7 +2613,7 @@ header {
   margin-bottom: 23px;
 }
 
-.widget-subcribe .form-subcribe form {
+.widget-subcribe .form-subcribe div {
   position: relative;
   margin: 0 5px;
 }

@@ -66,20 +66,22 @@ const DarkMode = (props) => {
     // dispatch(searchGame({ searchText, callback }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("you have searched for - ");
-    // or you can send to backend
+  const handleEnterSearch = (e) => {
+    // e.preventDefault();
+    let code = e.keyCode || e.which;
+    if (code === 13) {
+      handleSearch();
+    }
   };
   return (
     <div className="mode_switcher">
       {/* <h6>Dark mode <strong>Available</strong></h6> */}
       <div className="widget widget-subcribe">
         <div className="form-subcribe">
-          <form
+          <div
             id="subscribe-form"
             // action="#"
-            method="GET"
+            // method="GET"
             acceptCharset="utf-8"
             className="form-submit"
           >
@@ -91,11 +93,12 @@ const DarkMode = (props) => {
               required
               autoComplete="off"
               onChange={(e) => setSearchText(e.target.value)}
+              onKeyPress={(e) => handleEnterSearch(e)}
             />
             <p className="button" onClick={(e) => handleSearch(e)}>
               <i className="fa fa-search" style={{ color: "#fff" }}></i>
             </p>
-          </form>
+          </div>
         </div>
       </div>
       <Link to="#" className="subcribe" onClick={(e) => switchTheme(e)}>

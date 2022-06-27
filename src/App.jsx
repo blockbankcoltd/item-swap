@@ -33,6 +33,7 @@ import OpenSea from "views/OpenSea";
 import Item from "views/item";
 import RaribleFunctions from "views/item/RaribleFunctions.tsx";
 import User from "views/user";
+import StaticPageContainer from "views/staticPages";
 
 const serverUrl = "https://gjinuwy9crz4.usemoralis.com:2053/server";
 const appId = "JvWSn8QHKCWQDgBuxXj5KmpqwEAbUqdEreZXR4FI";
@@ -140,6 +141,9 @@ const App = ({ isServerInfo }) => {
         </Route>
         <Route exact path="/user">
           <User />
+        </Route>
+        <Route exact path="/aboutUs">
+          <StaticPageContainer />
         </Route>
         <AdminAuthRoute
           authUser={isAdminLoggedIn ? isAdminLoggedIn : null}

@@ -77,6 +77,16 @@ const Collection = (props) => {
     { autoFetch: false },
   );
 
+  const { fetch: isGameLiked } = useMoralisQuery(
+    "GameLikes",
+    (query) =>
+      query
+        .equalTo("isActive", true)
+        .equalTo("user", account || localStorage.getItem("account")),
+    [],
+    { autoFetch: false },
+  );
+
   const getCollectionData = useCallback(async () => {
     const collections = await fetch({
       onSuccess: (result) => console.log(result),
@@ -128,11 +138,11 @@ const Collection = (props) => {
     setIsWatchlisted(gameWatchlistResultObj.length > 0 ? true : false);
     console.log("Result", JSON.parse(JSON.stringify(gameWatchlistResultObj)));
 
-    // const isLiked = await isGameLiked({
-    //   onSuccess: (result) => console.log(result),
-    //   onError: (error) => console.log("err2", error),
-    // });
-    // setIsLiked(isLiked[0] ? true : false);
+    const isLiked = await isGameLiked({
+      onSuccess: (result) => console.log(result),
+      onError: (error) => console.log("err2", error),
+    });
+    setIsLiked(isLiked[0] ? true : false);
 
     // const isWatchlisted = await isGameWatchlisted({
     //   onSuccess: (result) => console.log(result),
@@ -239,13 +249,13 @@ const Collection = (props) => {
       await collection[0].save();
       setIsLiked(true);
     } else {
-      // const likeData = await isGameLiked({
-      //   onSuccess: (result) => console.log(result),
-      //   onError: (error) => console.log("err2", error),
-      // });
+      const likeData = await isGameLiked({
+        onSuccess: (result) => console.log("result11111", result),
+        onError: (error) => console.log("err2", error),
+      });
 
-      // likeData[0].set("isActive", false);
-      // await likeData[0].save();
+      likeData[0].set("isActive", false);
+      await likeData[0].save();
 
       const collection = await fetch({
         onSuccess: (result) => console.log(result),

@@ -8631,6 +8631,10 @@ button.accordion-button {
   font-size: 30px;
 }
 
+.font-72 {
+  font-size: 72px;
+}
+
 .sc-card-product-1 {
   border-radius: 20px;
   border: 1px outset transparent;
@@ -9122,4 +9126,22 @@ button.accordion-button {
   z-index: 10 !important;
   opacity: 1;
   box-shadow: 0px 3px 16px rgb(47 83 109 / 12%);
+}
+
+.shadow-1 {
+  --x-offset: -0.0625em;
+    --y-offset: 0.0625em;
+    --stroke: 0.025em;
+    --background-color: white;
+    --stroke-color: lightblue;
+  
+    text-shadow:
+  
+      var(--x-offset) var(--y-offset) 0px var(--background-color),
+  
+      calc(var(--x-offset) - var(--stroke)) calc(var(--y-offset) + var(--stroke)) 0px var(--stroke-color);
+}
+
+.ant-tabs {
+  overflow: visible !important;
 }

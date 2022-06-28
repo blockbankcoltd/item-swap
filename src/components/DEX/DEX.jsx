@@ -70,6 +70,7 @@ function DEX({ chain, customTokens = {} }) {
   const [tokenPricesUSD, setTokenPricesUSD] = useState({});
   const [swapErrorMsg, setSwapErrorMsg] = useState("");
   const [swapSuccessMsg, setSwapSuccessMsg] = useState("");
+  const [swapButtonDisabled, setSwapButtonDisabled] = useState(false);
 
   const tokens = useMemo(() => {
     return { ...customTokens, ...tokenList };
@@ -143,6 +144,8 @@ function DEX({ chain, customTokens = {} }) {
   }, [tokens, fromToken]);
 
   const ButtonState = useMemo(() => {
+    // alert(1);
+    if (swapButtonDisabled) return { isActive: false, text: `Swapping` };
     if (chainIds?.[chainId] !== chain)
       return { isActive: false, text: `Switch to ${chain}` };
 
@@ -154,7 +157,7 @@ function DEX({ chain, customTokens = {} }) {
   useEffect(() => {
     if (fromToken && toToken && fromAmount)
       setCurrentTrade({ fromToken, toToken, fromAmount, chain });
-  }, [toToken, fromToken, fromAmount, chain]);
+  }, [toToken, fromToken, fromAmount, chain, swapButtonDisabled]);
 
   useEffect(() => {
     if (currentTrade) getQuote(currentTrade).then((quote) => setQuote(quote));
@@ -183,6 +186,7 @@ function DEX({ chain, customTokens = {} }) {
   };
 
   const handleSwap = async () => {
+    setSwapButtonDisabled(true);
     setSwapErrorMsg("");
     setSwapSuccessMsg("");
     let result = await trySwap(currentTrade);
@@ -190,6 +194,7 @@ function DEX({ chain, customTokens = {} }) {
       ? setSwapErrorMsg(result.msg)
       : setSwapSuccessMsg(result.msg);
     console.log("SwapResult", result);
+    setSwapButtonDisabled(false);
   };
 
   return (

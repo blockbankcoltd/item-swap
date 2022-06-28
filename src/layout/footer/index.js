@@ -1,39 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useMoralis } from "react-moralis";
+import { Link, useHistory } from "react-router-dom";
 import logodark from "../../assets/images/logo/source/logo-dark.svg";
 import logofooter from "../../assets/images/logo/source/logo-light.svg";
-const Footer = () => {
+const Footer = (props) => {
   const accountList = [
     {
-      title: "Authors",
-      link: "/authors-01",
+      title: "My Account",
+      link: "/user",
     },
     {
-      title: "Collection",
-      link: "/wallet-connect",
+      title: "My Watchlist",
+      link: "/user",
     },
-    {
-      title: "Author Profile",
-      link: "/edit-profile",
-    },
-    {
-      title: "Create Item",
-      link: "/create-item",
-    },
+    // {
+    //   title: "Author Profile",
+    //   link: "/edit-profile",
+    // },
+    // {
+    //   title: "Create Item",
+    //   link: "/create-item",
+    // },
   ];
   const resourcesList = [
     {
       title: "Help & Support",
       link: "/help-center",
     },
-    // {
-    //   title: "Live Auctions",
-    //   link: "/live-auctions",
-    // },
-    // {
-    //   title: "Item Details",
-    //   link: "/item-details-01",
-    // },
+    {
+      title: "Blog",
+      link: "/",
+    },
+    {
+      title: "Supported Wallets",
+      link: "/",
+    },
     // {
     //   title: "Activity",
     //   link: "/activity-01",
@@ -96,6 +97,8 @@ const Footer = () => {
     // },
   ];
 
+  const history = useHistory();
+  const { Moralis, account, authenticate, isAuthenticated } = useMoralis();
   const [isVisible, setIsVisible] = useState(false);
 
   const scrollToTop = () => {
@@ -118,6 +121,19 @@ const Footer = () => {
 
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
+
+  const handleProfileNavigation = async () => {
+    console.log("dsasfsfseaf", history);
+    if (isAuthenticated == false) {
+      if (await authenticate()) {
+        history.push("/user");
+      } else {
+        return;
+      }
+    } else {
+      history.push("/user");
+    }
+  };
 
   return (
     <div>
@@ -148,10 +164,6 @@ const Footer = () => {
                   </p>
                 </div>
               </div>
-              <p className="h4" style={{ lineHeight: 2 }}>
-                © Copyright {new Date().getFullYear()} <br />
-                All rights reserved.
-              </p>
             </div>
             <div className="col-lg-5 col-md-12 col-12">
               <p className="h4" style={{ lineHeight: 1.5 }}>
@@ -159,18 +171,30 @@ const Footer = () => {
               </p>
 
               <div className="row">
-                {/* <div className="col-md-4 col-sm-12">
+                <div className="col-md-4 col-sm-12">
                   <div className="widget widget-menu style-1">
                     <h5 className="title-widget fw-bold">My Account</h5>
                     <ul>
-                      {accountList.map((item, index) => (
+                      {/* {accountList.map((item, index) => (
                         <li key={index}>
                           <Link to={item.link}>{item.title}</Link>
                         </li>
-                      ))}
+                      ))} */}
+                      <li
+                        onClick={handleProfileNavigation}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <p>My Account</p>
+                      </li>
+                      <li
+                        onClick={handleProfileNavigation}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <p>My Watchlist</p>
+                      </li>
                     </ul>
                   </div>
-                </div> */}
+                </div>
                 <div className="col-md-4 col-sm-12">
                   <div className="widget widget-menu style-2">
                     <h5 className="title-widget fw-bold">Resources</h5>
@@ -238,6 +262,9 @@ const Footer = () => {
               </div>
             </div>
           </div>
+          <p className="h4 text-center" style={{ lineHeight: 2 }}>
+            © Copyright {new Date().getFullYear()} All rights reserved.
+          </p>
         </div>
       </footer>
       {isVisible && <Link onClick={scrollToTop} to="#" id="scroll-top"></Link>}

@@ -87,7 +87,7 @@ const List = (props) => {
                                               ? item?.gameInfo
                                                   ?.primary_asset_contracts?.[0]
                                                   ?.symbol
-                                              : "Uknown"}
+                                              : item?.gameInfo?.symbol}
                                           </h5>
                                         </div>
                                       </div>

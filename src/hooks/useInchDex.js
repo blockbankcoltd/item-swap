@@ -49,7 +49,9 @@ const useInchDex = (chain) => {
         })
         .catch((e) => ({
           type: "error",
-          msg: JSON.parse(e.message.data.data).message,
+          msg: e?.message?.data?.data
+            ? JSON.parse(e?.message?.data?.data)?.message
+            : "",
         }));
     }
 
@@ -62,7 +64,9 @@ const useInchDex = (chain) => {
       })
       .catch((e) => ({
         type: "error",
-        msg: JSON.parse(e.message.data.data).message,
+        msg: e?.message?.data?.data
+          ? JSON.parse(e?.message?.data?.data)?.message
+          : "",
       }));
   }
 

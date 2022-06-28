@@ -11,21 +11,22 @@ import imgbg1 from "../../assets/images/slider/bg_slide_1.png";
 import Line_Background from "../../assets/images/item-background/Line_Background.png";
 import Dot_right from "../../assets/images/item-background/Dot_Right.png";
 import Dot_left from "../../assets/images/item-background/Dot_Left.png";
+import AboutUs from "./AboutUs";
 
 const StaticPageContainer = () => {
   return (
     <Layout>
+      {/* <br />
       <br />
       <br />
-      <br />
-      <br />
-      <section>
+      <br /> */}
+      <div className="tf-section tf-item-details">
         <div className="themesflat-container">
           <div className="row">
             <div className="col-lg-3 col-md-3 col-12 d-flex align-items-center">
               <div
-                className=""
-                style={{ background: "#F8F8FD", width: "100%" }}
+                className=" card-2"
+                style={{ width: "100%", borderRadius: "0" }}
               >
                 <div className="row ms-3 mt-5">
                   <div className="col-12 ps-2 pt-2 pb-2">
@@ -49,9 +50,12 @@ const StaticPageContainer = () => {
                 </div>
               </div>
             </div>
+            <div className="col-lg-9 col-md-9 col-12 d-flex align-items-center">
+              <AboutUs />
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </Layout>
   );
 };

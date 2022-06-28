@@ -45,6 +45,7 @@ const DarkMode = (props) => {
   };
 
   const handleSearch = (e) => {
+    if (searchText.length === 0) return;
     const firstPath = props.match.path.split("/")[1];
     if (firstPath === "search") {
       props.history.push({

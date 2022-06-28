@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useMoralisQuery, useMoralis } from "react-moralis";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { Accordion } from "react-bootstrap-accordion";
 import Layout from "../../layout";
 import { Navigation, Scrollbar, A11y } from "swiper";
@@ -40,7 +40,8 @@ const User = (props) => {
   const [gridSize, setGridSize] = useState(3);
   const { tokenAddress, tokenId } = useParams();
   console.log("tokenAddress", tokenAddress);
-  const { Moralis, account } = useMoralis();
+  const { Moralis, account, authenticate, isAuthenticated } = useMoralis();
+  const history = useHistory();
 
   const getCollectionData = useCallback(async () => {
     const CHAIN = process.env.REACT_APP_CHAIN;
@@ -99,10 +100,15 @@ const User = (props) => {
     setWatchlistItems(JSON.parse(JSON.stringify(games)));
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
+    if (isAuthenticated == false) {
+      if ((await authenticate()) === undefined) {
+        history.push("/");
+      }
+    }
     console.log("sd");
     getCollectionData().catch(console.error);
-  }, []);
+  }, [isAuthenticated]);
   // return <></>;
   return (
     <Layout>

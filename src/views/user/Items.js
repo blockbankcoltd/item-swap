@@ -30,9 +30,9 @@ function Items(props) {
                 nft.metadata ? <Item data={nft} key={index} /> : <></>,
               )
             ) : (
-              <h1 className="text-16 mb-0 text-center">
+              <p className="text-16 mb-0 text-center">
                 You have not collected any asset.
-              </h1>
+              </p>
             )}
           </div>
         </div>

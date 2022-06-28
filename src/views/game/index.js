@@ -266,7 +266,9 @@ const Games = () => {
       </Swiper>
       {games ? (
         games.length === 0 ? (
-          <h1 className="tf-title">No collection found on this network</h1>
+          <section className="tf-section today-pick">
+            <p className="tf-title">No collection found on this network</p>
+          </section>
         ) : (
           <GameItems
             setFilter={filterGames}

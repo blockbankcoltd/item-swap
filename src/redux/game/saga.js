@@ -14,10 +14,10 @@ import { searchGameSuccess, searchGameError } from "../actions";
 const searchGameAsync = async (searchText) => {
   const Games = Moralis.Object.extend("Games");
   const query = new Moralis.Query(Games);
-  query.fullText("collectionAddress", searchText);
+  // query.fullText("collectionAddress", searchText);
   query.equalTo("status", "ACTIVE");
   query.equalTo("isActive", true);
-  query.equalTo("market", localStorage.getItem("activeMarket"));
+  // query.equalTo("market", localStorage.getItem("activeMarket"));
   query.equalTo("chainId", localStorage.getItem("chainId"));
   return await query
     .find()
@@ -33,12 +33,12 @@ function* searchGame(action) {
       let gameListdata = [];
       let gameList = JSON.parse(JSON.stringify(searchResult));
       console.log("gameList", gameList);
-      // gameList = gameList.filter(
-      //   (eachGame) =>
-      //     eachGame.gameInfo.assetContract.name
-      //       .toLowerCase()
-      //       .indexOf(action.payload.searchText.toLowerCase()) !== -1,
-      // );
+      gameList = gameList.filter(
+        (eachGame) =>
+          eachGame.gameInfo.name
+            .toLowerCase()
+            .indexOf(action.payload.searchText.toLowerCase()) !== -1,
+      );
 
       yield put(
         searchGameSuccess({

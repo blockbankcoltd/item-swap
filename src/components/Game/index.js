@@ -19,9 +19,8 @@ const Game = ({ data, market }) => {
                   Symbol
                 </p>
                 <h5 className="gilroy-semibold font-15">
-                  {market === "opensea"
-                    ? data?.gameInfo?.primary_asset_contracts?.[0]?.symbol
-                    : "Uknown"}
+                  {data?.gameInfo?.primary_asset_contracts?.[0]?.symbol ||
+                    data?.gameInfo?.symbol}
                 </h5>
               </div>
             </div>
@@ -38,11 +37,9 @@ const Game = ({ data, market }) => {
                 minHeight: "300px",
               }}
               src={
-                market === "opensea"
-                  ? resolveLink(
-                      data?.gameInfo?.primary_asset_contracts?.[0]?.image_url,
-                    )
-                  : resolveLink(data?.gameInfo?.meta?.content[0]?.url)
+                resolveLink(
+                  data?.gameInfo?.primary_asset_contracts?.[0]?.image_url,
+                ) || resolveLink(data?.gameInfo?.meta?.content[0]?.url)
               }
             />
             <div className="history-btn">
@@ -51,9 +48,7 @@ const Game = ({ data, market }) => {
           </div>
           <br />
           <h5 className="gilroy-bold">
-            {market === "opensea"
-              ? data?.gameInfo?.name
-              : data?.gameInfo?.meta?.name}
+            {data?.gameInfo?.name || data?.gameInfo?.meta?.name}
           </h5>
           <br />
         </div>

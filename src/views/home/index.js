@@ -248,8 +248,7 @@ const Home = () => {
                   <Link to="/wallet-connect">Rapid Transactions</Link>
                 </h3>
                 <p className="content">
-                  The transactions are straightforward. They occur in rapid
-                  succession.
+                  The transactions are simple and happen quickly.
                 </p>
               </div>
             </div>
@@ -300,7 +299,8 @@ const Home = () => {
                   <Link to="/wallet-connect">CONNECT YOUR WALLET</Link>
                 </h3>
                 <p className="content">
-                  Connect your DeFi wallet to gain genuine experience.
+                  Connecting your DeFi wallet will allow you to buy or sell NFTs
+                  and exchange tokens.
                 </p>
               </div>
             </div>
@@ -331,7 +331,8 @@ const Home = () => {
                   <Link to="/wallet-connect">TRADE GAME NFTs</Link>
                 </h3>
                 <p className="content">
-                  NFTs may be purchased or sold as often as desired
+                  Itemswap has made it easier to buy and sell game NFTs for
+                  passive income.
                 </p>
               </div>
             </div>

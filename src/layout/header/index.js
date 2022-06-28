@@ -24,7 +24,7 @@ const menus = [
   },
   {
     id: 3,
-    name: "Trade",
+    name: "Swap",
     links: "/swap",
   },
   // {

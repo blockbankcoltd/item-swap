@@ -6,7 +6,7 @@ import { useIPFS } from "hooks/useIPFS";
 
 const Item = ({ data, gridSize }) => {
   const { resolveLink } = useIPFS();
-  console.log("data", data.name);
+  console.log("data", data);
   // let metadata = JSON.parse(data.metadata);
   // console.log("metadata", metadata);
   // if (!metadata) return <></>;

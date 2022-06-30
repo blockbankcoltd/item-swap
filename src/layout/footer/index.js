@@ -29,7 +29,7 @@ const Footer = (props) => {
     },
     {
       title: "Blog",
-      link: "/",
+      link: "https://medium.com/linkercoin",
     },
     {
       title: "Supported Wallets",
@@ -42,6 +42,10 @@ const Footer = (props) => {
     {
       title: "FAQ",
       link: "/FAQ",
+    },
+    {
+      title: "T&C",
+      link: "https://www.exnomy.com/terms-and-privacy",
     },
   ];
   const companyList = [
@@ -81,7 +85,7 @@ const Footer = (props) => {
     },
     {
       icon: "fab fa-medium",
-      link: "#",
+      link: "https://medium.com/linkercoin",
     },
     {
       icon: "fab fa-instagram",
@@ -201,7 +205,9 @@ const Footer = (props) => {
                     <ul>
                       {resourcesList.map((item, index) => (
                         <li key={index}>
-                          <Link to={item.link}>{item.title}</Link>
+                          <a target="_blank" href={item.link}>
+                            {item.title}
+                          </a>
                         </li>
                       ))}
                     </ul>

@@ -6,13 +6,13 @@ import { useIPFS } from "hooks/useIPFS";
 
 const Item = ({ data, gridSize }) => {
   const { resolveLink } = useIPFS();
-  console.log("data", data);
+  // console.log("data", data);
   // let metadata = JSON.parse(data.metadata);
   // console.log("metadata", metadata);
   // if (!metadata) return <></>;
   let currentUrl = "";
   let activeMarket = localStorage.getItem("activeMarket");
-  if (activeMarket === "rarible") {
+  if (data?.token_address) {
     currentUrl = `/RaribleFunctions/${data.token_address}/${data.token_id}`;
   } else {
     currentUrl = `/item/${data.asset_contract.address}/${data.token_id}`;

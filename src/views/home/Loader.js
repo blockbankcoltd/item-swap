@@ -24,14 +24,14 @@ const Loader = (props) => {
       <section className="tf-section live-auctions">
         <div className="themesflat-container">
           <div className="row">
-            <div className="col-md-12">
+            {/* <div className="col-md-12">
               <div className="heading-live-auctions">
                 <h2 className="tf-title pb-20">{title}</h2>
                 <Link to="/games" className="exp style2">
                   EXPLORE MORE
                 </Link>
               </div>
-            </div>
+            </div> */}
             <div className="col-md-12">
               <Swiper
                 modules={[Navigation, Pagination, Scrollbar, A11y]}

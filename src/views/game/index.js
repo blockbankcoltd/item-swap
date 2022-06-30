@@ -34,7 +34,7 @@ const Games = () => {
         .equalTo("status", "ACTIVE")
         .equalTo("isActive", true)
         .equalTo("market", activeMarket)
-        .equalTo("chainId", localStorage.getItem("chainId"))
+        .equalTo("chainId", chainId || localStorage.getItem("chainId") || "0x1")
         .descending(filter === "popular" ? "likes" : "createdAt");
     },
     [activeMarket],
@@ -57,12 +57,12 @@ const Games = () => {
   }, []);
 
   useEffect(() => {
-    getCollectionData().catch(console.error);
-  }, [localStorage.getItem("chainId")]);
-
-  useEffect(() => {
     setActiveMarket(localStorage.getItem("activeMarket"));
     getCollectionData().catch(console.error);
+  }, [localStorage.getItem("chainId"), chainId]);
+
+  useEffect(() => {
+    // getCollectionData().catch(console.error);
   }, []);
 
   const switchMarket = async (market) => {
@@ -72,7 +72,10 @@ const Games = () => {
     query.equalTo("status", "ACTIVE");
     query.equalTo("isActive", true);
     query.equalTo("market", market);
-    query.equalTo("chainId", localStorage.getItem("chainId"));
+    query.equalTo(
+      "chainId",
+      chainId || localStorage.getItem("chainId") || "0x1",
+    );
     query.descending("createdAt");
 
     const results = await query.find();
@@ -93,7 +96,7 @@ const Games = () => {
     const query = new Moralis.Query(Games);
     query.equalTo("status", "ACTIVE");
     query.equalTo("market", activeMarket);
-    query.equalTo("chainId", localStorage.getItem("chainId"));
+    query.equalTo("chainId", chainId || localStorage.getItem("chainId"));
     query.equalTo("isActive", true);
     if (val == "hot") {
       query.equalTo("isHot", true);

@@ -106,7 +106,6 @@ const User = (props) => {
         history.push("/");
       }
     }
-    console.log("sd");
     getCollectionData().catch(console.error);
   }, [isAuthenticated]);
   // return <></>;

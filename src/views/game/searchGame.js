@@ -57,7 +57,7 @@ function Games(props) {
               <div className="page-title-heading mg-bt-12">
                 <h1 className="heading text-center">GAME MARKETPLACE</h1>
               </div>
-              <div className="flex" style={{ justifyContent: "center" }}>
+              {/* <div className="flex" style={{ justifyContent: "center" }}>
                 <Link
                   to="/explore-games"
                   className="header-slider style style-1 fl-button pri-1"
@@ -71,7 +71,7 @@ function Games(props) {
                   />
                   <span> OpenSea</span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

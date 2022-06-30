@@ -8,7 +8,7 @@ const Game = ({ data, market }) => {
   const { resolveLink } = useIPFS();
   console.log(data);
   return (
-    <div className="col-lg-3 col-4 col-md-6 px-3 my-4">
+    <div className="col-lg-3 col-md-6 px-3 my-4">
       <Link to={`/collection/${data.collectionAddress}`}>
         <div className="p-3 sc-card-product">
           <div className="d-flex justify-content-between mb-2 ms-3 mb-4">

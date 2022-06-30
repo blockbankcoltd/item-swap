@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useChain } from "react-moralis";
 import {
   BrowserRouter as Router,
   Switch,
@@ -48,6 +48,7 @@ const App = ({ isServerInfo }) => {
     isAuthenticated,
     isWeb3EnableLoading,
   } = useMoralis();
+  const { chainId, chain } = useChain();
   const isAdminLoggedIn = JSON.parse(localStorage.getItem("isAdminLoggedIn"));
   console.log("isAdminLoggedIn", isAdminLoggedIn);
   // const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(
@@ -66,10 +67,14 @@ const App = ({ isServerInfo }) => {
     if (!localStorage.getItem("activeMarket")) {
       localStorage.setItem("activeMarket", "opensea");
     }
-    if (NETWORK === "mainnet") {
-      localStorage.setItem("chainId", "0x1");
-    } else if (NETWORK === "testnet") {
-      localStorage.setItem("chainId", "0x4");
+    if (!isAuthenticated) {
+      if (NETWORK === "mainnet") {
+        localStorage.setItem("chainId", "0x1");
+      } else if (NETWORK === "testnet") {
+        localStorage.setItem("chainId", "0x4");
+      }
+    } else {
+      localStorage.setItem("chainId", chainId);
     }
     // setIsAdminLoggedIn(JSON.parse(localStorage.getItem("isAdminLoggedIn")));
     // console.log(2, isAdminLoggedIn);

@@ -47,6 +47,7 @@ const Collection = (props) => {
   const [activeTab, setActiveTab] = useState(1);
   const [gameData, setGameData] = useState([]);
   const [gameInfo, setGameInfo] = useState(null);
+  const [gameDetails, setGameDetails] = useState(null);
   const [nextPageCursor, setNextPageCursor] = useState(null);
   const [activityNextPageCursor, setActivityNextPageCursor] = useState(null);
   const [previousPageCursor, setPreviousPageCursor] = useState(null);
@@ -97,7 +98,8 @@ const Collection = (props) => {
     setGameData(collections[0].attributes.gameInfo);
     setItems(JSON.parse(collections[0].attributes.gameItems));
     console.log("Itemssssss", JSON.parse(collections[0].attributes.gameItems));
-    setGameInfo(collections[0]);
+    setGameInfo(JSON.parse(JSON.stringify(collections[0])));
+    setGameDetails(JSON.parse(JSON.stringify(collections[0].attributes)));
     setNextPageCursor(collections[0].attributes.nextPageCursor);
     setPreviousPageCursor(collections[0].attributes.previousPageCursor);
 
@@ -200,7 +202,7 @@ const Collection = (props) => {
   const loadMoreItems = () => {
     axios
       .get(
-        `https://api.opensea.io/api/v1/assets?collection=${tokenAddress}&cursor=${nextPageCursor}&limit=200`,
+        `https://api.opensea.io/api/v1/assets?collection=${tokenAddress}&cursor=${nextPageCursor}&limit=20`,
       )
       .then((res) => {
         console.log("Resssss", res);
@@ -383,7 +385,6 @@ const Collection = (props) => {
                     <div>
                       <div className="d-flex align-items-center">
                         <h2 className="tf-title pad-l-15 mb-0 pb-1 gilroy-bold game-heading">
-                          {console.log(gameData)}
                           {gameData ? gameData?.name : gameData?.meta?.name}
                         </h2>
                         <BsPatchCheckFill
@@ -414,7 +415,7 @@ const Collection = (props) => {
                 {/* Content */}
 
                 <div className="sc-card-product-1">
-                  {localStorage.activeMarket === "opensea" ? (
+                  {gameInfo?.market === "opensea" ? (
                     <div className="d-flex">
                       <div className="flex-fill py-4 card-gredient-1 border-top-left-radius">
                         <div className="border-right">
@@ -613,24 +614,28 @@ const Collection = (props) => {
                 Items
               </h4>
             </div>
-            <div
-              className={
-                activeTab === 2
-                  ? "d-flex justify-content-center align-items-center item-btn me-3 mx-5"
-                  : ""
-              }
-              onClick={() => (activeTab !== 2 ? setActiveTab(2) : "")}
-            >
-              <h4
+            {gameDetails?.market === "opensea" ? (
+              <div
                 className={
                   activeTab === 2
-                    ? "mb-0 gilroy-bold"
-                    : "mb-0 gilroy-bold muted cursor-pointer mx-5"
+                    ? "d-flex justify-content-center align-items-center item-btn me-3 mx-5"
+                    : ""
                 }
+                onClick={() => (activeTab !== 2 ? setActiveTab(2) : "")}
               >
-                Activity
-              </h4>
-            </div>
+                <h4
+                  className={
+                    activeTab === 2
+                      ? "mb-0 gilroy-bold"
+                      : "mb-0 gilroy-bold muted cursor-pointer mx-5"
+                  }
+                >
+                  Activity
+                </h4>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </section>
@@ -691,24 +696,28 @@ const Collection = (props) => {
               Items
             </h4>
           </div>
-          <div
-            className={
-              activeTab === 2
-                ? "d-flex justify-content-center align-items-center item-btn me-3 mx-5"
-                : ""
-            }
-            onClick={() => (activeTab !== 2 ? setActiveTab(2) : "")}
-          >
-            <h4
+          {gameDetails?.market === "opensea" ? (
+            <div
               className={
                 activeTab === 2
-                  ? "mb-0 gilroy-bold"
-                  : "mb-0 gilroy-bold muted cursor-pointer mx-5"
+                  ? "d-flex justify-content-center align-items-center item-btn me-3 mx-5"
+                  : ""
               }
+              onClick={() => (activeTab !== 2 ? setActiveTab(2) : "")}
             >
-              Activity
-            </h4>
-          </div>
+              <h4
+                className={
+                  activeTab === 2
+                    ? "mb-0 gilroy-bold"
+                    : "mb-0 gilroy-bold muted cursor-pointer mx-5"
+                }
+              >
+                Activity
+              </h4>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </section>
       {/* FOR MOBILE ONLY */}
@@ -846,14 +855,13 @@ const Collection = (props) => {
                               </td>
                               <td>
                                 <p className="activity-content gilroy-semibold mb-2 pb-4 text-16">
-                                  {nftTransfer?.transaction?.from_account?.user
-                                    ?.username
-                                    ? `${nftTransfer?.transaction?.from_account?.user?.username
+                                  {nftTransfer?.from_account?.user?.username
+                                    ? `${nftTransfer?.from_account?.user?.username
                                         .substring(0, 6)
                                         .toUpperCase()}...`
-                                    : `${nftTransfer?.transaction?.from_account?.address
+                                    : `${nftTransfer?.from_account?.address
                                         .substring(2, 8)
-                                        .toUpperCase()}...${nftTransfer?.transaction?.from_account?.address
+                                        .toUpperCase()}...${nftTransfer?.from_account?.address
                                         .substring(39, 42)
                                         .toUpperCase()}`}
                                 </p>

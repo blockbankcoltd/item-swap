@@ -41,7 +41,7 @@ const Home = () => {
         .descending("createdAt")
         .equalTo("status", "ACTIVE")
         .equalTo("isActive", true)
-        .equalTo("chainId", "0x1")
+        .equalTo("chainId", chainId || localStorage.getItem("chainId") || "0x1")
         .equalTo(
           "market",
           localStorage.getItem("activeMarket")
@@ -122,9 +122,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log("sd");
     getCollectionData().catch(console.error);
-  }, []);
+  }, [chainId, localStorage.getItem("chainId")]);
 
   // return <></>;
   return (

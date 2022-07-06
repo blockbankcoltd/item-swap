@@ -22,7 +22,7 @@ import Items from "./views/items";
 
 import CreateItem from "views/admin/CreateItem";
 import Lottery from "views/lottery";
-import Test from "views/Test.tsx";
+import Test from "views/Test";
 import BulkUpload from "views/admin/BulkUpload";
 import StoreNftAddress from "views/admin/StoreNftAddress";
 import CreateRaribleMarket from "views/admin/CreateRaribleMarket";

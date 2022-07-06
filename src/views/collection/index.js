@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Fragment } from "react";
 import {
   useMoralisQuery,
   useMoralis,
@@ -7,6 +7,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
+import { ButtonGroup, Button } from "reactstrap";
 import Layout from "../../layout";
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -26,8 +27,21 @@ import CollectionThumbnail from "components/Loader/CollectionThumbnail";
 import ItemThumbnail from "components/Loader/ItemThumbnail";
 import { ETHLogo } from "components/Chains/Logos";
 import { useIPFS } from "hooks/useIPFS";
-import GameItems from "views/game/GameItems";
-import nft1 from "../../assets/images/nft/nft1.png";
+import PriceGraph from "./PriceGraph";
+
+const styles = {
+  btnGroup: {
+    padding: "5px",
+    backgroundColor: "#6c757d",
+    borderColor: "#6c757d",
+    borderRadius: "5px",
+  },
+  activeButton: {
+    color: "#fff",
+    backgroundColor: "#5c636a",
+    borderColor: "#565e64",
+  },
+};
 
 const Collection = (props) => {
   const { innerWidth } = window;
@@ -61,6 +75,9 @@ const Collection = (props) => {
   const [toggleSearchBox, setToggleSearchBox] = useState(false);
   const [offset, setOffset] = useState(0);
   const [gridSize, setGridSize] = useState(3);
+  const [priceGraphData, setPriceGraphData] = useState(null);
+  const [priceGraphDisplayData, setPriceGraphDisplayData] = useState(null);
+  const [graphDuration, setGraphDuration] = useState("month");
 
   const { tokenAddress } = useParams();
   const { resolveLink } = useIPFS();
@@ -152,6 +169,30 @@ const Collection = (props) => {
     // });
     // setIsWatchlisted(isWatchlisted[0] ? true : false);
     // console.log("sd12 Like", isLiked);
+
+    axios
+      .get(
+        `https://api-bff.nftpricefloor.com/nft/${collections[0].attributes.gameInfo.slug}/chart/pricefloor?interval=all`,
+      )
+      .then((res) => {
+        console.log("Floor price", res);
+        let array = [];
+        for (let i = 0; i < res.data.dates.length; i++) {
+          let obj = {
+            name: res.data.dates[i],
+            // dates: res.data.dates[i],
+            sales: res.data.sales[i],
+            dataPriceFloorETH: res.data.dataPriceFloorETH[i],
+            ETH: res.data.dataPriceFloorETH[i],
+            dataPriceFloorUSD: res.data.dataPriceFloorUSD[i],
+          };
+          array.push(obj);
+        }
+        console.log("Floor price Array", array);
+        setPriceGraphData(array);
+        // setActivityNextPageCursor(res.data.next);
+      })
+      .catch((e) => console.log(e));
 
     axios
       .get(
@@ -325,6 +366,33 @@ const Collection = (props) => {
       setIsWatchlisted(false);
     }
     setDisableWatchlist(false);
+  };
+
+  const handleGraphDuration = (duration) => {
+    let date = null;
+    if (duration === "week") {
+      date = moment().subtract(6, "days").format("MM/DD/YYYY");
+    } else if (duration === "month") {
+      date = moment().subtract(1, "month").format("MM/DD/YYYY");
+    } else if (duration === "year") {
+      date = moment().subtract(1, "year").format("MM/DD/YYYY");
+    }
+    // console.log(moment(data1[0].name).format("MM/DD/YYYY"), data1[0].name);
+    if (date) {
+      let data = priceGraphData.filter(
+        (d) =>
+          moment(d.name).format("MM/DD/YYYY") >
+          moment(date).format("MM/DD/YYYY"),
+      );
+      setPriceGraphDisplayData(data);
+    } else {
+      setPriceGraphDisplayData(priceGraphData);
+    }
+    console.log(
+      priceGraphDisplayData,
+      duration,
+      moment(date).format("MM/DD/YYYY"),
+    );
   };
 
   useEffect(() => {
@@ -751,11 +819,68 @@ const Collection = (props) => {
           <div className="themesflat-container">
             <div className="row p-md-10">
               <div className="activity-container">
-                <div>
+                <div className="d-flex justify-content-between align-items-center">
                   <h3 className="tf-title text-start mb-0 mt-2">
                     Item Activity
                   </h3>
+                  {priceGraphData ? (
+                    <ButtonGroup style={styles.btnGroup} data-toggle="button">
+                      <Button
+                        onClick={() => setGraphDuration("week")}
+                        value="WEEK"
+                        style={
+                          graphDuration === "week" ? styles.activeButton : null
+                        }
+                      >
+                        {"1W"}
+                      </Button>
+                      <Button
+                        onClick={() => setGraphDuration("month")}
+                        value="MONTH"
+                        style={
+                          graphDuration === "month" ? styles.activeButton : null
+                        }
+                      >
+                        {"1M"}
+                      </Button>
+                      <Button
+                        onClick={() => setGraphDuration("year")}
+                        value="YEAR"
+                        style={
+                          graphDuration === "year" ? styles.activeButton : null
+                        }
+                      >
+                        {"1Y"}
+                      </Button>
+                      <Button
+                        onClick={() => setGraphDuration("all")}
+                        value="ALL"
+                        style={
+                          graphDuration === "all" ? styles.activeButton : null
+                        }
+                      >
+                        {"All"}
+                      </Button>
+                    </ButtonGroup>
+                  ) : (
+                    <></>
+                  )}
                 </div>
+                {priceGraphData ? (
+                  <Fragment>
+                    <br />
+                    <br />
+                    <br />
+                    <div style={{ height: "300px", width: "100%" }}>
+                      <PriceGraph
+                        data={priceGraphData}
+                        duration={graphDuration}
+                      />
+                    </div>
+                  </Fragment>
+                ) : (
+                  <></>
+                )}
                 <div className="table-responsive">
                   <table
                     cellSpacing="0"

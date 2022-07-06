@@ -185,6 +185,7 @@ const Collection = (props) => {
             dataPriceFloorETH: res.data.dataPriceFloorETH[i],
             ETH: res.data.dataPriceFloorETH[i],
             dataPriceFloorUSD: res.data.dataPriceFloorUSD[i],
+            USD: res.data.dataPriceFloorUSD[i] / 1000,
           };
           array.push(obj);
         }

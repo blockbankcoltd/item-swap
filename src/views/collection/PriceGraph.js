@@ -94,7 +94,7 @@ export default class Example extends PureComponent {
               <span
                 className=""
                 style={{
-                  color: "#1c76ff",
+                  color: "orange",
                   fontSize: "14px",
                   display: "inline-block",
                   margin: "5px",
@@ -104,7 +104,7 @@ export default class Example extends PureComponent {
                 ${payload[0].payload.dataPriceFloorUSD.toFixed(2)},
                 <span
                   className="ml-2 text-small font-bold ml-3"
-                  style={styles.text_success}
+                  style={{ color: "var(--bar-chart)" }}
                 >
                   &nbsp; Num. sales- {payload[0].payload.sales}
                   <br />
@@ -133,24 +133,34 @@ export default class Example extends PureComponent {
             left: -40,
           }}
         >
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#129a74" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
           <CartesianGrid stroke="#f5f5f5" />
           <XAxis dataKey="name" scale="band" tick={false} />
           <YAxis tick={false} axisLine={false} />
           <Tooltip content={<CustomTooltip />} position={{ x: 40, y: -70 }} />
           <Legend />
-          {/* <Area
+          <Area
             type="monotone"
-            dataKey="dataPriceFloorUSD"
-            fill="#8884d8"
-            stroke="#8884d8"
-          /> */}
+            dataKey="ETH"
+            fillOpacity={1}
+            // stroke={false}
+            strokeWidth={1}
+            stroke="#10dfef"
+            fill="url(#colorUv)"
+          />
           <Bar
             dataKey="sales"
             barSize={20}
-            fill="#413ea0"
-            // shape={<TriangleBar />}
+            fill="var(--bar-chart)"
+            shape={<TriangleBar />}
           />
-          <Line type="monotone" dataKey="ETH" stroke="#ff7300" dot={false} />
+          {/* <Line type="monotone" dataKey="ETH" stroke="#10dfef" dot={false} /> */}
+          <Line type="monotone" dataKey="USD" stroke="orange" dot={false} />
           {/* <Scatter dataKey="cnt" fill="red" /> */}
         </ComposedChart>
       </ResponsiveContainer>

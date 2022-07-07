@@ -106,7 +106,7 @@ export default class Example extends PureComponent {
                   className="ml-2 text-small font-bold ml-3"
                   style={{ color: "#1369f2" }}
                 >
-                  &nbsp; Num. sales- {payload[0].payload.sales}
+                  &nbsp; Sales: {payload[0].payload.sales}
                   <br />
                   <span className="content text-small" style={styles.text_gray}>
                     {moment(label).format("llll")}

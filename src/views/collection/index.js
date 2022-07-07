@@ -17,6 +17,7 @@ import dotPattern from "../../assets/images/icon/dot-pattern.png";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { HiShoppingCart } from "react-icons/hi";
 import { BsBookmarkDash } from "react-icons/bs";
+import { FaEthereum } from "react-icons/fa";
 import { BiGridAlt, BiGrid, BiSliderAlt } from "react-icons/bi";
 import { FiSearch, FiThumbsUp } from "react-icons/fi";
 import Items from "components/Items";
@@ -78,6 +79,7 @@ const Collection = (props) => {
   const [priceGraphData, setPriceGraphData] = useState(null);
   const [priceGraphDisplayData, setPriceGraphDisplayData] = useState(null);
   const [graphDuration, setGraphDuration] = useState("month");
+  const [collectionStats, setCollectionStats] = useState("month");
 
   const { tokenAddress } = useParams();
   const { resolveLink } = useIPFS();
@@ -107,14 +109,14 @@ const Collection = (props) => {
 
   const getCollectionData = useCallback(async () => {
     const collections = await fetch({
-      onSuccess: (result) => console.log(result),
+      onSuccess: (result) => console.log(""),
       onError: (error) => console.log("err1", error),
     });
     console.log("sd12 collectionss", collections);
 
     setGameData(collections[0].attributes.gameInfo);
     setItems(JSON.parse(collections[0].attributes.gameItems));
-    console.log("Itemssssss", JSON.parse(collections[0].attributes.gameItems));
+    // console.log("Itemssssss", JSON.parse(collections[0].attributes.gameItems));
     setGameInfo(JSON.parse(JSON.stringify(collections[0])));
     setGameDetails(JSON.parse(JSON.stringify(collections[0].attributes)));
     setNextPageCursor(collections[0].attributes.nextPageCursor);
@@ -155,7 +157,7 @@ const Collection = (props) => {
       JSON.stringify(gameWatchlistResult),
     );
     setIsWatchlisted(gameWatchlistResultObj.length > 0 ? true : false);
-    console.log("Result", JSON.parse(JSON.stringify(gameWatchlistResultObj)));
+    // console.log("Result", JSON.parse(JSON.stringify(gameWatchlistResultObj)));
 
     const isLiked = await isGameLiked({
       onSuccess: (result) => console.log(result),
@@ -171,11 +173,23 @@ const Collection = (props) => {
     // console.log("sd12 Like", isLiked);
 
     axios
+      .get(`https://api.opensea.io/api/v1/collection/${tokenAddress}/stats`, {
+        headers: {
+          "X-API-KEY": "764ee874d0d346dfb45e6f2b85fef883",
+        },
+      })
+      .then((res) => {
+        // console.log("Activity", res.data.stats);
+        setCollectionStats(res.data.stats);
+      })
+      .catch((e) => console.log(e));
+
+    axios
       .get(
         `https://api-bff.nftpricefloor.com/nft/${collections[0].attributes.gameInfo.slug}/chart/pricefloor?interval=all`,
       )
       .then((res) => {
-        console.log("Floor price", res);
+        // console.log("Floor price", res);
         let array = [];
         for (let i = 0; i < res.data.dates.length; i++) {
           let obj = {
@@ -185,11 +199,10 @@ const Collection = (props) => {
             dataPriceFloorETH: res.data.dataPriceFloorETH[i],
             ETH: res.data.dataPriceFloorETH[i],
             dataPriceFloorUSD: res.data.dataPriceFloorUSD[i],
-            USD: res.data.dataPriceFloorUSD[i] / 1000,
+            USD: res.data.dataPriceFloorUSD[i],
           };
           array.push(obj);
         }
-        console.log("Floor price Array", array);
         setPriceGraphData(array);
         // setActivityNextPageCursor(res.data.next);
       })
@@ -205,7 +218,7 @@ const Collection = (props) => {
         },
       )
       .then((res) => {
-        console.log("Activity", res);
+        // console.log("Activity", res);
         setNftTransfers(res.data.asset_events);
         setActivityNextPageCursor(res.data.next);
       })
@@ -247,7 +260,6 @@ const Collection = (props) => {
         `https://api.opensea.io/api/v1/assets?collection=${tokenAddress}&cursor=${nextPageCursor}&limit=20`,
       )
       .then((res) => {
-        console.log("Resssss", res);
         setNextPageCursor(res.data.next);
         setItems([...items, ...res.data.assets]);
       })
@@ -265,7 +277,6 @@ const Collection = (props) => {
         },
       )
       .then((res) => {
-        console.log("Activity", res);
         setNftTransfers([...nftTransfers, ...res.data.asset_events]);
         setActivityNextPageCursor(res.data.next);
       })
@@ -288,13 +299,11 @@ const Collection = (props) => {
         onSuccess: (result) => console.log(result),
         onError: (error) => console.log("err2", error),
       });
-      console.log("collectionddddd", collection);
       collection[0].increment("likes", 1);
       await collection[0].save();
       setIsLiked(true);
     } else {
       const likeData = await isGameLiked({
-        onSuccess: (result) => console.log("result11111", result),
         onError: (error) => console.log("err2", error),
       });
 
@@ -305,7 +314,6 @@ const Collection = (props) => {
         onSuccess: (result) => console.log(result),
         onError: (error) => console.log("err2", error),
       });
-      console.log("collectionddddd", collection);
       collection[0].increment("likes", -1);
       await collection[0].save();
       setIsLiked(false);
@@ -334,7 +342,6 @@ const Collection = (props) => {
         onSuccess: (result) => console.log(result),
         onError: (error) => console.log("err2", error),
       });
-      console.log("collectionddddd", collection);
       collection[0].increment("watchlist", 1);
       await collection[0].save();
       setIsWatchlisted(true);
@@ -361,7 +368,6 @@ const Collection = (props) => {
         onSuccess: (result) => console.log(result),
         onError: (error) => console.log("err2", error),
       });
-      console.log("collectionddddd", collection);
       collection[0].increment("watchlist", -1);
       await collection[0].save();
       setIsWatchlisted(false);
@@ -369,31 +375,51 @@ const Collection = (props) => {
     setDisableWatchlist(false);
   };
 
-  const handleGraphDuration = (duration) => {
-    let date = null;
+  const handleGraphDuration = async (duration) => {
+    let fromDate = null;
+    let currentDate = moment().format("YYYY-MM-DD h:mm:ss");
+    let fromToQueryString = "";
+    let fetch = true;
+    let dataArray = [];
+    let next = null;
+    let cursorQueryString = "";
     if (duration === "week") {
-      date = moment().subtract(6, "days").format("MM/DD/YYYY");
+      fromDate = moment().subtract(6, "days").format("YYYY-MM-DD h:mm:ss");
     } else if (duration === "month") {
-      date = moment().subtract(1, "month").format("MM/DD/YYYY");
+      fromDate = moment().subtract(1, "month").format("YYYY-MM-DD h:mm:ss");
     } else if (duration === "year") {
-      date = moment().subtract(1, "year").format("MM/DD/YYYY");
+      fromDate = moment().subtract(1, "year").format("YYYY-MM-DD h:mm:ss");
     }
-    // console.log(moment(data1[0].name).format("MM/DD/YYYY"), data1[0].name);
-    if (date) {
-      let data = priceGraphData.filter(
-        (d) =>
-          moment(d.name).format("MM/DD/YYYY") >
-          moment(date).format("MM/DD/YYYY"),
-      );
-      setPriceGraphDisplayData(data);
-    } else {
-      setPriceGraphDisplayData(priceGraphData);
+    if (fromDate) {
+      fromToQueryString = `&occurred_before=2022-07-01T05:50:19&occurred_after=${fromDate}`;
     }
-    console.log(
-      priceGraphDisplayData,
-      duration,
-      moment(date).format("MM/DD/YYYY"),
-    );
+    console.log(fromDate, moment().format("YYYY-MM-DD h:mm:ss"));
+    let i = 0;
+    while (fetch) {
+      if (next) {
+        cursorQueryString = `&cursor=${next}`;
+      }
+      await axios
+        .get(
+          `https://api.opensea.io/api/v1/events?collection_slug=${tokenAddress}&event_type=successful${fromToQueryString}${cursorQueryString}`,
+          {
+            headers: {
+              "X-API-KEY": "764ee874d0d346dfb45e6f2b85fef883",
+            },
+          },
+        )
+        .then((res) => {
+          dataArray.push(...res.data.asset_events);
+          next = res.data.next;
+          if (!res.data.next) fetch = false;
+          // setNftTransfers(res.data.asset_events);
+          // setActivityNextPageCursor(res.data.next);
+          console.log("GraphActivity", res, res.data.next);
+        })
+        .catch((e) => console.log(e));
+      i++;
+    }
+    console.log("GraphActivity1", dataArray, next, cursorQueryString);
   };
 
   useEffect(() => {
@@ -713,14 +739,14 @@ const Collection = (props) => {
       <section className="tf-box-icon1 create style1 tf-section d-md-none">
         <div className="themesflat-container d-flex justify-content-between align-items-center">
           <div className="d-flex justyfy-content-between align-items-center order-1">
-            <div className="d-flex justyfy-content-between align-items-center display-type-section">
+            {/* <div className="d-flex justyfy-content-between align-items-center display-type-section">
               <div className="display-type-btn-left display-type-btn-active">
                 <BiGridAlt className="tile-icon active" size={24} />
               </div>
               <div className="display-type-btn-right">
                 <BiGrid className="tile-icon" size={24} />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="d-flex justyfy-content-between align-items-center order-3">
             <div>
@@ -730,9 +756,9 @@ const Collection = (props) => {
                 onClick={() => setToggleSearchBox(!toggleSearchBox)}
               />
             </div>
-            <div>
+            {/* <div>
               <BiSliderAlt size={20} className="mx-2 menu-btn border-blue" />
-            </div>
+            </div> */}
           </div>
         </div>
         <br />
@@ -817,17 +843,34 @@ const Collection = (props) => {
         </div>
       ) : (
         <section className="tf-section today-pick pt-0">
+          <div className="pt-4 text-center">
+            <h5
+              className="gilroy-normal mb-0"
+              style={{ color: "var(--primary-color2)" }}
+            >
+              Floor Price
+            </h5>
+            <div class="d-flex justify-content-center align-items-center">
+              <FaEthereum size={48} color="#019BFE" />
+              <h1 className="gilroy-bold mb-0" style={{ color: "#019BFE" }}>
+                {collectionStats?.floor_price
+                  ? collectionStats?.floor_price
+                  : "---"}
+              </h1>
+            </div>
+          </div>
           <div className="themesflat-container">
-            <div className="row p-md-10">
+            <div className="row p-md-10 pt-0">
               <div className="activity-container">
                 <div className="d-flex justify-content-between align-items-center">
-                  <h3 className="tf-title text-start mb-0 mt-2">
-                    Item Activity
-                  </h3>
+                  <h3 className="tf-title text-start mb-0 mt-2"></h3>
                   {priceGraphData ? (
                     <ButtonGroup style={styles.btnGroup} data-toggle="button">
                       <Button
-                        onClick={() => setGraphDuration("week")}
+                        onClick={() => {
+                          setGraphDuration("week");
+                          handleGraphDuration("week");
+                        }}
                         value="WEEK"
                         style={
                           graphDuration === "week" ? styles.activeButton : null
@@ -836,7 +879,10 @@ const Collection = (props) => {
                         {"1W"}
                       </Button>
                       <Button
-                        onClick={() => setGraphDuration("month")}
+                        onClick={() => {
+                          setGraphDuration("month");
+                          handleGraphDuration("month");
+                        }}
                         value="MONTH"
                         style={
                           graphDuration === "month" ? styles.activeButton : null
@@ -845,7 +891,10 @@ const Collection = (props) => {
                         {"1M"}
                       </Button>
                       <Button
-                        onClick={() => setGraphDuration("year")}
+                        onClick={() => {
+                          setGraphDuration("year");
+                          handleGraphDuration("year");
+                        }}
                         value="YEAR"
                         style={
                           graphDuration === "year" ? styles.activeButton : null
@@ -854,7 +903,10 @@ const Collection = (props) => {
                         {"1Y"}
                       </Button>
                       <Button
-                        onClick={() => setGraphDuration("all")}
+                        onClick={() => {
+                          setGraphDuration("all");
+                          handleGraphDuration("all");
+                        }}
                         value="ALL"
                         style={
                           graphDuration === "all" ? styles.activeButton : null
@@ -880,8 +932,23 @@ const Collection = (props) => {
                     </div>
                   </Fragment>
                 ) : (
-                  <></>
+                  <div
+                    className="sc-card-product"
+                    style={{ overflow: "hidden" }}
+                  >
+                    <section
+                      className="tf-section today-pick"
+                      style={{ backgroundColor: "var(--primary-color11)" }}
+                    >
+                      <div className="themesflat-container">
+                        <p style={{ textAlign: "center" }}>
+                          Floor chart data not available
+                        </p>
+                      </div>
+                    </section>
+                  </div>
                 )}
+                <h3 className="tf-title text-start mb-0 mt-2">Item Activity</h3>
                 <div className="table-responsive">
                   <table
                     cellSpacing="0"
@@ -928,7 +995,6 @@ const Collection = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {console.log("nftTransfers", nftTransfers)}
                       {nftTransfers &&
                         nftTransfers.map((nftTransfer, index) =>
                           nftTransfer ? (

@@ -104,7 +104,7 @@ export default class Example extends PureComponent {
                 ${payload[0].payload.dataPriceFloorUSD.toFixed(2)},
                 <span
                   className="ml-2 text-small font-bold ml-3"
-                  style={{ color: "var(--bar-chart)" }}
+                  style={{ color: "#1369f2" }}
                 >
                   &nbsp; Num. sales- {payload[0].payload.sales}
                   <br />
@@ -128,9 +128,9 @@ export default class Example extends PureComponent {
           data={data1}
           margin={{
             top: 20,
-            right: 20,
+            right: 0,
             bottom: 20,
-            left: -40,
+            left: -20,
           }}
         >
           <defs>
@@ -141,12 +141,14 @@ export default class Example extends PureComponent {
           </defs>
           <CartesianGrid stroke="#f5f5f5" />
           <XAxis dataKey="name" scale="band" tick={false} />
-          <YAxis tick={false} axisLine={false} />
+          <YAxis yAxisId="left" axisLine={false} />
+          <YAxis yAxisId="right" orientation="right" axisLine={false} />
           <Tooltip content={<CustomTooltip />} position={{ x: 40, y: -70 }} />
           <Legend />
           <Area
             type="monotone"
             dataKey="ETH"
+            yAxisId="left"
             fillOpacity={1}
             // stroke={false}
             strokeWidth={1}
@@ -155,12 +157,19 @@ export default class Example extends PureComponent {
           />
           <Bar
             dataKey="sales"
+            yAxisId="left"
             barSize={20}
-            fill="var(--bar-chart)"
+            fill="#1369f2"
             shape={<TriangleBar />}
           />
           {/* <Line type="monotone" dataKey="ETH" stroke="#10dfef" dot={false} /> */}
-          <Line type="monotone" dataKey="USD" stroke="orange" dot={false} />
+          <Line
+            type="monotone"
+            dataKey="USD"
+            yAxisId="right"
+            stroke="orange"
+            dot={false}
+          />
           {/* <Scatter dataKey="cnt" fill="red" /> */}
         </ComposedChart>
       </ResponsiveContainer>

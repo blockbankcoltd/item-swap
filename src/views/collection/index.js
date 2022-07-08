@@ -8,6 +8,9 @@ import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
 import { ButtonGroup, Button } from "reactstrap";
+import { FacebookShareButton, TwitterShareButton } from "react-share";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { ToastContainer, toast } from "react-toastify";
 import Layout from "../../layout";
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -17,9 +20,9 @@ import dotPattern from "../../assets/images/icon/dot-pattern.png";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { HiShoppingCart } from "react-icons/hi";
 import { BsBookmarkDash } from "react-icons/bs";
-import { FaEthereum } from "react-icons/fa";
+import { FaEthereum, FaFacebookF, FaTwitter } from "react-icons/fa";
 import { BiGridAlt, BiGrid, BiSliderAlt } from "react-icons/bi";
-import { FiSearch, FiThumbsUp } from "react-icons/fi";
+import { FiSearch, FiThumbsUp, FiLink2 } from "react-icons/fi";
 import Items from "components/Items";
 import GameDescription from "components/Loader/GameDescription";
 import Title from "components/Loader/Title";
@@ -29,6 +32,7 @@ import ItemThumbnail from "components/Loader/ItemThumbnail";
 import { ETHLogo } from "components/Chains/Logos";
 import { useIPFS } from "hooks/useIPFS";
 import PriceGraph from "./PriceGraph";
+import "react-toastify/dist/ReactToastify.css";
 
 const styles = {
   btnGroup: {
@@ -84,6 +88,21 @@ const Collection = (props) => {
   const { tokenAddress } = useParams();
   const { resolveLink } = useIPFS();
   const { Moralis, account, authenticate, isAuthenticated } = useMoralis();
+
+  const notify = () =>
+    toast("Link copied!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: {
+        backgroundColor: "var(--primary-color)",
+        color: "var(--primary-color2)",
+      },
+    });
 
   const { fetch } = useMoralisQuery(
     "Games",
@@ -578,20 +597,46 @@ const Collection = (props) => {
                 </div>
                 {/* Links */}
                 <div className="d-sm-flex justify-content-between align-items-center">
-                  {/* <div className="d-flex justify-content-center align-items-center">
-                    <div className="social-btn me-3">
+                  <div className="d-flex justify-content-center align-items-center">
+                    {/* <div className="social-btn me-3">
                       <FiGlobe className="icon" />
                     </div>
                     <div className="social-btn me-3">
-                      <FiCodesandbox className="icon" />
-                    </div>
-                    <div className="social-btn me-3">
                       <FiInstagram className="icon" />
-                    </div>
-                    <div className="social-btn me-3">
+                    </div> */}
+                    <FacebookShareButton
+                      url="https://www.google.com"
+                      quote="CampersTribe - World is yours to explore"
+                      hashtag="#itemSwap"
+                      className="social-btn me-3"
+                    >
                       <FaFacebookF className="icon" />
-                    </div>
-                  </div> */}
+                    </FacebookShareButton>
+                    <TwitterShareButton
+                      url="https://www.google.com"
+                      title={`Checkout this item on Item-swap ${window.location.href}`}
+                      hashtags={["itemSwap"]}
+                      className="social-btn me-3"
+                    >
+                      <FaTwitter className="icon" />
+                    </TwitterShareButton>
+                    <CopyToClipboard text={window.location.href}>
+                      <div className="social-btn me-3" onClick={notify}>
+                        <FiLink2 className="icon" />
+                      </div>
+                    </CopyToClipboard>
+                    <ToastContainer
+                      position="top-right"
+                      autoClose={2000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                    />
+                  </div>
                   <br />
                   <div className="d-flex justify-content-around align-items-center">
                     <button

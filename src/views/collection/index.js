@@ -18,10 +18,18 @@ import "swiper/scss/pagination";
 import author from "../../assets/images/avatar/author.png";
 import dotPattern from "../../assets/images/icon/dot-pattern.png";
 import pageNotFound from "../../assets/images/404.png";
+import etherscan from "../../assets/images/etherscan-logo.png";
+import etherscanLight from "../../assets/images/etherscan-logo-light.png";
 import { BsPatchCheckFill } from "react-icons/bs";
 import { HiShoppingCart } from "react-icons/hi";
 import { BsBookmarkDash } from "react-icons/bs";
-import { FaEthereum, FaFacebookF, FaTwitter } from "react-icons/fa";
+import {
+  FaEthereum,
+  FaFacebookF,
+  FaTwitter,
+  FaDiscord,
+  FaGlobe,
+} from "react-icons/fa";
 import { BiGridAlt, BiGrid, BiSliderAlt } from "react-icons/bi";
 import { FiSearch, FiThumbsUp, FiLink2 } from "react-icons/fi";
 import Items from "components/Items";
@@ -464,7 +472,7 @@ const Collection = (props) => {
                   className="col-lg-5 col-md-12 order-2"
                   style={{ zIndex: "999" }}
                 >
-                  <div className="content-right">
+                  <div className="content-right d-none d-lg-block">
                     {gameData || gameData.meta ? (
                       <div className="row">
                         <div className="col-6 px-3 ps-5 w-100">
@@ -524,7 +532,8 @@ const Collection = (props) => {
                               size={32}
                             />
                           </div>
-                          {gameData ? (
+                          {gameData &&
+                          gameData?.primary_asset_contracts?.[0]?.symbol ? (
                             <div className="d-flex align-items-center">
                               <p className="content pad-l-15 mb-0 gilroy-normal">
                                 Symbol @
@@ -538,12 +547,114 @@ const Collection = (props) => {
                           ) : (
                             <></>
                           )}
+                          {gameData ? (
+                            <div className="d-flex align-items-center ms-4">
+                              {gameData?.primary_asset_contracts?.[0]
+                                ?.external_link ? (
+                                <a
+                                  className="community-link"
+                                  href={
+                                    gameData?.primary_asset_contracts?.[0]
+                                      ?.external_link
+                                  }
+                                  target="_blank"
+                                >
+                                  <FaGlobe
+                                    style={{
+                                      width: "50px",
+                                      height: "50px",
+                                      padding: "15px",
+                                    }}
+                                  />
+                                </a>
+                              ) : null}
+                              {gameData?.discord_url ? (
+                                <a
+                                  className="community-link"
+                                  href={gameData?.discord_url}
+                                  target="_blank"
+                                >
+                                  <FaDiscord
+                                    style={{
+                                      width: "50px",
+                                      height: "50px",
+                                      padding: "15px",
+                                    }}
+                                  />
+                                </a>
+                              ) : null}
+                              {gameData?.twitter_username ? (
+                                <a
+                                  className="community-link"
+                                  href={`https://twitter.com/${gameData?.twitter_username}`}
+                                  target="_blank"
+                                >
+                                  <FaTwitter
+                                    style={{
+                                      width: "50px",
+                                      height: "50px",
+                                      padding: "15px",
+                                    }}
+                                  />
+                                </a>
+                              ) : null}
+                              {gameData?.primary_asset_contracts?.[0]
+                                ?.address ? (
+                                <a
+                                  className="community-link"
+                                  href={`https://etherscan.io/address/${gameData?.primary_asset_contracts?.[0]?.address}`}
+                                  target="_blank"
+                                >
+                                  <img
+                                    src={
+                                      localStorage.getItem("theme") === "light"
+                                        ? etherscan
+                                        : etherscanLight
+                                    }
+                                    style={{
+                                      width: "50px",
+                                      height: "50px",
+                                      padding: "15px",
+                                    }}
+                                  />
+                                </a>
+                              ) : null}
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </div>
                       </div>
                     ) : (
                       <Title />
                     )}
 
+                    <div
+                      className="media d-md-block d-lg-none"
+                      style={{ position: "relative" }}
+                    >
+                      {gameData?.primary_asset_contracts?.[0] ||
+                      gameData.meta ? (
+                        <img
+                          src={
+                            resolveLink(
+                              gameData?.primary_asset_contracts?.[0]?.image_url.replace(
+                                "=s120",
+                                "",
+                              ),
+                            ) || resolveLink(gameData.meta?.content?.[0]?.url)
+                          }
+                          className="border-radius-30 w-100"
+                          alt="Axies"
+                        />
+                      ) : (
+                        <ItemThumbnail />
+                      )}
+                      <img className="dotted-pattern-bg-1" src={dotPattern} />
+                      <img className="dotted-pattern-bg-2" src={dotPattern} />
+                      <br />
+                      <br />
+                    </div>
                     {/* Content */}
 
                     <div className="sc-card-product-1">

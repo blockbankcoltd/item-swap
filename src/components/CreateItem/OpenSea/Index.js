@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button, Card, Table } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
+import { Table } from "reactstrap";
 import Header from "../../../layout/header";
 import Footer from "../../../layout/footer";
 import SuccessModal from "components/SuccessModal";
@@ -242,7 +243,7 @@ const AddOpenSeaCollection = () => {
           <div className="row">
             <div className="col-xl-2 col-lg-3 col-md-12 col-12"></div>
             <div className="col-xl-8 col-lg-6 col-md-12 col-12">
-              <div className="sc-card-product">
+              <div className="sc-card-product p-5">
                 <div className="form-create-item">
                   <div className="flat-tabs tab-create-item">
                     <form action="#">
@@ -289,7 +290,10 @@ const AddOpenSeaCollection = () => {
                         <div className="inner-row-form">
                           <div
                             onClick={() => handleCreateItem()}
-                            style={{ cursor: "pointer" }}
+                            style={{
+                              cursor: "pointer",
+                              border: "2px solid var(--primary-color3)",
+                            }}
                             className="sc-button fl-button pri-3 float-right"
                             disabled={isFetching}
                           >
@@ -306,7 +310,7 @@ const AddOpenSeaCollection = () => {
           <div className="row">
             <div className="col-xl-12 col-lg-12 col-md-12 col-12">
               <div className="sc-card-product">
-                <Table bordered hover>
+                <Table borderless hover>
                   <thead>
                     <tr>
                       <th className="tf-title" style={{ width: "50%" }}>
@@ -361,7 +365,10 @@ const AddOpenSeaCollection = () => {
                           <td className="text-center">
                             <div
                               className="sc-button fl-button pri-3"
-                              style={{ cursor: "pointer" }}
+                              style={{
+                                cursor: "pointer",
+                                border: "2px solid var(--primary-color3)",
+                              }}
                               onClick={() =>
                                 handleDelete(
                                   result.attributes.collectionAddress,

@@ -10,6 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap-accordion";
 import moment from "moment";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import Layout from "../../layout";
 import { Navigation, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,6 +37,7 @@ import { AiFillTag } from "react-icons/ai";
 import ItemThumbnail from "components/Loader/ItemThumbnail";
 import { ETHLogo } from "components/Chains/Logos";
 import { useIPFS } from "hooks/useIPFS";
+import "react-toastify/dist/ReactToastify.css";
 
 const Item = (props) => {
   //ACTIVE TAB
@@ -63,6 +65,21 @@ const Item = (props) => {
     chainId,
     logout,
   } = useMoralis();
+
+  const notify = (msg) =>
+    toast(msg, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: {
+        backgroundColor: "var(--primary-color)",
+        color: "var(--primary-color2)",
+      },
+    });
 
   const CHAIN = process.env.REACT_APP_CHAIN;
   const NETWORK = process.env.REACT_APP_NETWORK;
@@ -140,23 +157,34 @@ const Item = (props) => {
 
   const handleBuy = async (price) => {
     // console.log("Buy", price);
-    // if (!isAuthenticated) authenticate();
-    // const result = await Moralis.Plugins.opensea.createBuyOrder({
-    //   network: NETWORK,
-    //   tokenAddress: tokenAddress,
-    //   tokenId: tokenId,
-    //   tokenType: itemData.contract_type,
-    //   amount: parseFloat(price),
-    //   userAddress: account,
-    //   //   paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //mainnet
-    //   paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //mainnet
-    // });
+    try {
+      if (!isAuthenticated) await authenticate();
+      // const result = await Moralis.Plugins.opensea.createBuyOrder({
+      //   network: NETWORK,
+      //   tokenAddress: tokenAddress,
+      //   tokenId: tokenId,
+      //   tokenType: itemData.contract_type,
+      //   amount: parseFloat(price),
+      //   userAddress: account,
+      //   //   paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //mainnet
+      //   paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //mainnet
+      // });
 
-    await Moralis.Plugins.opensea.fulfillOrder({
-      network: NETWORK,
-      userAddress: account,
-      order: orders[orders.length - 1],
-    });
+      let response = await Moralis.Plugins.opensea.fulfillOrder({
+        network: NETWORK,
+        userAddress: account,
+        order: orders[orders.length - 1],
+      });
+
+      if (response?.data?.success) {
+        notify("Item purchased successfully!");
+      } else {
+        notify("Something went wrong!");
+      }
+      window.location.reload(false);
+    } catch (e) {
+      notify("Insufficient funds for gas * price + value");
+    }
   };
 
   const handleSell = async () => {
@@ -191,6 +219,17 @@ const Item = (props) => {
   // return <></>;
   return (
     <Layout>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="tf-section tf-item-details">
         <div className="themesflat-container mt-5 pb-5">
           <div className="row">
@@ -343,7 +382,10 @@ const Item = (props) => {
                 ) : (
                   ""
                 )}
-                {account === itemData.owner_of ? (
+                {account === itemData.owner_of &&
+                itemData?.top_ownerships.find(
+                  (e) => e.owner.address === account,
+                ) ? (
                   <div>
                     {!sell ? (
                       <button

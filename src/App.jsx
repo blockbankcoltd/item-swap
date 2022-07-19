@@ -27,6 +27,7 @@ import BulkUpload from "views/admin/BulkUpload";
 import StoreNftAddress from "views/admin/StoreNftAddress";
 import CreateRaribleMarket from "views/admin/CreateRaribleMarket";
 import CreateOpenSeaMarket from "views/admin/CreateOpenSeaMarket";
+import CreateRarityMarket from "views/admin/CreateRarityMarket";
 import ItemList from "views/admin/ItemList";
 import Collection from "views/collection";
 import OpenSea from "views/OpenSea";
@@ -34,6 +35,8 @@ import Item from "views/item";
 import RaribleFunctions from "views/item/RaribleFunctions.tsx";
 import User from "views/user";
 import StaticPageContainer from "views/staticPages";
+import RarityGame from "views/rarityGame";
+import RarityGameItem from "views/rarityGame/rarityGameItems";
 
 const serverUrl = "https://gjinuwy9crz4.usemoralis.com:2053/server";
 const appId = "JvWSn8QHKCWQDgBuxXj5KmpqwEAbUqdEreZXR4FI";
@@ -177,6 +180,11 @@ const App = ({ isServerInfo }) => {
         />
         <AdminAuthRoute
           authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
+          path="/admin/createRarityMarket"
+          component={() => <CreateRarityMarket />}
+        />
+        <AdminAuthRoute
+          authUser={isAdminLoggedIn ? isAdminLoggedIn : null}
           path="/admin/createOpenSeaMarket"
           component={() => <CreateOpenSeaMarket />}
         />
@@ -187,6 +195,12 @@ const App = ({ isServerInfo }) => {
         />
         <Route path="/explore-games">
           <Game />
+        </Route>
+        <Route path="/rarity-games">
+          <RarityGame />
+        </Route>
+        <Route exact path="/rarity-items/:tokenAddress">
+          <RarityGameItem />
         </Route>
         <Route path="/search/:keyword">
           <SearchGame />

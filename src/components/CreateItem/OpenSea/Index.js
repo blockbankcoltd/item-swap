@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { Button, Card } from "react-bootstrap";
 import { Table } from "reactstrap";
+import generateRarity from "../rarityCalculator";
 import Header from "../../../layout/header";
 import Footer from "../../../layout/footer";
 import SuccessModal from "components/SuccessModal";

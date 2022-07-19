@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Button, Card, Table } from "react-bootstrap";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import AddOpenSeaCollection from "components/CreateItem/OpenSea/Index";
 import Header from "../../layout/header";
 import Footer from "../../layout/footer";
@@ -31,7 +28,7 @@ const CreateOpenSeaMarket = () => {
           </div>
         </div>
       </section>
-      <div className="tf-create-item tf-section">
+      <div className="tf-create-item tf-section p-0">
         <div className="themesflat-container">
           <div className="row">
             <div className="col-xl-12 col-lg-12 col-md-12 col-12">

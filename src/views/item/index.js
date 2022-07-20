@@ -10,6 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import { Accordion } from "react-bootstrap-accordion";
 import moment from "moment";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import Layout from "../../layout";
 import { Navigation, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,6 +37,7 @@ import { AiFillTag } from "react-icons/ai";
 import ItemThumbnail from "components/Loader/ItemThumbnail";
 import { ETHLogo } from "components/Chains/Logos";
 import { useIPFS } from "hooks/useIPFS";
+import "react-toastify/dist/ReactToastify.css";
 
 const Item = (props) => {
   //ACTIVE TAB
@@ -45,12 +47,14 @@ const Item = (props) => {
   const [sell, setSell] = useState(false);
   const [price, setPrice] = useState(null);
   const [sellButtonDisabled, SetSellButtonDisabled] = useState(null);
+  const [buyButtonDisabled, SetBuyButtonDisabled] = useState(null);
   const [listings, setListings] = useState(null);
   const [offers, setOffers] = useState(null);
   const [itemMetadata, setItemMetadata] = useState([]);
   const [items, setItems] = useState(null);
   const [transfers, setTransfers] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [rarityScore, setRarityScore] = useState(null);
   const { tokenAddress, tokenId } = useParams();
   const { resolveLink } = useIPFS();
   console.log("tokenAddress", tokenAddress);
@@ -64,6 +68,21 @@ const Item = (props) => {
     logout,
   } = useMoralis();
 
+  const notify = (msg) =>
+    toast(msg, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: {
+        backgroundColor: "var(--primary-color)",
+        color: "var(--primary-color2)",
+      },
+    });
+
   const CHAIN = process.env.REACT_APP_CHAIN;
   const NETWORK = process.env.REACT_APP_NETWORK;
 
@@ -75,15 +94,6 @@ const Item = (props) => {
   const getCollectionData = useCallback(async () => {
     await Moralis.initPlugins();
 
-    // const res = await Moralis.Plugins.opensea.getAsset({
-    //   network: NETWORK,
-    //   tokenAddress: tokenAddress,
-    //   tokenId: tokenId,
-    // });
-
-    // setGameData(res);
-    // console.log("results", res);
-
     axios
       .get(`https://api.opensea.io/api/v1/asset/${tokenAddress}/${tokenId}/`)
       .then((res) => {
@@ -93,18 +103,18 @@ const Item = (props) => {
       })
       .catch((err) => console.log(err));
 
-    const options1 = {
-      address: tokenAddress,
-      token_id: tokenId,
-      chain: CHAIN,
-    };
-    // const tokenIdMetadata = await Moralis.Web3API.token.getTokenIdMetadata(
-    //   options1,
-    // );
+    const RarityGameItems = Moralis.Object.extend("RarityGameItems");
+    const query = new Moralis.Query(RarityGameItems);
+    query.equalTo("tokenAddress", tokenAddress);
+    query.equalTo("tokenId", tokenId);
+    query.descending("createdAt");
 
-    // setItemData(tokenIdMetadata);
-    // setItemMetadata(JSON.parse(tokenIdMetadata.metadata));
-    // console.log("tokenIdMetadata", JSON.parse(tokenIdMetadata.metadata));
+    const results = await query.find();
+    if (results && results.length) {
+      setRarityScore(JSON.parse(JSON.stringify(results[0])));
+      console.log("Rarity", JSON.parse(JSON.stringify(results[0])));
+    }
+
     const options = {
       address: tokenAddress,
       token_id: tokenId,
@@ -140,41 +150,61 @@ const Item = (props) => {
 
   const handleBuy = async (price) => {
     // console.log("Buy", price);
-    // if (!isAuthenticated) authenticate();
-    // const result = await Moralis.Plugins.opensea.createBuyOrder({
-    //   network: NETWORK,
-    //   tokenAddress: tokenAddress,
-    //   tokenId: tokenId,
-    //   tokenType: itemData.contract_type,
-    //   amount: parseFloat(price),
-    //   userAddress: account,
-    //   //   paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //mainnet
-    //   paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //mainnet
-    // });
+    SetBuyButtonDisabled(true);
+    try {
+      if (!isAuthenticated) await authenticate();
+      // const result = await Moralis.Plugins.opensea.createBuyOrder({
+      //   network: NETWORK,
+      //   tokenAddress: tokenAddress,
+      //   tokenId: tokenId,
+      //   tokenType: itemData.contract_type,
+      //   amount: parseFloat(price),
+      //   userAddress: account,
+      //   //   paymentTokenAddress: "0xc778417E063141139Fce010982780140Aa0cD5Ab", //mainnet
+      //   paymentTokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //mainnet
+      // });
 
-    await Moralis.Plugins.opensea.fulfillOrder({
-      network: NETWORK,
-      userAddress: account,
-      order: orders[orders.length - 1],
-    });
+      let response = await Moralis.Plugins.opensea.fulfillOrder({
+        network: NETWORK,
+        userAddress: account,
+        order: orders[orders.length - 1],
+      });
+
+      if (response?.data?.success) {
+        notify("Item purchased successfully!");
+      } else {
+        notify("Something went wrong!");
+      }
+      window.location.reload(false);
+    } catch (e) {
+      notify("Insufficient funds for gas * price + value");
+    }
+    SetBuyButtonDisabled(false);
   };
 
   const handleSell = async () => {
     SetSellButtonDisabled(true);
-    const result = await Moralis.Plugins.opensea.createSellOrder({
-      network: NETWORK,
-      tokenAddress: tokenAddress,
-      tokenId: tokenId,
-      tokenType: itemData.contract_type,
-      userAddress: account,
-      startAmount: price,
-      endAmount: price,
+    try {
+      console.log("sellResult", itemData?.asset_contract?.schema_name);
+      if (!isAuthenticated) await authenticate();
+      const result = await Moralis.Plugins.opensea.createSellOrder({
+        network: "testnet",
+        tokenAddress: tokenAddress,
+        tokenId: tokenId,
+        tokenType:
+          itemData?.contract_type || itemData?.asset_contract?.schema_name,
+        userAddress: account?.toLowerCase(),
+        startAmount: Moralis.Units.ETH(price),
+        endAmount: Moralis.Units.ETH(price),
 
-      // expirationTime: expirationTime, Only set if you startAmount > endAmount
-    });
-    console.log(result);
-    SetSellButtonDisabled(false);
+        // expirationTime: expirationTime, Only set if you startAmount > endAmount
+      });
+      console.log("sellResult", result);
+    } catch (e) {
+      notify("Something went wrong!!");
+    }
     setSell(false);
+    SetSellButtonDisabled(false);
   };
 
   const handleCancelSell = async () => {
@@ -191,6 +221,17 @@ const Item = (props) => {
   // return <></>;
   return (
     <Layout>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="tf-section tf-item-details">
         <div className="themesflat-container mt-5 pb-5">
           <div className="row">
@@ -200,31 +241,37 @@ const Item = (props) => {
                 {/* Author */}
                 {itemData ? (
                   <div>
-                    <div className="d-flex justify-content-start align-items-center mb-4">
-                      <div>
-                        <img
-                          style={{ width: "30px", borderRadius: "50%" }}
-                          src={resolveLink(
-                            itemData?.collection?.primary_asset_contracts?.[0]
-                              ?.image_url,
-                          )}
-                        />
-                      </div>
-                      <div>
-                        <div className="d-flex align-items-center">
-                          <p className="content pad-l-15 mb-0 gilroy-normal">
-                            {
-                              itemData?.collection?.primary_asset_contracts?.[0]
-                                ?.name
-                            }
-                          </p>
-                          <BsPatchCheckFill
-                            className="text-golden mg-l-8"
-                            size={18}
-                          />
+                    {itemData &&
+                    itemData?.collection?.primary_asset_contracts?.[0]?.name ? (
+                      <div className="d-flex justify-content-start align-items-center mb-4">
+                        <div>
+                          {itemData?.collection?.primary_asset_contracts?.[0]
+                            ?.image_url ? (
+                            <img
+                              style={{ width: "30px", borderRadius: "50%" }}
+                              src={resolveLink(
+                                itemData?.collection
+                                  ?.primary_asset_contracts?.[0]?.image_url,
+                              )}
+                            />
+                          ) : null}
+                        </div>
+                        <div>
+                          <div className="d-flex align-items-center">
+                            <p className="content pad-l-15 mb-0 gilroy-normal">
+                              {
+                                itemData?.collection
+                                  ?.primary_asset_contracts?.[0]?.name
+                              }
+                            </p>
+                            <BsPatchCheckFill
+                              className="text-golden mg-l-8"
+                              size={18}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ) : null}
                     <div className="d-flex align-items-center">
                       <h2 className="tf-title mb-0 pb-1 gilroy-bold">
                         {itemData.name
@@ -318,6 +365,7 @@ const Item = (props) => {
                     </div> */}
                       <button
                         className="primary-btn text-nowrap mx-2 w-100"
+                        disabled={buyButtonDisabled}
                         onClick={() =>
                           handleBuy(
                             Moralis.Units.FromWei(
@@ -343,7 +391,11 @@ const Item = (props) => {
                 ) : (
                   ""
                 )}
-                {account === itemData.owner_of ? (
+                {account === itemData?.owner_of ||
+                itemData?.top_ownerships?.find(
+                  (e) =>
+                    e.owner?.address?.toLowerCase() === account?.toLowerCase(),
+                ) ? (
                   <div>
                     {!sell ? (
                       <button
@@ -387,7 +439,7 @@ const Item = (props) => {
                           <button
                             className="primary-btn text-nowrap mx-2 w-100"
                             onClick={handleSell}
-                            // disabled={sellButtonDisabled}
+                            disabled={sellButtonDisabled}
                           >
                             Sell
                           </button>
@@ -414,6 +466,38 @@ const Item = (props) => {
                 <br />
                 <br />
                 <div className="row">
+                  {rarityScore ? (
+                    <div className="col-md-12 mb-5 px-5">
+                      <div className="card-2">
+                        <div className="card-2-header">
+                          <BiFilter className="text-primary" size={30} />{" "}
+                          Properties
+                        </div>
+                        <div className="card-2-body">
+                          <ul className="card-2-ul d-flex justify-content-between align-items-center">
+                            <li className="gilroy-normal">Type</li>
+                            <li className="gilroy-normal">Value</li>
+                            <li className="gilroy-normal">Rarity Score</li>
+                          </ul>
+                          {rarityScore?.attributes ? (
+                            rarityScore?.attributes?.map((trait) => (
+                              <ul className="card-2-ul d-flex justify-content-between align-items-center">
+                                <li className="text-primary">
+                                  {trait.trait_type}
+                                </li>
+                                <li>{trait.value}</li>
+                                <li className="gilroy-normal">
+                                  {trait.rarityScore}
+                                </li>
+                              </ul>
+                            ))
+                          ) : (
+                            <p className="text-16 mb-0">No Data</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
                   <div className="col-md-12 mb-5 px-5">
                     <div className="card-2">
                       <div className="card-2-header">
@@ -421,8 +505,8 @@ const Item = (props) => {
                         Properties
                       </div>
                       <div className="card-2-body">
-                        {itemMetadata.attributes ? (
-                          itemMetadata.attributes.map((trait) => (
+                        {itemMetadata?.attributes ? (
+                          itemMetadata?.attributes.map((trait) => (
                             <ul className="card-2-ul d-flex justify-content-between align-items-center">
                               <li className="text-primary">
                                 {trait.type || trait.trait_type}

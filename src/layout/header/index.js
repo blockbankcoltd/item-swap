@@ -27,6 +27,11 @@ const menus = [
     name: "Swap",
     links: "/swap",
   },
+  {
+    id: 3,
+    name: "Rarity",
+    links: "/rarity-games",
+  },
   // {
   //   id: 4,
   //   name: "Lottery",

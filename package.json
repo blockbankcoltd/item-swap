@@ -26,6 +26,7 @@
     "hardhat": "^2.10.1",
     "https-browserify": "^1.0.0",
     "keccak256": "^1.0.6",
+    "lodash": "^4.17.21",
     "magic-sdk": "7.0.0",
     "merkletreejs": "^0.2.32",
     "moment": "^2.29.3",

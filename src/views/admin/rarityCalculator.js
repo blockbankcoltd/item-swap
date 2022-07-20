@@ -1,3 +1,8 @@
+const resolveLink = (url) => {
+  if (!url || !url.includes("ipfs://")) return url;
+  return url.replace("ipfs://", "https://gateway.ipfs.io/ipfs/");
+};
+
 async function generateRarity() {
   const NFTs = await Moralis.Web3API.token.getAllTokenIds({
     address: collectionAddress,

@@ -469,9 +469,17 @@ const Item = (props) => {
                   {rarityScore ? (
                     <div className="col-md-12 mb-5 px-5">
                       <div className="card-2">
-                        <div className="card-2-header">
-                          <BiFilter className="text-primary" size={30} />{" "}
-                          Properties
+                        <div className="card-2-header d-flex justify-content-between align-items-center">
+                          <div>
+                            <BiFilter className="text-primary" size={30} />{" "}
+                            Properties
+                          </div>
+                          <div>
+                            Rarity score{" "}
+                            <span className="text-primary">
+                              {rarityScore?.rarity.toFixed(2)}
+                            </span>
+                          </div>
                         </div>
                         <div className="card-2-body">
                           <ul className="card-2-ul d-flex justify-content-between align-items-center">
@@ -487,7 +495,7 @@ const Item = (props) => {
                                 </li>
                                 <li>{trait.value}</li>
                                 <li className="gilroy-normal">
-                                  {trait.rarityScore}
+                                  {trait.rarityScore.toFixed(2)}
                                 </li>
                               </ul>
                             ))
@@ -498,31 +506,33 @@ const Item = (props) => {
                       </div>
                     </div>
                   ) : null}
-                  <div className="col-md-12 mb-5 px-5">
-                    <div className="card-2">
-                      <div className="card-2-header">
-                        <BiFilter className="text-primary" size={30} />{" "}
-                        Properties
-                      </div>
-                      <div className="card-2-body">
-                        {itemMetadata?.attributes ? (
-                          itemMetadata?.attributes.map((trait) => (
-                            <ul className="card-2-ul d-flex justify-content-between align-items-center">
-                              <li className="text-primary">
-                                {trait.type || trait.trait_type}
-                              </li>
-                              <li>{trait.description || trait.value}</li>
-                              {/* <li className="gilroy-normal">
+                  {!rarityScore ? (
+                    <div className="col-md-12 mb-5 px-5">
+                      <div className="card-2">
+                        <div className="card-2-header">
+                          <BiFilter className="text-primary" size={30} />{" "}
+                          Properties
+                        </div>
+                        <div className="card-2-body">
+                          {itemMetadata?.attributes ? (
+                            itemMetadata?.attributes.map((trait) => (
+                              <ul className="card-2-ul d-flex justify-content-between align-items-center">
+                                <li className="text-primary">
+                                  {trait.type || trait.trait_type}
+                                </li>
+                                <li>{trait.description || trait.value}</li>
+                                {/* <li className="gilroy-normal">
                                   19% have this trait
                                 </li> */}
-                            </ul>
-                          ))
-                        ) : (
-                          <p className="text-16 mb-0">No Data</p>
-                        )}
+                              </ul>
+                            ))
+                          ) : (
+                            <p className="text-16 mb-0">No Data</p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ) : null}
                   <div className="col-md-12 mb-5 px-5">
                     <div className="card-2">
                       <div className="card-2-header">

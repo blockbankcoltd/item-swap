@@ -41,6 +41,7 @@ const RarityGameItem = () => {
   const [isCollectionExistOnDb, setIsCollectionExistOnDb] = useState(true);
   const [page, setPage] = useState(2);
   const [pageSize, setPageSize] = useState(2);
+  const [isSearching, setIsSearching] = useState(false);
 
   const { tokenAddress } = useParams();
   const { resolveLink } = useIPFS();
@@ -162,6 +163,7 @@ const RarityGameItem = () => {
   const searchItems = async (e) => {
     const keyword = e.target.value;
     if (keyword) {
+      setIsSearching(true);
       debouncedSave(keyword);
     } else {
       const results1 = await fetchCollectionItems();
@@ -169,8 +171,8 @@ const RarityGameItem = () => {
       if (results1 && results1.length) {
         setItems(JSON.parse(JSON.stringify(results1)));
         console.log(JSON.parse(JSON.stringify(results1)));
-      } else {
       }
+      setIsSearching(false);
     }
   };
 
@@ -477,7 +479,7 @@ const RarityGameItem = () => {
               <input
                 type="text"
                 placeholder="Search Item..."
-                onChange={(e) => setKeyword(e.target.value)}
+                onChange={searchItems}
                 className="form-control rounded-pill border-blue"
                 style={{
                   width: "80%",
@@ -502,16 +504,21 @@ const RarityGameItem = () => {
                   <ItemsLoader />
                 )}
                 {/* {visible < data.length && ( */}
-                <div className="col-md-12 wrap-inner load-more text-center">
-                  <Link
-                    to="#"
-                    id="load-more"
-                    className="sc-button loadmore fl-button pri-3"
-                    onClick={loadMoreItems}
+                {!isSearching ? (
+                  <div
+                    className="col-md-12 wrap-inner load-more text-center"
+                    style={{ background: "var(--today-pick)" }}
                   >
-                    <span>Load More</span>
-                  </Link>
-                </div>
+                    <Link
+                      to="#"
+                      id="load-more"
+                      className="sc-button loadmore fl-button pri-3"
+                      onClick={loadMoreItems}
+                    >
+                      <span>Load More</span>
+                    </Link>
+                  </div>
+                ) : null}
                 {/* )} */}
                 {/* {nextPageCursor ? (
                 <div

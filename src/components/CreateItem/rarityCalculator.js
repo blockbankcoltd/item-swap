@@ -38,7 +38,6 @@ const generateRarity = (tokenAddress) => {
 
       let NFTs = await Moralis.Web3API.token.getAllTokenIds({
         address: tokenAddress,
-        limit: 100,
       });
 
       const totalNum = NFTs.total;
@@ -55,13 +54,14 @@ const generateRarity = (tokenAddress) => {
         //   address: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
         //   offset: i,
         // });
-        NFTs = await NFTs.next();
-        allNFTs = allNFTs.concat(NFTs.result);
-        await timer(6000);
+        // NFTs = await NFTs.next();
+        // if (!NFTs.cursor) NFTs = await NFTs;
+        // allNFTs = allNFTs.concat(NFTs.result);
+        // await timer(2000);
       }
 
+      console.log(allNFTs);
       let metadata = allNFTs.map((e) => JSON.parse(e.metadata).attributes);
-
       let tally = { TraitCount: {} };
 
       for (let j = 0; j < metadata.length; j++) {
@@ -204,6 +204,7 @@ const generateRarity = (tokenAddress) => {
       }
       return { status: true, msg: "Game added successfully.", data: nftArr };
     } catch (e) {
+      console.log(e);
       return { status: false, msg: "Something went wrong", data: null };
     }
   };
@@ -234,6 +235,7 @@ const generateRarity = (tokenAddress) => {
       let result = await game[0].save();
       if (result) return { status: true, msg: "Successfull", data: null };
     } catch (e) {
+      console.log(e);
       return { status: false, msg: "Something went wrong!", data: null };
     }
   };

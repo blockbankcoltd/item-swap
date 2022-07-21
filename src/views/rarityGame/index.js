@@ -86,7 +86,7 @@ const RarityGame = () => {
                         <div className="content">
                           {/* <h2 className="heading">EXPLORE & STUNNING</h2> */}
                           <h1 className="heading mb-style">
-                            <span className="tf-text s1">RARITY FINDER</span>
+                            <span className="tf-text s1">RARITY RANKING</span>
                           </h1>
                           {/* <h1 className="heading">MARKETPLACE</h1> */}
                           {/* <p className="sub-heading">
@@ -168,17 +168,17 @@ const RarityGame = () => {
           </div>
         </SwiperSlide>
       </Swiper>
-      {/* {games ? (
+      {games ? (
         games.length === 0 ? (
           <section className="tf-section today-pick">
             <p className="tf-title">No collection found on this network</p>
           </section>
-        ) : ( */}
-      <Items data={games} market={activeMarket} />
-      {/* )
+        ) : (
+          <Items data={games} market={activeMarket} />
+        )
       ) : (
         <Loader />
-      )} */}
+      )}
     </Layout>
   );
 };

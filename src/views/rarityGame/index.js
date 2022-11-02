@@ -20,6 +20,8 @@ const RarityGame = () => {
     localStorage.getItem("activeMarket"),
   );
 
+  const { Moralis } = useMoralis();
+
   const fetchGames = async () => {
     const RarityGames = Moralis.Object.extend("RarityGames");
     const query = new Moralis.Query(RarityGames);

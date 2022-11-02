@@ -41,7 +41,7 @@ import RarityGameItem from "views/rarityGame/rarityGameItems";
 const serverUrl = "https://gjinuwy9crz4.usemoralis.com:2053/server";
 const appId = "JvWSn8QHKCWQDgBuxXj5KmpqwEAbUqdEreZXR4FI";
 
-Moralis.start({ serverUrl, appId });
+// Moralis.start({ serverUrl, appId });
 
 const App = ({ isServerInfo }) => {
   const {

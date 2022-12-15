@@ -10,7 +10,7 @@ import {
 } from "utils/constants";
 import { useChain } from "react-moralis";
 import { getWrappedNative } from "helpers/networks";
-import { Moralis } from "react-moralis";
+// import { Moralis } from "react-moralis";
 
 const getInterval = (chartType) => {
   switch (chartType) {

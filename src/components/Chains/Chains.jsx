@@ -32,21 +32,21 @@ const menuItems = [
   //   value: "Ropsten Testnet",
   //   icon: <ETHLogo />,
   // },
-  {
-    key: "0x4",
-    value: "Rinkeby Testnet",
-    icon: <ETHLogo />,
-  },
+  // {
+  //   key: "0x4",
+  //   value: "Rinkeby Testnet",
+  //   icon: <ETHLogo />,
+  // },
   // {
   //   key: "0x2a",
   //   value: "Kovan Testnet",
   //   icon: <ETHLogo />,
   // },
-  // {
-  //   key: "0x5",
-  //   value: "Goerli Testnet",
-  //   icon: <ETHLogo />,
-  // },
+  {
+    key: "0x5",
+    value: "Goerli Testnet",
+    icon: <ETHLogo />,
+  },
   {
     key: "0x38",
     value: "Binance",
